@@ -66,6 +66,10 @@ class Ui_MainWindow(object):
         self.analyse_currencies_button.setText(_translate("MainWindow", "Analyse Currencies"))
         self.introduction_label.setText(_translate("MainWindow", "adhuadhuiahidhaisohiashaisoihshhaisdoohidashioashisioasiohhasihdaishashifhaiofohifohaifdhaiafaohi"))
 
+    def open_new_window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui =
+        self.window.show()
 
 if __name__ == "__main__":
     import sys
