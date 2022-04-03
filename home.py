@@ -9,9 +9,16 @@
 # test
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from analyse_stocks import Ui_Analyse_Stocks_Window
 
 class Ui_MainWindow(object):
+
+    def open_analyse_stocks_window(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Analyse_Stocks_Window()
+        self.ui.setupUi(self.window)
+        self.window.show()
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(959, 666)
@@ -23,7 +30,7 @@ class Ui_MainWindow(object):
         self.analyse_portfolio_button = QtWidgets.QPushButton(self.centralwidget)
         self.analyse_portfolio_button.setGeometry(QtCore.QRect(70, 440, 371, 51))
         self.analyse_portfolio_button.setObjectName("analyse_portfolio_button")
-        self.analyse_stocks_button = QtWidgets.QPushButton(self.centralwidget)
+        self.analyse_stocks_button = QtWidgets.QPushButton(self.centralwidget, clicked = lambda: self.open_analyse_stocks_window())
         self.analyse_stocks_button.setGeometry(QtCore.QRect(460, 380, 371, 51))
         self.analyse_stocks_button.setObjectName("analyse_stocks_button")
         self.title_label = QtWidgets.QLabel(self.centralwidget)
@@ -66,10 +73,7 @@ class Ui_MainWindow(object):
         self.analyse_currencies_button.setText(_translate("MainWindow", "Analyse Currencies"))
         self.introduction_label.setText(_translate("MainWindow", "adhuadhuiahidhaisohiashaisoihshhaisdoohidashioashisioasiohhasihdaishashifhaiofohifohaifdhaiafaohi"))
 
-    def open_new_window(self):
-        self.window = QtWidgets.QMainWindow()
-        self.ui =
-        self.window.show()
+
 
 if __name__ == "__main__":
     import sys
