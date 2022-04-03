@@ -20,7 +20,7 @@ class Widget(QtWidgets.QWidget):
 
         stock = 'TSLA'
         data = yf.Ticker(stock)
-        data = data.history()['Close']
+        data = data.history(period='1y')['Close']
         fig = px.line(data)
         fig.layout.update(xaxis_rangeslider_visible=True)
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
