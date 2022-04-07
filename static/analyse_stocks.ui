@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1067</width>
-    <height>671</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,16 +21,6 @@
       <y>50</y>
       <width>231</width>
       <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>190</y>
-      <width>941</width>
-      <height>421</height>
      </rect>
     </property>
    </widget>
@@ -50,8 +40,8 @@
    <widget class="QLabel" name="stock_info_label">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>120</y>
+      <x>170</x>
+      <y>30</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -73,13 +63,24 @@
      <string>Back</string>
     </property>
    </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>90</y>
+      <width>1911</width>
+      <height>931</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="vlayout"/>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1067</width>
+     <width>1920</width>
      <height>26</height>
     </rect>
    </property>
