@@ -74,7 +74,6 @@ class Ui_MainWindow(object):
         self.introduction_label.setText(_translate("MainWindow", "adhuadhuiahidhaisohiashaisoihshhaisdoohidashioashisioasiohhasihdaishashifhaiofohifohaifdhaiafaohi"))
 
 
-
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
