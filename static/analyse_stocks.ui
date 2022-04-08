@@ -17,35 +17,6 @@
    <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
-<<<<<<< HEAD
-      <x>760</x>
-      <y>50</y>
-      <width>231</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="stock_name_label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>60</y>
-      <width>361</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="stock_info_label">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>30</y>
-      <width>47</width>
-      <height>13</height>
-=======
       <x>1360</x>
       <y>20</y>
       <width>471</width>
@@ -60,7 +31,6 @@
       <y>30</y>
       <width>391</width>
       <height>41</height>
->>>>>>> 2cdd6c4a1ede5bddf0cf7bfb86817437a9549521
      </rect>
     </property>
     <property name="text">
