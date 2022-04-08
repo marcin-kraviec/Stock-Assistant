@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>959</width>
-    <height>666</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="create_portofio_button">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>380</y>
-      <width>371</width>
-      <height>51</height>
+      <x>130</x>
+      <y>550</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -30,10 +30,10 @@
    <widget class="QPushButton" name="analyse_portfolio_button">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>440</y>
-      <width>371</width>
-      <height>51</height>
+      <x>130</x>
+      <y>670</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -43,10 +43,10 @@
    <widget class="QPushButton" name="analyse_stocks_button">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>380</y>
-      <width>371</width>
-      <height>51</height>
+      <x>960</x>
+      <y>550</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -56,8 +56,8 @@
    <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>30</y>
+      <x>130</x>
+      <y>60</y>
       <width>901</width>
       <height>61</height>
      </rect>
@@ -69,10 +69,10 @@
    <widget class="QPushButton" name="analyse_crypto_button">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>440</y>
-      <width>371</width>
-      <height>51</height>
+      <x>960</x>
+      <y>670</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -82,10 +82,10 @@
    <widget class="QPushButton" name="simulate_bond_returns_button">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>500</y>
-      <width>371</width>
-      <height>51</height>
+      <x>130</x>
+      <y>790</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -95,10 +95,10 @@
    <widget class="QPushButton" name="analyse_currencies_button">
     <property name="geometry">
      <rect>
-      <x>460</x>
-      <y>500</y>
-      <width>371</width>
-      <height>51</height>
+      <x>960</x>
+      <y>790</y>
+      <width>801</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="text">
@@ -108,14 +108,14 @@
    <widget class="QLabel" name="introduction_label">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>110</y>
+      <x>130</x>
+      <y>190</y>
       <width>901</width>
       <height>221</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Tutaj info o apce</string>
     </property>
    </widget>
   </widget>
@@ -124,8 +124,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>959</width>
-     <height>21</height>
+     <width>1920</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
