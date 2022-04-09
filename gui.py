@@ -104,6 +104,7 @@ class AnalyseStocks(QMainWindow):
             for row in reader:
                 self.stocks.append(row[0])
 
+
 class AnalyseCrypto(QMainWindow):
 
     cryptos = []
@@ -177,6 +178,9 @@ class AnalyseCrypto(QMainWindow):
 
 
 class AnalyseCurrencies(QMainWindow):
+
+    currencies = []
+
     def __init__(self):
         super().__init__()
         loadUi("static/analyse_currencies.ui", self)
@@ -184,15 +188,21 @@ class AnalyseCurrencies(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
+        self.read_csv_file('static/currencies.csv', ';')
+        self.fill_combo_box()
+
         self.show_line_plot()
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
     def show_candlestick_plot(self):
-        stock = 'EURPLN=X'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -206,7 +216,7 @@ class AnalyseCurrencies(QMainWindow):
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     def show_line_plot(self):
-        stock = 'EURPLN=X'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -227,6 +237,16 @@ class AnalyseCurrencies(QMainWindow):
                 self.show_line_plot()
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
+
+    def fill_combo_box(self):
+        for currency in self.currencies:
+            self.stocks_combobox.addItem(currency)
+
+    def read_csv_file(self, file_path, delimiter):
+        with open(file_path) as file:
+            reader = csv.reader(file, delimiter=delimiter)
+            for row in reader:
+                self.currencies.append(row[0])
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
