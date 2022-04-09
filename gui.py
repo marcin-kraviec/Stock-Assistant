@@ -30,7 +30,12 @@ class AnalyseStocks(QMainWindow):
         self.back_button.clicked.connect(self.go_to_main_window)
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
-        self.show_candlestick_plot()
+
+        self.back_button.clicked.connect(self.go_to_main_window)
+
+        self.show_line_plot()
+        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
 
     def go_to_main_window(self):
@@ -66,6 +71,13 @@ class AnalyseStocks(QMainWindow):
 
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
+    def set_plot_type(self, button):
+        if button.isChecked():
+            if button.text() == 'Line':
+                self.show_line_plot()
+            elif button.text() == 'Candlestick':
+                self.show_candlestick_plot()
+
 class AnalyseCrypto(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -73,22 +85,51 @@ class AnalyseCrypto(QMainWindow):
         self.back_button.clicked.connect(self.go_to_main_window)
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
-        self.show_plot()
+
+        self.show_line_plot()
+        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
-    def show_plot(self):
+    def show_candlestick_plot(self):
         stock = 'ETH-USD'
-        data = yf.download(stock,'2020-01-01')
+        #data = yf.download(stock,'2022-04-01',interval="1h")
+        data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
 
         fig = go.Figure()
         fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
+        #fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
         fig.update_layout(hovermode="x unified")
 
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def show_line_plot(self):
+        stock = 'ETH-USD'
+        #data = yf.download(stock,'2022-04-01',interval="1h")
+        data = yf.download(stock, '2021-01-01', interval="1d")
+        data.reset_index(inplace=True)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
+        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
+
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def set_plot_type(self, button):
+        if button.isChecked():
+            if button.text() == 'Line':
+                self.show_line_plot()
+            elif button.text() == 'Candlestick':
+                self.show_candlestick_plot()
+
 
 class AnalyseCurrencies(QMainWindow):
     def __init__(self):
@@ -97,22 +138,50 @@ class AnalyseCurrencies(QMainWindow):
         self.back_button.clicked.connect(self.go_to_main_window)
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
-        self.show_plot()
+
+        self.show_line_plot()
+        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
-    def show_plot(self):
+    def show_candlestick_plot(self):
         stock = 'EURPLN=X'
-        data = yf.download(stock,'2020-01-01')
+        #data = yf.download(stock,'2022-04-01',interval="1h")
+        data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
 
         fig = go.Figure()
         fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
+        #fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
         fig.update_layout(hovermode="x unified")
 
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def show_line_plot(self):
+        stock = 'EURPLN=X'
+        #data = yf.download(stock,'2022-04-01',interval="1h")
+        data = yf.download(stock, '2021-01-01', interval="1d")
+        data.reset_index(inplace=True)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
+        fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
+        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
+
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def set_plot_type(self, button):
+        if button.isChecked():
+            if button.text() == 'Line':
+                self.show_line_plot()
+            elif button.text() == 'Candlestick':
+                self.show_candlestick_plot()
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
