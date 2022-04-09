@@ -4,7 +4,7 @@ import plotly.graph_objs as go
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon
 from PyQt5.uic import loadUi
-
+from pytickersymbols import PyTickerSymbols
 #these lines tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
@@ -41,6 +41,13 @@ class AnalyseStocks(QMainWindow):
         self.show_line_plot()
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+
+        '''stock_data = PyTickerSymbols()
+        indicies = stock_data.get_all_indices()
+        print(indicies)
+        for i in range(len(indicies)):
+            print(stock_data.get_yahoo_ticker_symbols_by_index(indicies[i]))'''
 
 
     def go_to_main_window(self):
@@ -90,7 +97,6 @@ class AnalyseCrypto(QMainWindow):
         self.back_button.clicked.connect(self.go_to_main_window)
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
-
         self.show_line_plot()
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
@@ -134,6 +140,7 @@ class AnalyseCrypto(QMainWindow):
                 self.show_line_plot()
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
+
 
 
 class AnalyseCurrencies(QMainWindow):
