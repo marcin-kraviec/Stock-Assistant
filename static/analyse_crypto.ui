@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1080</height>
+    <height>898</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>1610</x>
       <y>50</y>
       <width>231</width>
       <height>22</height>
@@ -74,6 +74,35 @@
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
    </widget>
+   <widget class="QRadioButton" name="candlestick_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>50</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Candlestick</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="line_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>30</y>
+      <width>82</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Line</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -81,7 +110,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
