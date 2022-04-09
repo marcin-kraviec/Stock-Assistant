@@ -5,7 +5,7 @@ from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon
 from PyQt5.uic import loadUi
 
-# these lines tell the window that this is my own registered application, so I will decide the icon of it
+#these lines tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
