@@ -38,17 +38,21 @@ class AnalyseStocks(QMainWindow):
 
     def show_plot(self):
         stock = 'TSLA'
-        data = yf.download(stock,'2021-01-01',interval="1d")
+        #data = yf.download(stock,'2022-04-01',interval="1h")
+        data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
 
         fig = go.Figure()
         fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
+        #fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
         #fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
         #fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
         #fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
         #fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
 
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
 class AnalyseCrypto(QMainWindow):
@@ -71,6 +75,7 @@ class AnalyseCrypto(QMainWindow):
         fig = go.Figure()
         fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
 
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
