@@ -55,7 +55,7 @@ class AnalyseStocks(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', ';')
+        self.read_csv_file('static/stocks.csv')
         self.fill_combo_box()
 
         # default state
@@ -128,16 +128,16 @@ class AnalyseStocks(QMainWindow):
             self.stocks_combobox.addItem(stock)
 
     # read the data from static csv file and fill stocks dict
-    def read_csv_file(self, file_path, delimiter):
+    def read_csv_file(self, file_path):
         with open(file_path) as file:
-            reader = csv.reader(file, delimiter=delimiter)
+            reader = csv.reader(file, delimiter=';')
             for row in reader:
                 self.stocks[row[0]] = row[1]
 
-#TODO: Inheritance form AnalyseStocks
+#TODO: Consider doing an inheritance form AnalyseStocks - it might bring better results.
 class AnalyseCrypto(QMainWindow):
 
-    cryptos = {}
+    stocks = {}
 
     def __init__(self):
         super().__init__()
@@ -146,73 +146,32 @@ class AnalyseCrypto(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        self.read_csv_file('static/cryptos.csv', ';')
-        self.fill_combo_box()
+        AnalyseStocks.read_csv_file(self, 'static/cryptos.csv')
+        AnalyseStocks.fill_combo_box(self)
 
-        self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()])
-        self.show_line_plot()
+        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
+        AnalyseStocks.show_line_plot(self)
 
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()]))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
-    def show_candlestick_plot(self):
-        stock = self.stocks_combobox.currentText()
-        #data = yf.download(stock,'2022-04-01',interval="1h")
-        data = yf.download(stock, '2021-01-01', interval="1d")
-        data.reset_index(inplace=True)
-
-        fig = go.Figure()
-        fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        #fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
-
-        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-
-    def show_line_plot(self):
-        stock = self.stocks_combobox.currentText()
-        #data = yf.download(stock,'2022-04-01',interval="1h")
-        data = yf.download(stock, '2021-01-01', interval="1d")
-        data.reset_index(inplace=True)
-
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
-
-        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-
     def set_plot_type(self, button):
         if button.isChecked():
             if button.text() == 'Line':
-                self.show_line_plot()
+                AnalyseStocks.show_line_plot(self)
             elif button.text() == 'Candlestick':
-                self.show_candlestick_plot()
+                AnalyseStocks.show_candlestick_plot(self)
 
-    def fill_combo_box(self):
-        for crypto in self.cryptos.keys():
-            self.stocks_combobox.addItem(crypto)
-
-    def read_csv_file(self, file_path, delimiter):
-        with open(file_path) as file:
-            reader = csv.reader(file, delimiter=delimiter)
-            for row in reader:
-                self.cryptos[row[0]] = row[1]
-
-#TODO: Inheritance form AnalyseStocks
 class AnalyseCurrencies(QMainWindow):
 
-    currencies = {}
+    stocks = {}
 
     def __init__(self):
         super().__init__()
@@ -221,68 +180,28 @@ class AnalyseCurrencies(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        self.read_csv_file('static/currencies.csv', ';')
-        self.fill_combo_box()
+        AnalyseStocks.read_csv_file(self,'static/currencies.csv')
+        AnalyseStocks.fill_combo_box(self)
 
-        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
-        self.show_line_plot()
+        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
+        AnalyseStocks.show_line_plot(self)
 
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
-    def show_candlestick_plot(self):
-        stock = self.stocks_combobox.currentText()
-        #data = yf.download(stock,'2022-04-01',interval="1h")
-        data = yf.download(stock, '2021-01-01', interval="1d")
-        data.reset_index(inplace=True)
-
-        fig = go.Figure()
-        fig.add_trace(go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        #fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
-
-        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-
-    def show_line_plot(self):
-        stock = self.stocks_combobox.currentText()
-        #data = yf.download(stock,'2022-04-01',interval="1h")
-        data = yf.download(stock, '2021-01-01', interval="1d")
-        data.reset_index(inplace=True)
-
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
-
-        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-
     def set_plot_type(self, button):
         if button.isChecked():
             if button.text() == 'Line':
-                self.show_line_plot()
+                AnalyseStocks.show_line_plot(self)
             elif button.text() == 'Candlestick':
-                self.show_candlestick_plot()
-
-    def fill_combo_box(self):
-        for currency in self.currencies.keys():
-            self.stocks_combobox.addItem(currency)
-
-    def read_csv_file(self, file_path, delimiter):
-        with open(file_path) as file:
-            reader = csv.reader(file, delimiter=delimiter)
-            for row in reader:
-                self.currencies[row[0]] = row[1]
+                AnalyseStocks.show_candlestick_plot(self)
 
 if __name__=="__main__":
     # setup the app
@@ -298,11 +217,12 @@ if __name__=="__main__":
     # add main window to stack
     widget.addWidget(main_window)
 
+    # customise the app with css styling
     with open('static/style.css','r') as file:
         stylesheet = file.read()
-
-    # customise the app with styling, icon and title
     app.setStyleSheet(stylesheet)
+
+    # customise the app with icon and title
     app_icon = QSystemTrayIcon(QtGui.QIcon('static/icon.png'), parent=app)
     app_icon.show()
     icon = QtGui.QIcon("static/icon.png")
