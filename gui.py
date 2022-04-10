@@ -77,7 +77,7 @@ class AnalyseStocks(QMainWindow):
     def show_candlestick_plot(self):
         # getting a current stock from combobox
         stock = self.stocks_combobox.currentText()
-
+        templates = ['ggplot2', 'seaborn', 'simple_white', 'plotly','plotly_white', 'plotly_dark', 'presentation', 'xgridoff','ygridoff', 'gridon', 'none']
         # downloading data of stock from yfinance
         data = yf.download(stock, '2021-01-01', interval="1d")
         # data = yf.download(stock,'2022-04-01',interval="1h")
@@ -89,6 +89,7 @@ class AnalyseStocks(QMainWindow):
         # fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
         fig.update_layout(hovermode="x unified")
+        fig.layout.template = templates[3]
 
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
