@@ -3,7 +3,7 @@
 import sys
 import yfinance as yf
 import plotly.graph_objs as go
-from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets
+from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon
 from PyQt5.uic import loadUi
 
@@ -61,6 +61,10 @@ class AnalyseStocks(QMainWindow):
         # default state
         self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
+        #Example of custom font
+        font = QtGui.QFont("Roboto")
+        self.stock_info_label.setFont(font)
 
         # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
@@ -231,6 +235,7 @@ if __name__=="__main__":
     with open('static/style.css','r') as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
+    QtGui.QFontDatabase.addApplicationFont("static/Roboto-Regular.ttf")
 
     # customise the app with icon and title
     app_icon = QSystemTrayIcon(QtGui.QIcon('static/icon.png'), parent=app)
