@@ -1,0 +1,10 @@
+/* TODO: setup a nice google font and rounded buttons */
+
+QPushButton {
+    background-color: #c7c7c7;
+}
+
+QLabel {
+    font-family: 'Arial Narrow';
+    font-size: 20px;
+}
