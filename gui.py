@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
 
 class AnalyseStocks(QMainWindow):
 
-    stocks = []
+    stocks = {}
 
     def __init__(self):
         super().__init__()
@@ -46,6 +46,7 @@ class AnalyseStocks(QMainWindow):
         self.read_csv_file('static/stocks.csv', ';')
         self.fill_combo_box()
 
+        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
         self.show_line_plot()
 
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
@@ -53,6 +54,7 @@ class AnalyseStocks(QMainWindow):
 
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex()-1)
@@ -95,19 +97,19 @@ class AnalyseStocks(QMainWindow):
                 self.show_candlestick_plot()
 
     def fill_combo_box(self):
-        for stock in self.stocks:
+        for stock in self.stocks.keys():
             self.stocks_combobox.addItem(stock)
 
     def read_csv_file(self, file_path, delimiter):
         with open(file_path) as file:
             reader = csv.reader(file, delimiter=delimiter)
             for row in reader:
-                self.stocks.append(row[0])
+                self.stocks[row[0]] = row[1]
 
 
 class AnalyseCrypto(QMainWindow):
 
-    cryptos = []
+    cryptos = {}
 
     def __init__(self):
         super().__init__()
@@ -119,12 +121,15 @@ class AnalyseCrypto(QMainWindow):
         self.read_csv_file('static/cryptos.csv', ';')
         self.fill_combo_box()
 
+        self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
@@ -167,19 +172,19 @@ class AnalyseCrypto(QMainWindow):
                 self.show_candlestick_plot()
 
     def fill_combo_box(self):
-        for crypto in self.cryptos:
+        for crypto in self.cryptos.keys():
             self.stocks_combobox.addItem(crypto)
 
     def read_csv_file(self, file_path, delimiter):
         with open(file_path) as file:
             reader = csv.reader(file, delimiter=delimiter)
             for row in reader:
-                self.cryptos.append(row[0])
+                self.cryptos[row[0]] = row[1]
 
 
 class AnalyseCurrencies(QMainWindow):
 
-    currencies = []
+    currencies = {}
 
     def __init__(self):
         super().__init__()
@@ -191,12 +196,15 @@ class AnalyseCurrencies(QMainWindow):
         self.read_csv_file('static/currencies.csv', ';')
         self.fill_combo_box()
 
+        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
@@ -239,14 +247,14 @@ class AnalyseCurrencies(QMainWindow):
                 self.show_candlestick_plot()
 
     def fill_combo_box(self):
-        for currency in self.currencies:
+        for currency in self.currencies.keys():
             self.stocks_combobox.addItem(currency)
 
     def read_csv_file(self, file_path, delimiter):
         with open(file_path) as file:
             reader = csv.reader(file, delimiter=delimiter)
             for row in reader:
-                self.currencies.append(row[0])
+                self.currencies[row[0]] = row[1]
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
