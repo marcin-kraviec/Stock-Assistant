@@ -1,3 +1,5 @@
+# add new requirement to requirements.txt by executing: pipreqs --force [project_path]
+
 import sys
 import yfinance as yf
 import plotly.graph_objs as go
@@ -286,23 +288,32 @@ if __name__=="__main__":
     # setup the app
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
+
     # initialise all the windows
     main_window = MainWindow()
     analyse_stocks_window = AnalyseStocks()
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
+
     # add main window to stack
     widget.addWidget(main_window)
-    # customise the app with icon and title
+
+    with open('static/style.css','r') as file:
+        stylesheet = file.read()
+
+    # customise the app with styling, icon and title
+    app.setStyleSheet(stylesheet)
     app_icon = QSystemTrayIcon(QtGui.QIcon('static/icon.png'), parent=app)
     app_icon.show()
     icon = QtGui.QIcon("static/icon.png")
     app.setWindowIcon(icon)
     widget.setWindowTitle("Stock Assistant")
+
     # add the rest of the windows to stack
     widget.addWidget(analyse_stocks_window)
     widget.addWidget(analyse_crypto_window)
     widget.addWidget(analyse_currencies_window)
+
     # open in full screen
     widget.showMaximized()
 
