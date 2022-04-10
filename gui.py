@@ -15,7 +15,7 @@ myappid = 'stock_asisstant.1.0' # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
-class MainWindow(QMainWindow):
+class Home(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -28,13 +28,13 @@ class MainWindow(QMainWindow):
         self.analyse_currencies_button.clicked.connect(self.go_to_analyse_currencies)
 
     def go_to_analyse_stocks(self):
-        widget.setCurrentIndex(widget.currentIndex()+1)
+        widget.setCurrentIndex(widget.currentIndex() + 1)
 
     def go_to_analyse_crypto(self):
-        widget.setCurrentIndex(widget.currentIndex()+2)
+        widget.setCurrentIndex(widget.currentIndex() + 2)
 
     def go_to_analyse_currencies(self):
-        widget.setCurrentIndex(widget.currentIndex()+3)
+        widget.setCurrentIndex(widget.currentIndex() + 3)
 
 class AnalyseStocks(QMainWindow):
 
@@ -48,15 +48,15 @@ class AnalyseStocks(QMainWindow):
         loadUi("static/analyse_stocks.ui", self)
 
         # move to home window after clicking a button
-        self.back_button.clicked.connect(self.go_to_main_window)
+        self.back_button.clicked.connect(self.go_to_home)
 
         # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv')
-        self.fill_combo_box()
+        self.read_csv_file('static/stocks.csv', self.stocks)
+        self.fill_combo_box(self.stocks)
 
         # default state
         self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
@@ -71,8 +71,8 @@ class AnalyseStocks(QMainWindow):
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
-    def go_to_main_window(self):
-        widget.setCurrentIndex(widget.currentIndex()-1)
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 1)
 
     def show_candlestick_plot(self):
         # getting a current stock from combobox
@@ -123,99 +123,108 @@ class AnalyseStocks(QMainWindow):
                 self.show_candlestick_plot()
 
     # fill combobox with stock names
-    def fill_combo_box(self):
-        for stock in self.stocks.keys():
-            self.stocks_combobox.addItem(stock)
+    def fill_combo_box(self, dict):
+        for key in dict.keys():
+            self.stocks_combobox.addItem(key)
 
     # read the data from static csv file and fill stocks dict
-    def read_csv_file(self, file_path):
+    def read_csv_file(self, file_path, dict):
         with open(file_path) as file:
             reader = csv.reader(file, delimiter=';')
             for row in reader:
-                self.stocks[row[0]] = row[1]
+                dict[row[0]] = row[1]
 
-#TODO: Consider doing an inheritance form AnalyseStocks - it might bring better results.
-class AnalyseCrypto(QMainWindow):
+# Inheritance form AnalyseStocks
+class AnalyseCrypto(AnalyseStocks):
 
-    stocks = {}
+    # Dict stores data from static csv file
+    cryptos = {}
 
     def __init__(self):
         super().__init__()
-        loadUi("static/analyse_crypto.ui", self)
-        self.back_button.clicked.connect(self.go_to_main_window)
+
+        # read the window layout from file
+        loadUi("static/analyse_stocks.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        AnalyseStocks.read_csv_file(self, 'static/cryptos.csv')
-        AnalyseStocks.fill_combo_box(self)
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/cryptos.csv', self.cryptos)
+        self.fill_combo_box(self.cryptos)
 
-        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
-        AnalyseStocks.show_line_plot(self)
+        # default state
+        self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()])
+        self.show_line_plot()
 
+        # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
+        # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()]))
 
-    def go_to_main_window(self):
+    def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
-    def set_plot_type(self, button):
-        if button.isChecked():
-            if button.text() == 'Line':
-                AnalyseStocks.show_line_plot(self)
-            elif button.text() == 'Candlestick':
-                AnalyseStocks.show_candlestick_plot(self)
+# Inheritance form AnalyseStocks
+class AnalyseCurrencies(AnalyseStocks):
 
-class AnalyseCurrencies(QMainWindow):
-
-    stocks = {}
+    # Dict stores data from static csv file
+    currencies = {}
 
     def __init__(self):
         super().__init__()
-        loadUi("static/analyse_currencies.ui", self)
-        self.back_button.clicked.connect(self.go_to_main_window)
+        # read the window layout from file
+        loadUi("static/analyse_stocks.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        AnalyseStocks.read_csv_file(self,'static/currencies.csv')
-        AnalyseStocks.fill_combo_box(self)
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/currencies.csv', self.currencies)
+        self.fill_combo_box(self.currencies)
 
-        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
-        AnalyseStocks.show_line_plot(self)
+        # default state
+        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
+        self.show_line_plot()
 
+        # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
+        # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
 
-    def go_to_main_window(self):
+    def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
-    def set_plot_type(self, button):
-        if button.isChecked():
-            if button.text() == 'Line':
-                AnalyseStocks.show_line_plot(self)
-            elif button.text() == 'Candlestick':
-                AnalyseStocks.show_candlestick_plot(self)
-
+# run GUI
 if __name__=="__main__":
     # setup the app
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
 
     # initialise all the windows
-    main_window = MainWindow()
+    home_window = Home()
     analyse_stocks_window = AnalyseStocks()
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
 
     # add main window to stack
-    widget.addWidget(main_window)
+    widget.addWidget(home_window)
 
     # customise the app with css styling
     with open('static/style.css','r') as file:
