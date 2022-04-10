@@ -5,6 +5,8 @@ from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon
 from PyQt5.uic import loadUi
 
+import csv
+
 # these lines tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string
@@ -29,6 +31,9 @@ class MainWindow(QMainWindow):
         widget.setCurrentIndex(widget.currentIndex()+3)
 
 class AnalyseStocks(QMainWindow):
+
+    stocks = {}
+
     def __init__(self):
         super().__init__()
         loadUi("static/analyse_stocks.ui", self)
@@ -38,16 +43,24 @@ class AnalyseStocks(QMainWindow):
 
         self.back_button.clicked.connect(self.go_to_main_window)
 
+        self.read_csv_file('static/stocks.csv', ';')
+        self.fill_combo_box()
+
+        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
 
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex()-1)
 
     def show_candlestick_plot(self):
-        stock = 'TSLA'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -61,7 +74,7 @@ class AnalyseStocks(QMainWindow):
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     def show_line_plot(self):
-        stock = 'TSLA'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -83,7 +96,21 @@ class AnalyseStocks(QMainWindow):
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
 
+    def fill_combo_box(self):
+        for stock in self.stocks.keys():
+            self.stocks_combobox.addItem(stock)
+
+    def read_csv_file(self, file_path, delimiter):
+        with open(file_path) as file:
+            reader = csv.reader(file, delimiter=delimiter)
+            for row in reader:
+                self.stocks[row[0]] = row[1]
+
+
 class AnalyseCrypto(QMainWindow):
+
+    cryptos = {}
+
     def __init__(self):
         super().__init__()
         loadUi("static/analyse_crypto.ui", self)
@@ -91,15 +118,24 @@ class AnalyseCrypto(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
+        self.read_csv_file('static/cryptos.csv', ';')
+        self.fill_combo_box()
+
+        self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
     def show_candlestick_plot(self):
-        stock = 'ETH-USD'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -113,7 +149,7 @@ class AnalyseCrypto(QMainWindow):
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     def show_line_plot(self):
-        stock = 'ETH-USD'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -135,8 +171,21 @@ class AnalyseCrypto(QMainWindow):
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
 
+    def fill_combo_box(self):
+        for crypto in self.cryptos.keys():
+            self.stocks_combobox.addItem(crypto)
+
+    def read_csv_file(self, file_path, delimiter):
+        with open(file_path) as file:
+            reader = csv.reader(file, delimiter=delimiter)
+            for row in reader:
+                self.cryptos[row[0]] = row[1]
+
 
 class AnalyseCurrencies(QMainWindow):
+
+    currencies = {}
+
     def __init__(self):
         super().__init__()
         loadUi("static/analyse_currencies.ui", self)
@@ -144,15 +193,24 @@ class AnalyseCurrencies(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
+        self.read_csv_file('static/currencies.csv', ';')
+        self.fill_combo_box()
+
+        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
         self.show_line_plot()
+
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
 
     def go_to_main_window(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
     def show_candlestick_plot(self):
-        stock = 'EURPLN=X'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -166,7 +224,7 @@ class AnalyseCurrencies(QMainWindow):
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     def show_line_plot(self):
-        stock = 'EURPLN=X'
+        stock = self.stocks_combobox.currentText()
         #data = yf.download(stock,'2022-04-01',interval="1h")
         data = yf.download(stock, '2021-01-01', interval="1d")
         data.reset_index(inplace=True)
@@ -187,6 +245,16 @@ class AnalyseCurrencies(QMainWindow):
                 self.show_line_plot()
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
+
+    def fill_combo_box(self):
+        for currency in self.currencies.keys():
+            self.stocks_combobox.addItem(currency)
+
+    def read_csv_file(self, file_path, delimiter):
+        with open(file_path) as file:
+            reader = csv.reader(file, delimiter=delimiter)
+            for row in reader:
+                self.currencies[row[0]] = row[1]
 
 if __name__=="__main__":
     app = QApplication(sys.argv)
