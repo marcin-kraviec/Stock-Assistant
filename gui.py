@@ -55,11 +55,11 @@ class AnalyseStocks(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', self.stocks)
-        self.fill_combo_box(self.stocks)
+        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
+        self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
 
         # default state
-        self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()])
+        self.stock_info_label.setText(AnalyseStocks.stocks[self.stocks_combobox.currentText()])
         self.show_line_plot()
 
         #Example of custom font
@@ -128,9 +128,9 @@ class AnalyseStocks(QMainWindow):
                 self.show_candlestick_plot()
 
     # fill combobox with stock names
-    def fill_combo_box(self, dict):
+    def fill_combo_box(self, dict, combobox):
         for key in dict.keys():
-            self.stocks_combobox.addItem(key)
+            combobox.addItem(key)
 
     # read the data from static csv file and fill stocks dict
     def read_csv_file(self, file_path, dict):
@@ -159,11 +159,11 @@ class AnalyseCrypto(AnalyseStocks):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/cryptos.csv', self.cryptos)
-        self.fill_combo_box(self.cryptos)
+        self.read_csv_file('static/cryptos.csv', AnalyseCrypto.cryptos)
+        self.fill_combo_box(AnalyseCrypto.cryptos, self.stocks_combobox)
 
         # default state
-        self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()])
+        self.stock_info_label.setText(AnalyseCrypto.cryptos[self.stocks_combobox.currentText()])
         self.show_line_plot()
 
         # switching between plot types with radio buttons
@@ -197,11 +197,11 @@ class AnalyseCurrencies(AnalyseStocks):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/currencies.csv', self.currencies)
-        self.fill_combo_box(self.currencies)
+        self.read_csv_file('static/currencies.csv', AnalyseCurrencies.currencies)
+        self.fill_combo_box(AnalyseCurrencies.currencies, self.stocks_combobox)
 
         # default state
-        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
+        self.stock_info_label.setText(AnalyseCurrencies.currencies[self.stocks_combobox.currentText()])
         self.show_line_plot()
 
         # switching between plot types with radio buttons
