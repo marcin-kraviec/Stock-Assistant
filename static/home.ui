@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="create_portofio_button">
+   <widget class="QPushButton" name="create_portfolio_button">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -125,7 +125,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

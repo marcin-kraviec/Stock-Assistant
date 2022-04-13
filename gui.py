@@ -4,8 +4,9 @@ import sys
 import yfinance as yf
 import plotly.graph_objs as go
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget
 from PyQt5.uic import loadUi
+from PyQt5.QtCore import Qt
 
 import csv
 
@@ -26,6 +27,7 @@ class Home(QMainWindow):
         self.analyse_stocks_button.clicked.connect(self.go_to_analyse_stocks)
         self.analyse_crypto_button.clicked.connect(self.go_to_analyse_crypto)
         self.analyse_currencies_button.clicked.connect(self.go_to_analyse_currencies)
+        self.create_portfolio_button.clicked.connect(self.go_to_portfolio_form)
 
     def go_to_analyse_stocks(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -35,6 +37,9 @@ class Home(QMainWindow):
 
     def go_to_analyse_currencies(self):
         widget.setCurrentIndex(widget.currentIndex() + 3)
+
+    def go_to_portfolio_form(self):
+        widget.setCurrentIndex(widget.currentIndex() + 4)
 
 class AnalyseStocks(QMainWindow):
 
@@ -201,7 +206,7 @@ class AnalyseCurrencies(AnalyseStocks):
         self.fill_combo_box(AnalyseCurrencies.currencies, self.stocks_combobox)
 
         # default state
-        self.stock_info_label.setText(AnalyseCurrencies.currencies[self.stocks_combobox.currentText()])
+        #self.stock_info_label.setText(AnalyseCurrencies.currencies[self.stocks_combobox.currentText()])
         self.show_line_plot()
 
         # switching between plot types with radio buttons
@@ -216,6 +221,33 @@ class AnalyseCurrencies(AnalyseStocks):
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
+
+class PortfolioForm(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/portfolio_form.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        #self.vlayout.setAlignment(Qt.AlignTop)
+
+        for i in range(10):
+            self.stocks_widget = StocksWidget()
+            self.gridlayout.addWidget(self.stocks_widget,i, 0)
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 4)
+
+class StocksWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/stocks_widget.ui", self)
+
 # run GUI
 if __name__=="__main__":
     # setup the app
@@ -227,6 +259,7 @@ if __name__=="__main__":
     analyse_stocks_window = AnalyseStocks()
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
+    portfolio_form_window = PortfolioForm()
 
     # add main window to stack
     widget.addWidget(home_window)
@@ -248,6 +281,7 @@ if __name__=="__main__":
     widget.addWidget(analyse_stocks_window)
     widget.addWidget(analyse_crypto_window)
     widget.addWidget(analyse_currencies_window)
+    widget.addWidget(portfolio_form_window)
 
     # open in full screen
     widget.showMaximized()
