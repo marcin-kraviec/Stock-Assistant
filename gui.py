@@ -255,12 +255,13 @@ class PortfolioForm(QMainWindow):
         # update latest company price
         self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]))
         self.comboBox_3.activated[str].connect(
-            lambda: self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
-
+            lambda: self.label_5.setText(
+                str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
 
     def add_it(self):
         # spinBox value must be postive and multiple choice of the same company is not allowed
-        if (self.spinBox_4.value() > 0 and not self.my_table.findItems(str(self.comboBox_3.currentText()), Qt.MatchContains)):
+        if (self.spinBox_4.value() > 0 and not self.my_table.findItems(str(self.comboBox_3.currentText()),
+                                                                       Qt.MatchContains)):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
             item2 = QTableWidgetItem(str(self.spinBox_4.value()))
             item3 = QTableWidgetItem(str(self.label_5.text()))
@@ -272,6 +273,8 @@ class PortfolioForm(QMainWindow):
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
+        if (clicked == -1):
+            clicked += 1
         self.my_table.removeRow(clicked)
 
     def clear(self):
