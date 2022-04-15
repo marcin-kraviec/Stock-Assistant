@@ -242,33 +242,39 @@ class PortfolioForm(QMainWindow):
         # read the window layout from file
         loadUi("static/portfolio_form.ui", self)
 
-        # move to home window after clicking a button
-        self.back_button.clicked.connect(self.go_to_home)
+        try:
+            # move to home window after clicking a button
+            self.back_button.clicked.connect(self.go_to_home)
 
         # add, delete, clear elements in portfolio form
-        self.add_button.clicked.connect(self.add_it)
-        self.delete_it_button.clicked.connect(self.delete_it)
-        self.clear_button.clicked.connect(self.clear)
+            self.add_button.clicked.connect(self.add_it)
+            self.delete_it_button.clicked.connect(self.delete_it)
+            self.clear_button.clicked.connect(self.clear)
 
-        # HERE MIGHT BE THE PROBLEM
-        self.add_button.clicked.connect(self.show_pie_plot)
-        self.delete_it_button.clicked.connect(self.show_pie_plot)
+        # update plot
+            self.add_button.clicked.connect(self.show_pie_plot)
+            self.delete_it_button.clicked.connect(self.show_pie_plot)
+            self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
-        self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
+            self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+            self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
 
-        self.browser = QtWebEngineWidgets.QWebEngineView(self)
-        self.vlayout.addWidget(self.browser)
+            self.browser = QtWebEngineWidgets.QWebEngineView(self)
+            self.vlayout.addWidget(self.browser)
 
         # update latest company price
-        self.spinBox_4.valueChanged.connect(self.label_update)
-        self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value())))
+            self.spinBox_4.valueChanged.connect(self.label_update)
+            self.comboBox_3.activated.connect(self.label_update)
+            self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
+        except Exception as e:
+            print(e)
 
     def label_update(self):
-        self.label_5.setText(str(self.spinBox_4.value()*double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
-        self.comboBox_3.activated[str].connect(
-            lambda: self.label_5.setText(str(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*(self.spinBox_4.value()))))
+        value = round(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*self.spinBox_4.value(), 2)
+        self.label_5.setText(str(value))
+        self.comboBox_3.activated[str].connect(lambda: self.label_5.setText(str(value)))
+
 
     def add_it(self):
         # spinBox value must be postive and multiple choice of the same company is not allowed
@@ -312,19 +318,23 @@ class PortfolioForm(QMainWindow):
     def show_pie_plot(self):
         stocks = []
         values = []
-        try:
-            for row in range(self.my_table.rowCount()):
-                stocks.append(self.my_table.item(row, 0).text())
-                values.append(float(self.my_table.item(row, 2).text()) * int(self.my_table.item(row, 1).text()))
-        except Exception as e:
-            print(e)
+
+        for row in range(self.my_table.rowCount()):
+            stocks.append(self.my_table.item(row, 0).text())
+            values.append(float(self.my_table.item(row, 2).text()) * int(self.my_table.item(row, 1).text()))
+
 
         data = {'stocks': stocks, 'values': values}
 
         df = pd.DataFrame(data)
-        print(df)
+
         fig = px.pie(df, values='values', names='stocks')
-        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+        if self.my_table.rowCount() >= 1:
+            self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+        else:
+            self.browser.setHtml(None)
+
 
 # run GUI
 if __name__ == "__main__":
