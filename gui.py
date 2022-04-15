@@ -16,6 +16,8 @@ import csv
 # tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 
+from numpy import double
+
 myappid = 'stock_asisstant.1.0'  # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
@@ -260,9 +262,13 @@ class PortfolioForm(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         # update latest company price
-        self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]))
-        self.comboBox_3.activated[str].connect(lambda: self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
+        self.spinBox_4.valueChanged.connect(self.label_update)
+        self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value())))
 
+    def label_update(self):
+        self.label_5.setText(str(self.spinBox_4.value()*double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
+        self.comboBox_3.activated[str].connect(
+            lambda: self.label_5.setText(str(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*(self.spinBox_4.value()))))
 
     def add_it(self):
         # spinBox value must be postive and multiple choice of the same company is not allowed
@@ -275,6 +281,7 @@ class PortfolioForm(QMainWindow):
             self.my_table.setItem(row_position, 0, item)
             self.my_table.setItem(row_position, 1, item2)
             self.my_table.setItem(row_position, 2, item3)
+            self.spinBox_4.setValue(0)
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -283,8 +290,9 @@ class PortfolioForm(QMainWindow):
         self.my_table.removeRow(clicked)
 
     def clear(self):
-        for i in range(self.my_table.rowCount()):
-            self.my_table.removeRow(self.my_table.rowCount() - 1)
+        for i in reversed(range(self.my_table.rowCount())):
+            self.my_table.removeRow(i)
+
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 4)
