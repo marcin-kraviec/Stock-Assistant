@@ -1,8 +1,11 @@
 # add new requirement to requirements.txt by executing: pipreqs --force [project_path]
 
 import sys
+
+import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
+import plotly.express as px
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
 from PyQt5.uic import loadUi
@@ -221,14 +224,14 @@ class AnalyseCurrencies(AnalyseStocks):
         # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(
-            lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
 
 
 class PortfolioForm(QMainWindow):
+
     stocks = {}
 
     def __init__(self):
@@ -245,6 +248,10 @@ class PortfolioForm(QMainWindow):
         self.delete_it_button.clicked.connect(self.delete_it)
         self.clear_button.clicked.connect(self.clear)
 
+        # HERE MIGHT BE THE PROBLEM
+        self.add_button.clicked.connect(self.show_pie_plot)
+        self.delete_it_button.clicked.connect(self.show_pie_plot)
+
         # fill combobox with data from static csv file
         self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
         self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
@@ -254,22 +261,20 @@ class PortfolioForm(QMainWindow):
 
         # update latest company price
         self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]))
-        self.comboBox_3.activated[str].connect(
-            lambda: self.label_5.setText(
-                str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
+        self.comboBox_3.activated[str].connect(lambda: self.label_5.setText(str(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])))
+
 
     def add_it(self):
         # spinBox value must be postive and multiple choice of the same company is not allowed
-        if (self.spinBox_4.value() > 0 and not self.my_table.findItems(str(self.comboBox_3.currentText()),
-                                                                       Qt.MatchContains)):
+        if (self.spinBox_4.value() > 0 and not self.my_table.findItems(str(self.comboBox_3.currentText()), Qt.MatchContains)):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
             item2 = QTableWidgetItem(str(self.spinBox_4.value()))
             item3 = QTableWidgetItem(str(self.label_5.text()))
-            rowPosition = self.my_table.rowCount()
-            self.my_table.insertRow(rowPosition)
-            self.my_table.setItem(rowPosition, 0, item)
-            self.my_table.setItem(rowPosition, 1, item2)
-            self.my_table.setItem(rowPosition, 2, item3)
+            row_position = self.my_table.rowCount()
+            self.my_table.insertRow(row_position)
+            self.my_table.setItem(row_position, 0, item)
+            self.my_table.setItem(row_position, 1, item2)
+            self.my_table.setItem(row_position, 2, item3)
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -296,6 +301,22 @@ class PortfolioForm(QMainWindow):
             for row in reader:
                 dict[row[0]] = row[1]
 
+    def show_pie_plot(self):
+        stocks = []
+        values = []
+        try:
+            for row in range(self.my_table.rowCount()):
+                stocks.append(self.my_table.item(row, 0).text())
+                values.append(float(self.my_table.item(row, 2).text()) * int(self.my_table.item(row, 1).text()))
+        except Exception as e:
+            print(e)
+
+        data = {'stocks': stocks, 'values': values}
+
+        df = pd.DataFrame(data)
+        print(df)
+        fig = px.pie(df, values='values', names='stocks')
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
 # run GUI
 if __name__ == "__main__":
