@@ -5,11 +5,13 @@ import sys
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
-import plotly.express as px
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
+
+
+import database
 
 import csv
 
@@ -235,40 +237,42 @@ class AnalyseCurrencies(AnalyseStocks):
 class PortfolioForm(QMainWindow):
 
     stocks = {}
+    database_connector = database.DatabaseConnector()
 
     def __init__(self):
         super().__init__()
 
         # read the window layout from file
         loadUi("static/portfolio_form.ui", self)
+        self.database_connector = database_connector
 
-        try:
-            # move to home window after clicking a button
-            self.back_button.clicked.connect(self.go_to_home)
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
 
         # add, delete, clear elements in portfolio form
-            self.add_button.clicked.connect(self.add_it)
-            self.delete_it_button.clicked.connect(self.delete_it)
-            self.clear_button.clicked.connect(self.clear)
+        self.add_button.clicked.connect(self.add_it)
+        self.delete_it_button.clicked.connect(self.delete_it)
+        self.clear_button.clicked.connect(self.clear)
 
         # update plot
-            self.add_button.clicked.connect(self.show_pie_plot)
-            self.delete_it_button.clicked.connect(self.show_pie_plot)
-            self.clear_button.clicked.connect(self.show_pie_plot)
+        self.add_button.clicked.connect(self.show_pie_plot)
+        self.delete_it_button.clicked.connect(self.show_pie_plot)
+        self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-            self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
-            self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
+        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+        self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
 
-            self.browser = QtWebEngineWidgets.QWebEngineView(self)
-            self.vlayout.addWidget(self.browser)
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
 
         # update latest company price
-            self.spinBox_4.valueChanged.connect(self.label_update)
-            self.comboBox_3.activated.connect(self.label_update)
-            self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
-        except Exception as e:
-            print(e)
+        self.spinBox_4.valueChanged.connect(self.label_update)
+        self.comboBox_3.activated.connect(self.label_update)
+        self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
+
+        #self.save_button.clicked.connect(PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText()))
+
 
     def label_update(self):
         value = round(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*self.spinBox_4.value(), 2)
@@ -323,12 +327,7 @@ class PortfolioForm(QMainWindow):
             stocks.append(self.my_table.item(row, 0).text())
             values.append(float(self.my_table.item(row, 2).text()) * int(self.my_table.item(row, 1).text()))
 
-
-        data = {'stocks': stocks, 'values': values}
-
-        df = pd.DataFrame(data)
-
-        fig = px.pie(df, values='values', names='stocks')
+        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.3)])
 
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -336,11 +335,14 @@ class PortfolioForm(QMainWindow):
             self.browser.setHtml(None)
 
 
+
+
 # run GUI
 if __name__ == "__main__":
     # setup the app
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
+    database_connector = database.DatabaseConnector()
 
     # initialise all the windows
     home_window = Home()
@@ -348,6 +350,8 @@ if __name__ == "__main__":
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
     portfolio_form_window = PortfolioForm()
+
+
 
     # add main window to stack
     widget.addWidget(home_window)
