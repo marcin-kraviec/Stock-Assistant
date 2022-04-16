@@ -304,8 +304,15 @@ class PortfolioForm(QMainWindow):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
             PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
-        self.textEdit.clear()
-        for element in analyse_portfolio_window.combobox:
+
+        for i in range(analyse_portfolio_window.combobox.count()):
+            if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+                print('Portfolio exists')
+        else:
+            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            self.textEdit.clear()
+            self.clear()
+            self.show_pie_plot()
 
 
     def delete_it(self):
@@ -342,7 +349,7 @@ class PortfolioForm(QMainWindow):
             stocks.append(self.my_table.item(row, 0).text())
             values.append(float(self.my_table.item(row, 2).text()))
 
-        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.3)])
+        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
 
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -372,12 +379,28 @@ class AnalysePortfolio(QMainWindow):
         widget.setCurrentIndex(widget.currentIndex() - 5)
 
     def load_portfolio(self):
-        pass
+        data = database_connector.select_from(self.combobox.currentText())
 
+        stocks = []
+        values = []
+
+        for key in data.keys():
+            stocks.append(key)
+            values.append(data[key]*round(yf.Ticker(key).history(period='1d')['Close'][0], 2))
+
+        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+        '''
+        if self.my_table.rowCount() >= 1:
+            self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+        else:
+            self.browser.setHtml(None)
+        '''
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
             self.combobox.addItem(name)
+
 
 
 
