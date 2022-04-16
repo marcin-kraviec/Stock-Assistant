@@ -3,6 +3,7 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import numpy as np
+from datetime import date
 
 data = yf.Ticker('TSLA')
 price = data.history(period='1y')
@@ -153,3 +154,5 @@ The Efficient Frontier chart shows the return we can get for the given volatilit
 '''
 
 plt.show()
+
+print(date.today())

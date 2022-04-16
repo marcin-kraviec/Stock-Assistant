@@ -7,7 +7,7 @@ class DatabaseConnector():
 
     @staticmethod
     def create_table(name):
-        # PROBLEM HERE amount should be stored as varchar
+
         query = 'CREATE TABLE IF NOT EXISTS %s (id INT AUTO_INCREMENT PRIMARY KEY, stock VARCHAR(250) NOT NULL, amount INT NOT NULL)' % name
         print(query)
 
@@ -21,9 +21,14 @@ class DatabaseConnector():
 
 
     @staticmethod
-    def insert_into(name, stock, amount):
-        query = 'INSERT INTO %s (stock, amount) VALUES (%s, %s)' % (name, stock, amount)
-        print(query)
+    def insert_into(name, key, value, flag):
+
+        if flag == 'elements':
+            query = 'INSERT INTO %s (stock, amount) VALUES (%s, %s)' % (name, key, value)
+            print(query)
+        if flag == 'names':
+            query = 'INSERT INTO %s (name, date) VALUES (%s, %s)' % (name, key, value)
+            print(query)
 
         try:
             cursor = DatabaseConnector.database.cursor()

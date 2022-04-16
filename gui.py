@@ -6,11 +6,11 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton, \
+    QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
-
-
+from datetime import date
 import database
 
 import csv
@@ -303,7 +303,9 @@ class PortfolioForm(QMainWindow):
         for row in range(self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
-            PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
+            PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, 'elements')
+
+        PortfolioForm.database_connector.insert_into('portfolio_names', '\''+self.textEdit.toPlainText()+'\'', date.today(), 'names')
 
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
@@ -373,7 +375,9 @@ class AnalysePortfolio(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         self.fill_combo_box()
+        self.load_portfolio()
         self.load_button.clicked.connect(self.load_portfolio)
+
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 5)
@@ -383,13 +387,40 @@ class AnalysePortfolio(QMainWindow):
 
         stocks = []
         values = []
+        past_values = []
 
         for key in data.keys():
             stocks.append(key)
             values.append(data[key]*round(yf.Ticker(key).history(period='1d')['Close'][0], 2))
+            #TODO: instruction in line 401
+            past_values.append(data[key] * round(yf.download(key, start='2021-04-08', end='2021-04-08')['Close'][0], 2))
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+        self.value.setText(str(sum(values)) + ' $')
+
+        # creating a color effect
+        color_effect = QGraphicsColorizeEffect()
+
+
+        #TODO: Compering the current value with the value from the date of portfolio creation
+        change = round(sum(values) - sum(past_values), 2)
+        percentage_change = round((change/sum(past_values)) * 100, 2)
+        if change >= 0:
+            profit = '+' + str(change) + ' $' + '       +' + str(percentage_change) + ' %'
+            # setting color to color effect
+            color_effect.setColor(Qt.darkGreen)
+        else:
+            profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
+            # setting color to color effect
+            color_effect.setColor(Qt.red)
+
+        self.change.setText(profit)
+        # adding color effect to the label
+        self.change.setGraphicsEffect(color_effect)
+
+        #TODO: Make the same thing with all components
         '''
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -399,10 +430,9 @@ class AnalysePortfolio(QMainWindow):
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
+            if name == 'portfolio_names':
+                continue
             self.combobox.addItem(name)
-
-
-
 
 # run GUI
 if __name__ == "__main__":
