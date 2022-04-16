@@ -36,6 +36,7 @@ class Home(QMainWindow):
         self.analyse_crypto_button.clicked.connect(self.go_to_analyse_crypto)
         self.analyse_currencies_button.clicked.connect(self.go_to_analyse_currencies)
         self.create_portfolio_button.clicked.connect(self.go_to_portfolio_form)
+        self.analyse_portfolio_button.clicked.connect(self.go_to_analyse_portfolio)
 
     def go_to_analyse_stocks(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -48,6 +49,10 @@ class Home(QMainWindow):
 
     def go_to_portfolio_form(self):
         widget.setCurrentIndex(widget.currentIndex() + 4)
+
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() + 5)
+        #AnalysePortfolio.fill_combo_box(analyse_portfolio_window)
 
 
 class AnalyseStocks(QMainWindow):
@@ -294,11 +299,14 @@ class PortfolioForm(QMainWindow):
             self.spinBox_4.setValue(0)
 
     def save_it(self):
-        PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText())
+        PortfolioForm.database_connector.create_table(self.textEdit.toPlainText())
         for row in range(self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
-            PortfolioForm.database_connector.insert_into_porfolio(self.textEdit.toPlainText(), stock, amount)
+            PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
+        self.textEdit.clear()
+        for element in analyse_portfolio_window.combobox:
+
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -341,6 +349,35 @@ class PortfolioForm(QMainWindow):
         else:
             self.browser.setHtml(None)
 
+class AnalysePortfolio(QMainWindow):
+
+    portfolios = {}
+
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/analyse_portfolio.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        self.fill_combo_box()
+        self.load_button.clicked.connect(self.load_portfolio)
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 5)
+
+    def load_portfolio(self):
+        pass
+
+    # fill combobox with stock names
+    def fill_combo_box(self):
+        for name in database_connector.show_tables():
+            self.combobox.addItem(name)
 
 
 
@@ -357,7 +394,7 @@ if __name__ == "__main__":
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
     portfolio_form_window = PortfolioForm()
-
+    analyse_portfolio_window = AnalysePortfolio()
 
 
     # add main window to stack
@@ -381,6 +418,7 @@ if __name__ == "__main__":
     widget.addWidget(analyse_crypto_window)
     widget.addWidget(analyse_currencies_window)
     widget.addWidget(portfolio_form_window)
+    widget.addWidget(analyse_portfolio_window)
 
     # open in full screen
     widget.showMaximized()
