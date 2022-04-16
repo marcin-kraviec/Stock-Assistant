@@ -7,13 +7,7 @@ from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
-<<<<<<< HEAD
-=======
-
-
 import database
-
->>>>>>> a0f9f810d9198da2c3540ee7a11495a0a7e70bf5
 import csv
 import ctypes
 from numpy import double
