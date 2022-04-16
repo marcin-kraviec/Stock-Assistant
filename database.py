@@ -37,13 +37,20 @@ class DatabaseConnector():
     def select_from(name):
         query = 'SELECT stock, amount FROM %s' % name
         print(query)
-        '''
+
+        dict = {}
+
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
+            for element in cursor:
+                # tuple unpacking
+                (key, value) = element
+                dict[key] = value
+            return dict
         except Exception as e:
             print(e)
-        '''
+
 
     @staticmethod
     def drop_table(name):
