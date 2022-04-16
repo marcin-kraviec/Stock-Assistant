@@ -244,7 +244,6 @@ class PortfolioForm(QMainWindow):
 
         # read the window layout from file
         loadUi("static/portfolio_form.ui", self)
-        self.database_connector = database_connector
 
         # move to home window after clicking a button
         self.back_button.clicked.connect(self.go_to_home)
@@ -271,8 +270,9 @@ class PortfolioForm(QMainWindow):
         self.comboBox_3.activated.connect(self.label_update)
         self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
 
-        #self.save_button.clicked.connect(PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText()))
-
+        self.save_button.clicked.connect(self.save_it)
+        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText()))
+        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.db_test(self.textEdit.toPlainText()))
 
     def label_update(self):
         value = round(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*self.spinBox_4.value(), 2)
@@ -292,6 +292,13 @@ class PortfolioForm(QMainWindow):
             self.my_table.setItem(row_position, 1, item2)
             self.my_table.setItem(row_position, 2, item3)
             self.spinBox_4.setValue(0)
+
+    def save_it(self):
+        PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText())
+        for row in range(self.my_table.rowCount()):
+            stock = '\''+self.my_table.item(row, 0).text()+'\''
+            amount = self.my_table.item(row, 1).text()
+            PortfolioForm.database_connector.insert_into_porfolio(self.textEdit.toPlainText(), stock, amount)
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -325,7 +332,7 @@ class PortfolioForm(QMainWindow):
 
         for row in range(self.my_table.rowCount()):
             stocks.append(self.my_table.item(row, 0).text())
-            values.append(float(self.my_table.item(row, 2).text()) * int(self.my_table.item(row, 1).text()))
+            values.append(float(self.my_table.item(row, 2).text()))
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.3)])
 
