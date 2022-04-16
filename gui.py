@@ -1,7 +1,5 @@
 # add new requirement to requirements.txt by executing: pipreqs --force [project_path]
-
 import sys
-
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
@@ -10,14 +8,11 @@ from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
-
 import csv
-
-# tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
-
 from numpy import double
 
+# tell the window that this is my own registered application, so I will decide the icon of it
 myappid = 'stock_asisstant.1.0'  # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
