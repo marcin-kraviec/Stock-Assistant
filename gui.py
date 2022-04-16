@@ -297,9 +297,14 @@ class PortfolioForm(QMainWindow):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
             PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
-        self.textEdit.clear()
+        # self.textEdit.clear()
         for element in analyse_portfolio_window.combobox:
-
+            if (element == self.textEdit.toPlainText()):
+                pass
+        else:
+            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            self.textEdit.clear()
+            self.clear()
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
