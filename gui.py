@@ -37,6 +37,7 @@ class Home(QMainWindow):
         self.analyse_currencies_button.clicked.connect(self.go_to_analyse_currencies)
         self.create_portfolio_button.clicked.connect(self.go_to_portfolio_form)
         self.analyse_portfolio_button.clicked.connect(self.go_to_analyse_portfolio)
+        self.edit_portfolio_button.clicked.connect(self.go_to_portfolio_edit)
 
     def go_to_analyse_stocks(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -50,9 +51,11 @@ class Home(QMainWindow):
     def go_to_portfolio_form(self):
         widget.setCurrentIndex(widget.currentIndex() + 4)
 
-    def go_to_analyse_portfolio(self):
+    def go_to_portfolio_edit(self):
         widget.setCurrentIndex(widget.currentIndex() + 5)
-        #AnalysePortfolio.fill_combo_box(analyse_portfolio_window)
+
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() + 6)
 
 
 class AnalyseStocks(QMainWindow):
@@ -242,7 +245,6 @@ class AnalyseCurrencies(AnalyseStocks):
 class PortfolioForm(QMainWindow):
 
     stocks = {}
-    database_connector = database.DatabaseConnector()
 
     def __init__(self):
         super().__init__()
@@ -276,8 +278,6 @@ class PortfolioForm(QMainWindow):
         self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
 
         self.save_button.clicked.connect(self.save_it)
-        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText()))
-        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.db_test(self.textEdit.toPlainText()))
 
     def label_update(self):
         value = round(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*self.spinBox_4.value(), 2)
@@ -291,27 +291,36 @@ class PortfolioForm(QMainWindow):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
             item2 = QTableWidgetItem(str(self.spinBox_4.value()))
             item3 = QTableWidgetItem(str(self.label_5.text()))
+            #item4 = QTableWidgetItem(str(date.today()))
             row_position = self.my_table.rowCount()
             self.my_table.insertRow(row_position)
             self.my_table.setItem(row_position, 0, item)
             self.my_table.setItem(row_position, 1, item2)
             self.my_table.setItem(row_position, 2, item3)
+            #self.my_table.setItem(row_position, 3, item4)
             self.spinBox_4.setValue(0)
 
     def save_it(self):
-        PortfolioForm.database_connector.create_table(self.textEdit.toPlainText())
+        database_connector.create_table(self.textEdit.toPlainText())
+
+        past_values = []
+
         for row in range(self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
-            PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, 'elements')
+            value = self.my_table.item(row, 2).text()
+            database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value, '\''+str(date.today())+'\'')
+            past_values.append(int(amount) * round(yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0], 2))
 
-        PortfolioForm.database_connector.insert_into('portfolio_names', '\''+self.textEdit.toPlainText()+'\'', date.today(), 'names')
 
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+
+                #TODO: Add alert window here
                 print('Portfolio exists')
         else:
             analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
             self.textEdit.clear()
             self.clear()
             self.show_pie_plot()
@@ -358,9 +367,133 @@ class PortfolioForm(QMainWindow):
         else:
             self.browser.setHtml(None)
 
-class AnalysePortfolio(QMainWindow):
+class PortfolioEdit(PortfolioForm):
 
-    portfolios = {}
+    current_portfolio = ''
+    portfolio_lenght = 0
+
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/portfolio_edit.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        self.fill_portfolio_combo_box()
+        self.load_button.clicked.connect(self.load_portfolio)
+        self.delete_portfolio_button.clicked.connect(self.delete_portfolio)
+
+        # add, delete, clear elements in portfolio form
+        self.add_button.clicked.connect(self.add_it)
+        self.delete_it_button.clicked.connect(self.delete_it)
+        self.clear_button.clicked.connect(self.clear)
+
+        # update plot
+        self.add_button.clicked.connect(self.show_pie_plot)
+        self.delete_it_button.clicked.connect(self.show_pie_plot)
+        self.clear_button.clicked.connect(self.show_pie_plot)
+
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+        self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
+
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        # update latest company price
+        self.spinBox_4.valueChanged.connect(self.label_update)
+        self.comboBox_3.activated.connect(self.label_update)
+        self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
+
+        self.save_button.clicked.connect(self.save_it)
+
+    def add_it(self):
+        # spinBox value must be postive and multiple choice of the same company is not allowed
+        #TODO: Additional check for date:
+        if (self.spinBox_4.value() > 0 and not (self.my_table.findItems(str(self.comboBox_3.currentText()) , Qt.MatchContains))):
+            item = QTableWidgetItem(str(self.comboBox_3.currentText()))
+            item2 = QTableWidgetItem(str(self.spinBox_4.value()))
+            item3 = QTableWidgetItem(str(self.label_5.text()))
+            item4 = QTableWidgetItem(str(date.today()))
+            row_position = self.my_table.rowCount()
+            self.my_table.insertRow(row_position)
+            self.my_table.setItem(row_position, 0, item)
+            self.my_table.setItem(row_position, 1, item2)
+            self.my_table.setItem(row_position, 2, item3)
+            self.my_table.setItem(row_position, 3, item4)
+            self.spinBox_4.setValue(0)
+
+    def save_it(self):
+
+        for row in range(PortfolioEdit.portfolio_lenght, self.my_table.rowCount()):
+            stock = '\''+self.my_table.item(row, 0).text()+'\''
+            amount = self.my_table.item(row, 1).text()
+            value = self.my_table.item(row, 2).text()
+            database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value, '\''+str(date.today()+'\''))
+
+        #TODO: Alert window
+        '''
+        for i in range(analyse_portfolio_window.combobox.count()):
+            if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+
+                #TODO: Add alert window here
+                print('Portfolio exists')
+        else:
+            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+            self.textEdit.clear()
+            self.clear()
+            self.show_pie_plot()
+        '''
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 5)
+
+    def fill_portfolio_combo_box(self):
+        names = database_connector.show_tables()
+        for name in names:
+            self.portfolio_combobox.addItem(name)
+
+    def load_portfolio(self):
+
+        data = database_connector.select_from(self.portfolio_combobox.currentText())
+
+        if PortfolioEdit.current_portfolio != self.portfolio_combobox.currentText():
+            self.clear()
+            for i in range(len(data)):
+                item = QTableWidgetItem(str(data[i][0]))
+                item2 = QTableWidgetItem(str(data[i][1]))
+                item3 = QTableWidgetItem(str(data[i][2]))
+                item4 = QTableWidgetItem(str(data[i][3]))
+                row_position = self.my_table.rowCount()
+                self.my_table.insertRow(row_position)
+                self.my_table.setItem(row_position, 0, item)
+                self.my_table.setItem(row_position, 1, item2)
+                self.my_table.setItem(row_position, 2, item3)
+                self.my_table.setItem(row_position, 3, item4)
+
+        PortfolioEdit.current_portfolio = self.portfolio_combobox.currentText()
+        PortfolioEdit.portfolio_lenght = self.my_table.rowCount()
+        self.show_pie_plot()
+
+    def delete_portfolio(self):
+        #TODO: Alert box with confirmation
+        portfolio_to_drop = self.portfolio_combobox.currentText()
+        index = self.portfolio_combobox.findText(portfolio_to_drop)
+        print('DROPING:' + portfolio_to_drop)
+        database_connector.drop_table(portfolio_to_drop)
+        self.portfolio_combobox.removeItem(index)
+        #Error when combobox is clear
+        #TODO: Specify an exception
+        try:
+            self.load_portfolio()
+        except:
+            self.clear()
+
+
+class AnalysePortfolio(QMainWindow):
 
     def __init__(self):
         super().__init__()
@@ -375,12 +508,18 @@ class AnalysePortfolio(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         self.fill_combo_box()
-        self.load_portfolio()
+
+        try:
+            self.load_portfolio()
+        except Exception as e:
+            print('Preventing from crashing as there is no portfolio in database')
+            print(e)
+
         self.load_button.clicked.connect(self.load_portfolio)
 
 
     def go_to_home(self):
-        widget.setCurrentIndex(widget.currentIndex() - 5)
+        widget.setCurrentIndex(widget.currentIndex() - 6)
 
     def load_portfolio(self):
         data = database_connector.select_from(self.combobox.currentText())
@@ -389,11 +528,10 @@ class AnalysePortfolio(QMainWindow):
         values = []
         past_values = []
 
-        for key in data.keys():
-            stocks.append(key)
-            values.append(data[key]*round(yf.Ticker(key).history(period='1d')['Close'][0], 2))
-            #TODO: instruction in line 401
-            past_values.append(data[key] * round(yf.download(key, start='2021-04-08', end='2021-04-08')['Close'][0], 2))
+        for i in range(len(data)):
+            stocks.append(data[i][0])
+            values.append(int(data[i][0])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+            past_values.append(float(data[i][1]))
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -403,8 +541,7 @@ class AnalysePortfolio(QMainWindow):
         # creating a color effect
         color_effect = QGraphicsColorizeEffect()
 
-
-        #TODO: Compering the current value with the value from the date of portfolio creation
+        #TODO: Compering the current value with the value from the date of portfolio last edit
         change = round(sum(values) - sum(past_values), 2)
         percentage_change = round((change/sum(past_values)) * 100, 2)
         if change >= 0:
@@ -421,12 +558,7 @@ class AnalysePortfolio(QMainWindow):
         self.change.setGraphicsEffect(color_effect)
 
         #TODO: Make the same thing with all components
-        '''
-        if self.my_table.rowCount() >= 1:
-            self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-        else:
-            self.browser.setHtml(None)
-        '''
+
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
@@ -447,6 +579,7 @@ if __name__ == "__main__":
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
     portfolio_form_window = PortfolioForm()
+    portfolio_edit_window = PortfolioEdit()
     analyse_portfolio_window = AnalysePortfolio()
 
 
@@ -471,6 +604,7 @@ if __name__ == "__main__":
     widget.addWidget(analyse_crypto_window)
     widget.addWidget(analyse_currencies_window)
     widget.addWidget(portfolio_form_window)
+    widget.addWidget(portfolio_edit_window)
     widget.addWidget(analyse_portfolio_window)
 
     # open in full screen

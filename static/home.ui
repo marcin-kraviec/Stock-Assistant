@@ -108,14 +108,27 @@
    <widget class="QLabel" name="introduction_label">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>190</y>
+      <x>120</x>
+      <y>180</y>
       <width>901</width>
       <height>221</height>
      </rect>
     </property>
     <property name="text">
      <string>Tutaj info o apce</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="edit_portfolio_button">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>430</y>
+      <width>801</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit Portfolio</string>
     </property>
    </widget>
   </widget>

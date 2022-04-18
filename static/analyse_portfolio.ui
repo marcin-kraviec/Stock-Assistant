@@ -51,7 +51,7 @@
    <widget class="QPushButton" name="back_button">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>10</y>
       <width>61</width>
       <height>21</height>
@@ -67,24 +67,24 @@
       <x>940</x>
       <y>80</y>
       <width>381</width>
-      <height>81</height>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>-</string>
     </property>
    </widget>
    <widget class="QLabel" name="change">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>180</y>
+      <x>940</x>
+      <y>140</y>
       <width>381</width>
-      <height>81</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>-</string>
     </property>
    </widget>
   </widget>

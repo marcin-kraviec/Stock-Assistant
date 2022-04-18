@@ -155,4 +155,4 @@ The Efficient Frontier chart shows the return we can get for the given volatilit
 
 plt.show()
 
-print(date.today())
+print(type(str(date.today())))
