@@ -2,9 +2,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&family=Roboto:wght@500&display=swap');
 
 QPushButton {
-    background-color: #c7c7c7;
+    background-color: #a8a8a8;
+    /*border-radius: 15px;*/
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 QLabel {
     font-size: 20px
+}
+
+QMainWindow {
+    background-color: white;
 }

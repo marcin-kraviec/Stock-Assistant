@@ -6,14 +6,17 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton, \
     QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
 from datetime import date
 import database
+import data_analysis
 
 import csv
+from chart_windows import AnalyseStocks, AnalyseCrypto, AnalyseCurrencies
 
 # tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
@@ -57,48 +60,10 @@ class Home(QMainWindow):
     def go_to_analyse_portfolio(self):
         widget.setCurrentIndex(widget.currentIndex() + 6)
 
-
-class AnalyseStocks(QMainWindow):
-    # Dict stores data from static csv file
-    stocks = {}
+class ChartWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
-        # read the window layout from file
-        loadUi("static/analyse_stocks.ui", self)
-
-        # move to home window after clicking a button
-        self.back_button.clicked.connect(self.go_to_home)
-
-        # setup a webengine for plots
-        self.browser = QtWebEngineWidgets.QWebEngineView(self)
-        self.vlayout.addWidget(self.browser)
-
-        # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
-        self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
-
-        # default state
-        self.stock_info_label.setText(AnalyseStocks.stocks[self.stocks_combobox.currentText()])
-        self.show_line_plot()
-
-        # Example of custom font
-        font = QtGui.QFont("Roboto")
-        self.stock_info_label.setFont(font)
-
-        # switching between plot types with radio buttons
-        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
-        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-
-        # make elements of layout dependent from combobox value
-        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(
-            lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
-
-    def go_to_home(self):
-        widget.setCurrentIndex(widget.currentIndex() - 1)
 
     def show_candlestick_plot(self):
         # getting a current stock from combobox
@@ -163,9 +128,52 @@ class AnalyseStocks(QMainWindow):
             for row in reader:
                 dict[row[0]] = row[1]
 
+# Inheritance form ChartWindow
+class AnalyseStocks(ChartWindow):
+    # Dict stores data from static csv file
+    stocks = {}
 
-# Inheritance form AnalyseStocks
-class AnalyseCrypto(AnalyseStocks):
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/analyse_stocks.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        # setup a webengine for plots
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
+        self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
+
+        # default state
+        self.stock_info_label.setText(AnalyseStocks.stocks[self.stocks_combobox.currentText()])
+        self.show_line_plot()
+
+        # Example of custom font
+        font = QtGui.QFont("Roboto")
+        self.stock_info_label.setFont(font)
+
+        # switching between plot types with radio buttons
+        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+        # make elements of layout dependent from combobox value
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(
+            lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 1)
+
+
+# Inheritance form ChartWindow
+class AnalyseCrypto(ChartWindow):
     # Dict stores data from static csv file
     cryptos = {}
 
@@ -204,8 +212,8 @@ class AnalyseCrypto(AnalyseStocks):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
 
-# Inheritance form AnalyseStocks
-class AnalyseCurrencies(AnalyseStocks):
+# Inheritance form ChartWindow
+class AnalyseCurrencies(ChartWindow):
     # Dict stores data from static csv file
     currencies = {}
 
@@ -213,7 +221,6 @@ class AnalyseCurrencies(AnalyseStocks):
         super().__init__()
         # read the window layout from file
         loadUi("static/analyse_stocks.ui", self)
-
         # move to home window after clicking a button
         self.back_button.clicked.connect(self.go_to_home)
 
@@ -431,7 +438,9 @@ class PortfolioEdit(PortfolioForm):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
             value = self.my_table.item(row, 2).text()
-            database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value, '\''+str(date.today()+'\''))
+            database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value, '\''+str(date.today())+'\'')
+        self.clear()
+
 
         #TODO: Alert window
         '''
@@ -495,6 +504,8 @@ class PortfolioEdit(PortfolioForm):
 
 class AnalysePortfolio(QMainWindow):
 
+    current_portfolio = ''
+
     def __init__(self):
         super().__init__()
 
@@ -530,13 +541,13 @@ class AnalysePortfolio(QMainWindow):
 
         for i in range(len(data)):
             stocks.append(data[i][0])
-            values.append(int(data[i][0])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
-            past_values.append(float(data[i][1]))
+            values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+            past_values.append(float(data[i][2]))
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
-        self.value.setText(str(sum(values)) + ' $')
+        self.value.setText(str(round(sum(values),2)) + ' $')
 
         # creating a color effect
         color_effect = QGraphicsColorizeEffect()
@@ -559,6 +570,51 @@ class AnalysePortfolio(QMainWindow):
 
         #TODO: Make the same thing with all components
 
+        self.clear()
+
+        for i in range(len(data)):
+            item = QTableWidgetItem(str(data[i][0]))
+            item2 = QTableWidgetItem(str(round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
+            item3 = QTableWidgetItem(str(data[i][3]))
+            component_change = round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
+            font = QFont()
+            font.setBold(True)
+            if component_change >= 0:
+                component_change = '+'+str(component_change)+' $'
+                color = Qt.darkGreen
+            else:
+                component_change = str(component_change) + ' $'
+                color = Qt.red
+            item4 = QTableWidgetItem(component_change)
+            #item4.setBackground(color)
+            item4.setForeground(color)
+            item4.setFont(font)
+            component_percentage_change = round(((int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2])/data[i][2])*100, 2)
+            if component_percentage_change > 0.0:
+                component_percentage_change = '+'+str(component_percentage_change)+' %'
+            elif component_percentage_change == 0.0:
+                component_percentage_change = str(component_percentage_change) + ' %'
+                color = Qt.grey
+            else:
+                component_percentage_change = str(component_percentage_change) + ' %'
+            item5 = QTableWidgetItem(component_percentage_change)
+            #item5.setBackground(color)
+            item5.setForeground(color)
+            item5.setFont(font)
+            row_position = self.my_table.rowCount()
+            self.my_table.insertRow(row_position)
+            self.my_table.setItem(row_position, 0, item)
+            self.my_table.setItem(row_position, 1, item2)
+            self.my_table.setItem(row_position, 2, item3)
+            self.my_table.setItem(row_position, 3, item4)
+            self.my_table.setItem(row_position, 4, item5)
+
+        sharpe_ratio = data_analysis.sharpe_ratio(stocks, values)
+        self.sharpe.setText(str(sharpe_ratio))
+
+        correlation = data_analysis.correlation(stocks)
+        print(correlation)
+
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
@@ -566,13 +622,18 @@ class AnalysePortfolio(QMainWindow):
                 continue
             self.combobox.addItem(name)
 
+    def clear(self):
+        for i in reversed(range(self.my_table.rowCount())):
+            self.my_table.removeRow(i)
+
+
 # run GUI
 if __name__ == "__main__":
     # setup the app
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
     database_connector = database.DatabaseConnector()
-
+    data_analysis = data_analysis.DataAnalysis()
     # initialise all the windows
     home_window = Home()
     analyse_stocks_window = AnalyseStocks()
