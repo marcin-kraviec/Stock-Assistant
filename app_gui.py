@@ -353,11 +353,9 @@ class PortfolioForm(QMainWindow):
             database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value, '\''+str(date.today())+'\'')
             past_values.append(int(amount) * round(yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0], 2))
 
-
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
-                #TODO: Add alert window here
-                self.information_window("Portfolio with this name already exists!", "Alert window")
+                self.alert_window("Portfolio with this name already exists!", "Alert window")
                 print('Portfolio exists')
                 break
         else:
@@ -409,9 +407,10 @@ class PortfolioForm(QMainWindow):
         else:
             self.browser.setHtml(None)
 
-    def information_window(self, text, window_title):
+    def alert_window(self, text, window_title):
         m = QMessageBox(self)
         # m.setIcon(QMessageBox.Information)
+        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
         m.setText(text)
         m.setWindowTitle(window_title)
         m.setStandardButtons(QMessageBox.Ok)
@@ -487,29 +486,15 @@ class PortfolioEdit(PortfolioForm):
             self.my_table.setItem(row_position, 3, item4)
             self.spinBox_4.setValue(0)
 
+    #TODO: repair saving
     def save_it(self):
-
         for row in range(PortfolioEdit.portfolio_length, self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
             value = self.my_table.item(row, 2).text()
             database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value, '\''+str(date.today())+'\'')
         self.clear()
-
-
-        #TODO: Alert window
-        '''
-        for i in range(analyse_portfolio_window.combobox.count()):
-            if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
-                #TODO: Add alert window here
-                print('Portfolio exists')
-        else:
-            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
-            portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
-            self.textEdit.clear()
-            self.clear()
-            self.show_pie_plot()
-        '''
+        self.alert_window("Portfolio saved succesfully!", "Alert window")
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 5)
@@ -545,9 +530,11 @@ class PortfolioEdit(PortfolioForm):
         #TODO: Alert box with confirmation
         portfolio_to_drop = self.portfolio_combobox.currentText()
         index = self.portfolio_combobox.findText(portfolio_to_drop)
+        index2 = analyse_portfolio_window.combobox.findText(portfolio_to_drop)
         print('DROPING:' + portfolio_to_drop)
         database_connector.drop_table(portfolio_to_drop)
         self.portfolio_combobox.removeItem(index)
+        analyse_portfolio_window.combobox.removeItem(index2)
         #Error when combobox is clear
         #TODO: Specify an exception
         try:
