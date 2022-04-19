@@ -21,7 +21,7 @@ After understanding how the returns are distributed, we can calculate the return
 For that, we need to calculate the cumulative returns, which can be done using the cumprod() function:
 '''
 returns = (x + 1).cumprod()
-#returns.plot() # The plot shows how a $1 investment would grow.
+returns.plot() # The plot shows how a $1 investment would grow.
 
 data = yf.download('AAPL MSFT TSLA', start='2021-01-01')
 x = data['Close'].pct_change()
@@ -135,7 +135,7 @@ print('Max sharpe ratio: ')
 print(p_sharpe[max_ind])
 print(p_weights[max_ind])
 
-s = pd.Series(p_weights[max_ind], index=x.columns)
+#s = pd.Series(p_weights[max_ind], index=x.columns)
 #s.plot(kind='bar') # this plots weights
 
 '''
@@ -146,10 +146,10 @@ The chart is called Efficient Frontier and shows the returns on the Y-axis and v
 We can create the chart using the scatter() function, providing the volatility and return lists as parameters:
 '''
 
-plt.scatter(p_risk, p_returns, c=p_sharpe, cmap='plasma')
-plt.colorbar(label='Sharpe Ratio')
+#plt.scatter(p_risk, p_returns, c=p_sharpe, cmap='plasma')
+#plt.colorbar(label='Sharpe Ratio')
 
-plt.scatter(p_risk[max_ind], p_returns[max_ind],color='r', marker='*', s=500)
+#plt.scatter(p_risk[max_ind], p_returns[max_ind],color='r', marker='*', s=500)
 
 '''
 The Efficient Frontier chart shows the return we can get for the given volatility, or, the volatility that we get for a certain return.

@@ -16,7 +16,7 @@ import database
 import data_analysis
 
 import csv
-from chart_windows import AnalyseStocks, AnalyseCrypto, AnalyseCurrencies
+
 
 # tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
@@ -560,7 +560,7 @@ class AnalysePortfolio(QMainWindow):
             # setting color to color effect
             color_effect.setColor(Qt.darkGreen)
         elif change == 0.0:
-            profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
+            profit = str(abs(change)) + ' $' + '       ' + str(percentage_change) + ' %'
             color_effect.setColor(Qt.gray)
         else:
             profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
@@ -586,7 +586,7 @@ class AnalysePortfolio(QMainWindow):
                 component_change = '+'+str(component_change)+' $'
                 color = Qt.darkGreen
             elif component_change == 0.0:
-                component_change = str(component_change) + ' $'
+                component_change = str(abs(component_change)) + ' $'
                 color = Qt.gray
             else:
                 component_change = str(component_change) + ' $'
@@ -599,7 +599,7 @@ class AnalysePortfolio(QMainWindow):
             if component_percentage_change > 0.0:
                 component_percentage_change = '+'+str(component_percentage_change)+' %'
             elif component_percentage_change == 0.0:
-                component_percentage_change = str(component_percentage_change) + ' %'
+                component_percentage_change = str(abs(component_percentage_change)) + ' %'
                 color = Qt.gray
             else:
                 component_percentage_change = str(component_percentage_change) + ' %'
