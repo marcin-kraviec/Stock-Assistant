@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
+import plotly.figure_factory as ff
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton, \
@@ -537,7 +538,7 @@ class PortfolioEdit(PortfolioForm):
                 self.my_table.setItem(row_position, 3, item4)
 
         PortfolioEdit.current_portfolio = self.portfolio_combobox.currentText()
-        PortfolioEdit.portfolio_lenght = self.my_table.rowCount()
+        PortfolioEdit.portfolio_length = self.my_table.rowCount()
         self.show_pie_plot()
 
     def delete_portfolio(self):
@@ -603,9 +604,11 @@ class AnalysePortfolio(QMainWindow):
 
     def go_to_portfolio_charts(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
+        portfolio_charts_window.show_plot()
 
     def go_to_correlation_charts(self):
         widget.setCurrentIndex(widget.currentIndex() + 2)
+        portfolio_charts_window.show_plot()
 
     def load_portfolio(self):
         data = database_connector.select_from(self.combobox.currentText())
@@ -742,7 +745,7 @@ class PortfolioChart(QMainWindow):
 
     def show_plot(self):
         # getting a current stock from combobox
-        (data, dates)= data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
+        (data, dates) = data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
 
         # initialise line plot
         fig = go.Figure()
@@ -782,12 +785,8 @@ class CorrelationWindow(QMainWindow):
                     'y': df.index.tolist()}
 
         fig = go.Figure(data=go.Heatmap(df_to_plotly(corr)))
+        #fig = go.Figure(data=ff.create_annotated_heatmap(corr))
         # initialise line plot
-        '''
-        fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
-        fig.layout.update(title_text='Returns', xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
-        '''
 
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
