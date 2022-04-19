@@ -700,11 +700,13 @@ class AnalysePortfolio(QMainWindow):
         corr_data = data_analysis.correlation(stocks)
         (corr, extremes) = corr_data
         keys = list(extremes)
-        (a,b) = keys[0]
-        (c,d) = keys[1]
-
-
-        self.corr.setText('Highest correletion between ' + a + ' and ' + b +': '+ str(round(extremes[keys[0]], 2)) + '\n' + 'Lowest correletion between ' + c + ' and ' + d +': '+str(round(extremes[keys[1]], 2)))
+        if len(keys) == 1:
+            (a, b) = keys[0]
+            self.corr.setText('Correletion between ' + a + ' and ' + b + ': ' + str(round(extremes[keys[0]], 2)))
+        else:
+            (a, b) = keys[0]
+            (c, d) = keys[1]
+            self.corr.setText('Highest correletion between ' + a + ' and ' + b +': '+ str(round(extremes[keys[0]], 2)) + '\n' + 'Lowest correletion between ' + c + ' and ' + d +': '+str(round(extremes[keys[1]], 2)))
 
     # fill combobox with stock names
     def fill_combo_box(self):
