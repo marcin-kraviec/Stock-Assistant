@@ -4,11 +4,22 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
-from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton, \
+    QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import Qt
 import database
 import csv
+from datetime import date
+import database
+import data_analysis
+
+import csv
+from chart_windows import AnalyseStocks, AnalyseCrypto, AnalyseCurrencies
+
+# tell the window that this is my own registered application, so I will decide the icon of it
+
 import ctypes
 from numpy import double
 
@@ -30,6 +41,7 @@ class Home(QMainWindow):
         self.analyse_currencies_button.clicked.connect(self.go_to_analyse_currencies)
         self.create_portfolio_button.clicked.connect(self.go_to_portfolio_form)
         self.analyse_portfolio_button.clicked.connect(self.go_to_analyse_portfolio)
+        self.edit_portfolio_button.clicked.connect(self.go_to_portfolio_edit)
 
     def go_to_analyse_stocks(self):
         widget.setCurrentIndex(widget.currentIndex() + 1)
@@ -43,52 +55,16 @@ class Home(QMainWindow):
     def go_to_portfolio_form(self):
         widget.setCurrentIndex(widget.currentIndex() + 4)
 
-    def go_to_analyse_portfolio(self):
+    def go_to_portfolio_edit(self):
         widget.setCurrentIndex(widget.currentIndex() + 5)
-        #AnalysePortfolio.fill_combo_box(analyse_portfolio_window)
 
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() + 6)
 
-class AnalyseStocks(QMainWindow):
-    # Dict stores data from static csv file
-    stocks = {}
+class ChartWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
-        # read the window layout from file
-        loadUi("static/analyse_stocks.ui", self)
-
-        # move to home window after clicking a button
-        self.back_button.clicked.connect(self.go_to_home)
-
-        # setup a webengine for plots
-        self.browser = QtWebEngineWidgets.QWebEngineView(self)
-        self.vlayout.addWidget(self.browser)
-
-        # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
-        self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
-
-        # default state
-        self.stock_info_label.setText(AnalyseStocks.stocks[self.stocks_combobox.currentText()])
-        self.show_line_plot()
-
-        # Example of custom font
-        font = QtGui.QFont("Roboto")
-        self.stock_info_label.setFont(font)
-
-        # switching between plot types with radio buttons
-        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
-        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-
-        # make elements of layout dependent from combobox value
-        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
-        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-        self.stocks_combobox.activated[str].connect(
-            lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
-
-    def go_to_home(self):
-        widget.setCurrentIndex(widget.currentIndex() - 1)
 
     def show_candlestick_plot(self):
         # getting a current stock from combobox
@@ -153,9 +129,52 @@ class AnalyseStocks(QMainWindow):
             for row in reader:
                 dict[row[0]] = row[1]
 
+# Inheritance form ChartWindow
+class AnalyseStocks(ChartWindow):
+    # Dict stores data from static csv file
+    stocks = {}
 
-# Inheritance form AnalyseStocks
-class AnalyseCrypto(AnalyseStocks):
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/analyse_stocks.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        # setup a webengine for plots
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
+        self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
+
+        # default state
+        self.stock_info_label.setText(AnalyseStocks.stocks[self.stocks_combobox.currentText()])
+        self.show_line_plot()
+
+        # Example of custom font
+        font = QtGui.QFont("Roboto")
+        self.stock_info_label.setFont(font)
+
+        # switching between plot types with radio buttons
+        self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+
+        # make elements of layout dependent from combobox value
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(
+            lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 1)
+
+
+# Inheritance form ChartWindow
+class AnalyseCrypto(ChartWindow):
     # Dict stores data from static csv file
     cryptos = {}
 
@@ -194,8 +213,8 @@ class AnalyseCrypto(AnalyseStocks):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
 
-# Inheritance form AnalyseStocks
-class AnalyseCurrencies(AnalyseStocks):
+# Inheritance form ChartWindow
+class AnalyseCurrencies(ChartWindow):
     # Dict stores data from static csv file
     currencies = {}
 
@@ -203,7 +222,6 @@ class AnalyseCurrencies(AnalyseStocks):
         super().__init__()
         # read the window layout from file
         loadUi("static/analyse_stocks.ui", self)
-
         # move to home window after clicking a button
         self.back_button.clicked.connect(self.go_to_home)
 
@@ -235,7 +253,6 @@ class AnalyseCurrencies(AnalyseStocks):
 class PortfolioForm(QMainWindow):
 
     stocks = {}
-    database_connector = database.DatabaseConnector()
 
     def __init__(self):
         super().__init__()
@@ -269,8 +286,6 @@ class PortfolioForm(QMainWindow):
         self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
 
         self.save_button.clicked.connect(self.save_it)
-        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.create_portfolio(self.textEdit.toPlainText()))
-        #self.save_button.clicked.connect(lambda: PortfolioForm.database_connector.db_test(self.textEdit.toPlainText()))
 
     def label_update(self):
         value = round(double(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0])*self.spinBox_4.value(), 2)
@@ -284,25 +299,41 @@ class PortfolioForm(QMainWindow):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
             item2 = QTableWidgetItem(str(self.spinBox_4.value()))
             item3 = QTableWidgetItem(str(self.label_5.text()))
+            #item4 = QTableWidgetItem(str(date.today()))
             row_position = self.my_table.rowCount()
             self.my_table.insertRow(row_position)
             self.my_table.setItem(row_position, 0, item)
             self.my_table.setItem(row_position, 1, item2)
             self.my_table.setItem(row_position, 2, item3)
+            #self.my_table.setItem(row_position, 3, item4)
             self.spinBox_4.setValue(0)
 
     def save_it(self):
-        PortfolioForm.database_connector.create_table(self.textEdit.toPlainText())
+        database_connector.create_table(self.textEdit.toPlainText())
+
+        past_values = []
+
         for row in range(self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
+
             PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
         # self.textEdit.clear()
+
+            value = self.my_table.item(row, 2).text()
+            database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value, '\''+str(date.today())+'\'')
+            past_values.append(int(amount) * round(yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0], 2))
+
+
+
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+
+                #TODO: Add alert window here
                 print('Portfolio exists')
         else:
             analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
             self.textEdit.clear()
             self.clear()
             self.show_pie_plot()
@@ -349,9 +380,137 @@ class PortfolioForm(QMainWindow):
         else:
             self.browser.setHtml(None)
 
+class PortfolioEdit(PortfolioForm):
+
+    current_portfolio = ''
+    portfolio_lenght = 0
+
+    def __init__(self):
+        super().__init__()
+
+        # read the window layout from file
+        loadUi("static/portfolio_edit.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_home)
+
+        self.fill_portfolio_combo_box()
+        self.load_button.clicked.connect(self.load_portfolio)
+        self.delete_portfolio_button.clicked.connect(self.delete_portfolio)
+
+        # add, delete, clear elements in portfolio form
+        self.add_button.clicked.connect(self.add_it)
+        self.delete_it_button.clicked.connect(self.delete_it)
+        self.clear_button.clicked.connect(self.clear)
+
+        # update plot
+        self.add_button.clicked.connect(self.show_pie_plot)
+        self.delete_it_button.clicked.connect(self.show_pie_plot)
+        self.clear_button.clicked.connect(self.show_pie_plot)
+
+        # fill combobox with data from static csv file
+        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+        self.fill_combo_box(PortfolioForm.stocks, self.comboBox_3)
+
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        # update latest company price
+        self.spinBox_4.valueChanged.connect(self.label_update)
+        self.comboBox_3.activated.connect(self.label_update)
+        self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
+
+        self.save_button.clicked.connect(self.save_it)
+
+    def add_it(self):
+        # spinBox value must be postive and multiple choice of the same company is not allowed
+        #TODO: Additional check for date:
+        if (self.spinBox_4.value() > 0 and not (self.my_table.findItems(str(self.comboBox_3.currentText()) , Qt.MatchContains))):
+            item = QTableWidgetItem(str(self.comboBox_3.currentText()))
+            item2 = QTableWidgetItem(str(self.spinBox_4.value()))
+            item3 = QTableWidgetItem(str(self.label_5.text()))
+            item4 = QTableWidgetItem(str(date.today()))
+            row_position = self.my_table.rowCount()
+            self.my_table.insertRow(row_position)
+            self.my_table.setItem(row_position, 0, item)
+            self.my_table.setItem(row_position, 1, item2)
+            self.my_table.setItem(row_position, 2, item3)
+            self.my_table.setItem(row_position, 3, item4)
+            self.spinBox_4.setValue(0)
+
+    def save_it(self):
+
+        for row in range(PortfolioEdit.portfolio_lenght, self.my_table.rowCount()):
+            stock = '\''+self.my_table.item(row, 0).text()+'\''
+            amount = self.my_table.item(row, 1).text()
+            value = self.my_table.item(row, 2).text()
+            database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value, '\''+str(date.today())+'\'')
+        self.clear()
+
+
+        #TODO: Alert window
+        '''
+        for i in range(analyse_portfolio_window.combobox.count()):
+            if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+
+                #TODO: Add alert window here
+                print('Portfolio exists')
+        else:
+            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+            self.textEdit.clear()
+            self.clear()
+            self.show_pie_plot()
+        '''
+
+    def go_to_home(self):
+        widget.setCurrentIndex(widget.currentIndex() - 5)
+
+    def fill_portfolio_combo_box(self):
+        names = database_connector.show_tables()
+        for name in names:
+            self.portfolio_combobox.addItem(name)
+
+    def load_portfolio(self):
+
+        data = database_connector.select_from(self.portfolio_combobox.currentText())
+
+        if PortfolioEdit.current_portfolio != self.portfolio_combobox.currentText():
+            self.clear()
+            for i in range(len(data)):
+                item = QTableWidgetItem(str(data[i][0]))
+                item2 = QTableWidgetItem(str(data[i][1]))
+                item3 = QTableWidgetItem(str(data[i][2]))
+                item4 = QTableWidgetItem(str(data[i][3]))
+                row_position = self.my_table.rowCount()
+                self.my_table.insertRow(row_position)
+                self.my_table.setItem(row_position, 0, item)
+                self.my_table.setItem(row_position, 1, item2)
+                self.my_table.setItem(row_position, 2, item3)
+                self.my_table.setItem(row_position, 3, item4)
+
+        PortfolioEdit.current_portfolio = self.portfolio_combobox.currentText()
+        PortfolioEdit.portfolio_lenght = self.my_table.rowCount()
+        self.show_pie_plot()
+
+    def delete_portfolio(self):
+        #TODO: Alert box with confirmation
+        portfolio_to_drop = self.portfolio_combobox.currentText()
+        index = self.portfolio_combobox.findText(portfolio_to_drop)
+        print('DROPING:' + portfolio_to_drop)
+        database_connector.drop_table(portfolio_to_drop)
+        self.portfolio_combobox.removeItem(index)
+        #Error when combobox is clear
+        #TODO: Specify an exception
+        try:
+            self.load_portfolio()
+        except:
+            self.clear()
+
+
 class AnalysePortfolio(QMainWindow):
 
-    portfolios = {}
+    current_portfolio = ''
 
     def __init__(self):
         super().__init__()
@@ -366,35 +525,112 @@ class AnalysePortfolio(QMainWindow):
         self.vlayout.addWidget(self.browser)
 
         self.fill_combo_box()
+
+        try:
+            self.load_portfolio()
+        except Exception as e:
+            print('Preventing from crashing as there is no portfolio in database')
+            print(e)
+
         self.load_button.clicked.connect(self.load_portfolio)
 
+
     def go_to_home(self):
-        widget.setCurrentIndex(widget.currentIndex() - 5)
+        widget.setCurrentIndex(widget.currentIndex() - 6)
 
     def load_portfolio(self):
         data = database_connector.select_from(self.combobox.currentText())
 
         stocks = []
         values = []
+        past_values = []
 
-        for key in data.keys():
-            stocks.append(key)
-            values.append(data[key]*round(yf.Ticker(key).history(period='1d')['Close'][0], 2))
+        for i in range(len(data)):
+            stocks.append(data[i][0])
+            values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+            past_values.append(float(data[i][2]))
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
-        '''
-        if self.my_table.rowCount() >= 1:
-            self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+        self.value.setText(str(round(sum(values),2)) + ' $')
+
+        # creating a color effect
+        color_effect = QGraphicsColorizeEffect()
+
+        #TODO: Compering the current value with the value from the date of portfolio last edit
+        change = round(sum(values) - sum(past_values), 2)
+        percentage_change = round((change/sum(past_values)) * 100, 2)
+        if change >= 0:
+            profit = '+' + str(change) + ' $' + '       +' + str(percentage_change) + ' %'
+            # setting color to color effect
+            color_effect.setColor(Qt.darkGreen)
         else:
-            self.browser.setHtml(None)
-        '''
+            profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
+            # setting color to color effect
+            color_effect.setColor(Qt.red)
+
+        self.change.setText(profit)
+        # adding color effect to the label
+        self.change.setGraphicsEffect(color_effect)
+
+        #TODO: Make the same thing with all components
+
+        self.clear()
+
+        for i in range(len(data)):
+            item = QTableWidgetItem(str(data[i][0]))
+            item2 = QTableWidgetItem(str(round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
+            item3 = QTableWidgetItem(str(data[i][3]))
+            component_change = round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
+            font = QFont()
+            font.setBold(True)
+            if component_change >= 0:
+                component_change = '+'+str(component_change)+' $'
+                color = Qt.darkGreen
+            else:
+                component_change = str(component_change) + ' $'
+                color = Qt.red
+            item4 = QTableWidgetItem(component_change)
+            #item4.setBackground(color)
+            item4.setForeground(color)
+            item4.setFont(font)
+            component_percentage_change = round(((int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2])/data[i][2])*100, 2)
+            if component_percentage_change > 0.0:
+                component_percentage_change = '+'+str(component_percentage_change)+' %'
+            elif component_percentage_change == 0.0:
+                component_percentage_change = str(component_percentage_change) + ' %'
+                color = Qt.grey
+            else:
+                component_percentage_change = str(component_percentage_change) + ' %'
+            item5 = QTableWidgetItem(component_percentage_change)
+            #item5.setBackground(color)
+            item5.setForeground(color)
+            item5.setFont(font)
+            row_position = self.my_table.rowCount()
+            self.my_table.insertRow(row_position)
+            self.my_table.setItem(row_position, 0, item)
+            self.my_table.setItem(row_position, 1, item2)
+            self.my_table.setItem(row_position, 2, item3)
+            self.my_table.setItem(row_position, 3, item4)
+            self.my_table.setItem(row_position, 4, item5)
+
+        sharpe_ratio = data_analysis.sharpe_ratio(stocks, values)
+        self.sharpe.setText(str(sharpe_ratio))
+
+        correlation = data_analysis.correlation(stocks)
+        print(correlation)
+
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
+            if name == 'portfolio_names':
+                continue
             self.combobox.addItem(name)
 
-
+    def clear(self):
+        for i in reversed(range(self.my_table.rowCount())):
+            self.my_table.removeRow(i)
 
 
 # run GUI
@@ -403,13 +639,14 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     widget = QtWidgets.QStackedWidget()
     database_connector = database.DatabaseConnector()
-
+    data_analysis = data_analysis.DataAnalysis()
     # initialise all the windows
     home_window = Home()
     analyse_stocks_window = AnalyseStocks()
     analyse_crypto_window = AnalyseCrypto()
     analyse_currencies_window = AnalyseCurrencies()
     portfolio_form_window = PortfolioForm()
+    portfolio_edit_window = PortfolioEdit()
     analyse_portfolio_window = AnalysePortfolio()
 
 
@@ -434,6 +671,7 @@ if __name__ == "__main__":
     widget.addWidget(analyse_crypto_window)
     widget.addWidget(analyse_currencies_window)
     widget.addWidget(portfolio_form_window)
+    widget.addWidget(portfolio_edit_window)
     widget.addWidget(analyse_portfolio_window)
 
     # open in full screen

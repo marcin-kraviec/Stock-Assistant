@@ -7,8 +7,8 @@ class DatabaseConnector():
 
     @staticmethod
     def create_table(name):
-        # PROBLEM HERE amount should be stored as varchar
-        query = 'CREATE TABLE IF NOT EXISTS %s (id INT AUTO_INCREMENT PRIMARY KEY, stock VARCHAR(250) NOT NULL, amount INT NOT NULL)' % name
+
+        query = 'CREATE TABLE IF NOT EXISTS %s (id INT AUTO_INCREMENT PRIMARY KEY, stock VARCHAR(250) NOT NULL, amount INT NOT NULL, value FLOAT NOT NULL, date VARCHAR(250) NOT NULL )' % name
         print(query)
 
         #TODO: exception needs to be specified
@@ -21,8 +21,9 @@ class DatabaseConnector():
 
 
     @staticmethod
-    def insert_into(name, stock, amount):
-        query = 'INSERT INTO %s (stock, amount) VALUES (%s, %s)' % (name, stock, amount)
+    def insert_into(name, stock, amount, value, date):
+
+        query = 'INSERT INTO %s (stock, amount, value, date) VALUES (%s, %s, %s, %s)' % (name, stock, amount, value, date)
         print(query)
 
         try:
@@ -35,35 +36,37 @@ class DatabaseConnector():
 
     @staticmethod
     def select_from(name):
-        query = 'SELECT stock, amount FROM %s' % name
+        query = 'SELECT stock, amount, value, date FROM %s' % name
         print(query)
 
-        dict = {}
+        data = []
 
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
             for element in cursor:
                 # tuple unpacking
-                (key, value) = element
-                dict[key] = value
-            return dict
+                (stock, amount, value, date) = element
+                line = [stock, amount, value, date]
+                data.append(line)
+            return data
         except Exception as e:
             print(e)
+
 
 
     @staticmethod
     def drop_table(name):
         query = 'DROP TABLE %s' % name
         print(query)
-        '''
+
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
             DatabaseConnector.database.commit()
         except Exception as e:
             print(e)
-        '''
+
 
     @staticmethod
     def show_tables():
