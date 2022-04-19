@@ -185,7 +185,7 @@ class AnalyseStocks(ChartWindow):
         self.show_line_plot()
 
         # Example of custom font
-        font = QtGui.QFont("Roboto")
+        font = QtGui.QFont("Sora")
         self.stock_info_label.setFont(font)
 
         # switching between plot types with radio buttons
@@ -856,7 +856,7 @@ if __name__ == "__main__":
     with open('static/style.css', 'r') as file:
         stylesheet = file.read()
     app.setStyleSheet(stylesheet)
-    QtGui.QFontDatabase.addApplicationFont("static/Roboto-Regular.ttf")
+    QtGui.QFontDatabase.addApplicationFont("static/Sora/Sora-Regular.ttf")
 
     # customise the app with icon and title
     app_icon = QSystemTrayIcon(QtGui.QIcon('static/icon.png'), parent=app)

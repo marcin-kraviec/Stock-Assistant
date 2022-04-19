@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>2068</width>
-    <height>963</height>
+    <height>985</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,27 +20,17 @@
    <widget class="QPushButton" name="add_button">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>140</y>
-      <width>75</width>
-      <height>23</height>
+      <x>700</x>
+      <y>120</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Add</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="title">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>50</y>
-      <width>231</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Edit your Portfolio!</string>
     </property>
    </widget>
    <widget class="QPushButton" name="back_button">
@@ -59,11 +49,14 @@
    <widget class="QSpinBox" name="spinBox_4">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>140</y>
+      <x>400</x>
+      <y>120</y>
       <width>91</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="maximum">
      <number>9999</number>
@@ -72,10 +65,10 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>130</y>
-      <width>191</width>
-      <height>41</height>
+      <x>510</x>
+      <y>120</y>
+      <width>171</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -91,11 +84,14 @@
    <widget class="QComboBox" name="comboBox_3">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>140</y>
-      <width>261</width>
+      <x>140</x>
+      <y>120</y>
+      <width>241</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -114,9 +110,12 @@
      <rect>
       <x>720</x>
       <y>840</y>
-      <width>93</width>
-      <height>28</height>
+      <width>91</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Delete it</string>
@@ -127,9 +126,12 @@
      <rect>
       <x>620</x>
       <y>840</y>
-      <width>93</width>
-      <height>28</height>
+      <width>91</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Clear</string>
@@ -141,10 +143,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>120</x>
       <y>190</y>
-      <width>741</width>
-      <height>641</height>
+      <width>691</width>
+      <height>631</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -210,11 +212,14 @@
    <widget class="QPushButton" name="save_button">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>890</y>
-      <width>93</width>
-      <height>28</height>
+      <x>620</x>
+      <y>880</y>
+      <width>191</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Save</string>
@@ -223,21 +228,27 @@
    <widget class="QComboBox" name="portfolio_combobox">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>60</y>
-      <width>261</width>
+      <x>490</x>
+      <y>20</y>
+      <width>191</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
    </widget>
    <widget class="QPushButton" name="load_button">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>70</y>
-      <width>75</width>
-      <height>23</height>
+      <x>700</x>
+      <y>20</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Load</string>
@@ -246,16 +257,60 @@
    <widget class="QPushButton" name="delete_portfolio_button">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>70</y>
-      <width>121</width>
+      <x>120</x>
+      <y>840</y>
+      <width>191</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Delete portfolio</string>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>9</y>
+      <width>691</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(213, 213, 213);
+border-radius: 10px;</string>
+    </property>
+    <widget class="QLabel" name="title">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>30</y>
+       <width>231</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit your Portfolio!</string>
+     </property>
+    </widget>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>add_button</zorder>
+   <zorder>back_button</zorder>
+   <zorder>spinBox_4</zorder>
+   <zorder>label_5</zorder>
+   <zorder>comboBox_3</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>delete_it_button</zorder>
+   <zorder>clear_button</zorder>
+   <zorder>my_table</zorder>
+   <zorder>save_button</zorder>
+   <zorder>portfolio_combobox</zorder>
+   <zorder>load_button</zorder>
+   <zorder>delete_portfolio_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -263,7 +318,7 @@
      <x>0</x>
      <y>0</y>
      <width>2068</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

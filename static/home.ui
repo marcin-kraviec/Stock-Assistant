@@ -23,6 +23,9 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Create Portfolio</string>
     </property>
@@ -36,6 +39,9 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Analyse Portfolio</string>
     </property>
@@ -48,6 +54,9 @@
       <width>801</width>
       <height>101</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Analyse Stocks</string>
@@ -75,6 +84,9 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Analyse Crypto</string>
     </property>
@@ -88,6 +100,9 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Simulate Bond Returns</string>
     </property>
@@ -100,6 +115,9 @@
       <width>801</width>
       <height>101</height>
      </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
      <string>Analyse Currencies</string>
@@ -127,6 +145,9 @@
       <height>101</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
      <string>Edit Portfolio</string>
     </property>
@@ -138,7 +159,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

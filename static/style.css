@@ -1,17 +1,86 @@
 /* TODO: setup a nice google font and rounded buttons */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&family=Roboto:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
 
 QPushButton {
     background-color: #a8a8a8;
-    border-radius: 15px;
+    border-radius: 10px;
     color: white;
     font-size: 12px;
     font-weight: bold;
+    font-family: "Sora";
+}
+
+QPushButton:hover {
+    background-color: #969696;
 }
 
 QLabel {
-    font-size: 20px
+    font-size: 20px;
+    font-family: 'Sora';
 }
+
+QComboBox {
+    background-color: #a8a8a8;
+    border-radius: 10px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Sora';
+}
+
+QTableWidget {
+    border-radius: 10px;
+    font-family: 'Sora';
+}
+
+QComboBox:hover {
+    background-color: #969696;
+}
+
+/*QComboBox::drop-down{*/
+/*    background-color: #a8a8a8;*/
+/*    border-bottom-right-radius: 10px;*/
+/*    border-top-right-radius: 10px;*/
+/*}*/
+
+QComboBox QAbstractItemView {
+    border-radius: 2px;
+    color: white;
+    background-color: #C1C1C1;
+    selection-background-color: lightgray;
+    font-family: 'Sora';
+}
+
+/*QComboBox::down-arrow {*/
+/*    image: url(arrow_down.png);*/
+/*    width: 7px;*/
+/*    height: 7px;*/
+/*}*/
+
+QRadioButton {
+    font-family: 'Sora';
+}
+
+QSpinBox{
+    font-family: 'Sora';
+    background-color: #a8a8a8;
+    color: white;
+    border-radius: 5px;
+}
+/*QSpinBox::down-button, QSpinBox::up-button{*/
+/*    background-color: #a8a8a8;*/
+/*}*/
+
+/*QSpinBox::down-button:hover, QSpinBox::up-button:hover{*/
+/*    background-color: #969696;*/
+/*}*/
+
+/*QSpinBox::up-arrow {*/
+/*    image: url(arrow_up.png);*/
+/*    width: 7px;*/
+/*    height: 7px;*/
+/*}*/
 
 QMainWindow {
     background-color: white;
