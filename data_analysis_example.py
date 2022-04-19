@@ -60,7 +60,7 @@ x = data['Close'].pct_change()
 #portfolio return
 ret = (x * weights).sum(axis=1)
 cumulative = (ret + 1).cumprod()
-cumulative.plot()
+#cumulative.plot()
 
 
 '''
@@ -146,10 +146,10 @@ The chart is called Efficient Frontier and shows the returns on the Y-axis and v
 We can create the chart using the scatter() function, providing the volatility and return lists as parameters:
 '''
 
-#plt.scatter(p_risk, p_returns, c=p_sharpe, cmap='plasma')
-#plt.colorbar(label='Sharpe Ratio')
+plt.scatter(p_risk, p_returns, c=p_sharpe, cmap='plasma')
+plt.colorbar(label='Sharpe Ratio')
 
-#plt.scatter(p_risk[max_ind], p_returns[max_ind],color='r', marker='*', s=500)
+plt.scatter(p_risk[max_ind], p_returns[max_ind],color='r', marker='*', s=500)
 
 '''
 The Efficient Frontier chart shows the return we can get for the given volatility, or, the volatility that we get for a certain return.
@@ -158,5 +158,3 @@ The Efficient Frontier chart shows the return we can get for the given volatilit
 plt.show()
 
 print(type(str(date.today())))
-
-print(type(app_gui.app_icon))

@@ -4,7 +4,7 @@ class DatabaseConnector():
 
     #database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', auth_plugin='mysql_native_password')
     database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', database='stock_assistant', auth_plugin='mysql_native_password')
-    database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', database='stock_assistant')
+    #database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', database='stock_assistant')
 
     @staticmethod
     def create_table(name):
