@@ -298,10 +298,6 @@ class PortfolioForm(QMainWindow):
             amount = self.my_table.item(row, 1).text()
             PortfolioForm.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount)
         # self.textEdit.clear()
-        for element in analyse_portfolio_window.combobox:
-            if (element == self.textEdit.toPlainText()):
-                pass
-
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
                 print('Portfolio exists')
