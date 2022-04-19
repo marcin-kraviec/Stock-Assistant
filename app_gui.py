@@ -561,10 +561,13 @@ class AnalysePortfolio(QMainWindow):
         #TODO: Compering the current value with the value from the date of portfolio last edit
         change = round(sum(values) - sum(past_values), 2)
         percentage_change = round((change/sum(past_values)) * 100, 2)
-        if change >= 0:
+        if change > 0.0:
             profit = '+' + str(change) + ' $' + '       +' + str(percentage_change) + ' %'
             # setting color to color effect
             color_effect.setColor(Qt.darkGreen)
+        elif change == 0.0:
+            profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
+            color_effect.setColor(Qt.gray)
         else:
             profit = str(change) + ' $' + '       ' + str(percentage_change) + ' %'
             # setting color to color effect
@@ -585,9 +588,12 @@ class AnalysePortfolio(QMainWindow):
             component_change = round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
             font = QFont()
             font.setBold(True)
-            if component_change >= 0:
+            if component_change > 0.0:
                 component_change = '+'+str(component_change)+' $'
                 color = Qt.darkGreen
+            elif component_change == 0.0:
+                component_change = str(component_change) + ' $'
+                color = Qt.gray
             else:
                 component_change = str(component_change) + ' $'
                 color = Qt.red
@@ -600,7 +606,7 @@ class AnalysePortfolio(QMainWindow):
                 component_percentage_change = '+'+str(component_percentage_change)+' %'
             elif component_percentage_change == 0.0:
                 component_percentage_change = str(component_percentage_change) + ' %'
-                color = Qt.grey
+                color = Qt.gray
             else:
                 component_percentage_change = str(component_percentage_change) + ' %'
             item5 = QTableWidgetItem(component_percentage_change)
