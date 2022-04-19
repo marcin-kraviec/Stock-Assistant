@@ -10,7 +10,6 @@ class DataAnalysis():
 
     @staticmethod
     def sharpe_ratio(stocks, values):
-        #function takes lists as inputs
         weights = []
         for value in values:
             weights.append(value/sum(values))
