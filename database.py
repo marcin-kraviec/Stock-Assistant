@@ -54,7 +54,17 @@ class DatabaseConnector():
         except Exception as e:
             print(e)
 
+    @staticmethod
+    def delete_from(name, stock, date):
+        query = 'DELETE FROM %s WHERE stock=%s and date=%s' % (name, stock, date)
+        print(query)
 
+        try:
+            cursor = DatabaseConnector.database.cursor()
+            cursor.execute(query)
+            DatabaseConnector.database.commit()
+        except Exception as e:
+            print(e)
 
     @staticmethod
     def drop_table(name):

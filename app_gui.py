@@ -410,7 +410,7 @@ class PortfolioForm(QMainWindow):
 class PortfolioEdit(PortfolioForm):
 
     current_portfolio = ''
-    portfolio_lenght = 0
+    portfolio_length = 0
 
     def __init__(self):
         super().__init__()
@@ -479,7 +479,7 @@ class PortfolioEdit(PortfolioForm):
 
     def save_it(self):
 
-        for row in range(PortfolioEdit.portfolio_lenght, self.my_table.rowCount()):
+        for row in range(PortfolioEdit.portfolio_length, self.my_table.rowCount()):
             stock = '\''+self.my_table.item(row, 0).text()+'\''
             amount = self.my_table.item(row, 1).text()
             value = self.my_table.item(row, 2).text()
@@ -546,10 +546,23 @@ class PortfolioEdit(PortfolioForm):
         except:
             self.clear()
 
+    def delete_it(self):
+        clicked = self.my_table.currentRow()
+        if (clicked == -1):
+            clicked += 1
+        stock = self.my_table.item(clicked, 0).text()
+        date = self.my_table.item(clicked, 3)
+        #TODO: deleting from database when save button clicked !!!
+        self.my_table.removeRow(clicked)
+        database_connector.delete_from(self.portfolio_combobox.currentText(), stock, date)
+
 
 class AnalysePortfolio(QMainWindow):
 
     current_portfolio = ''
+    stocks = []
+    values = []
+    past_values = []
 
     def __init__(self):
         super().__init__()
@@ -573,38 +586,47 @@ class AnalysePortfolio(QMainWindow):
 
         self.load_button.clicked.connect(self.load_portfolio)
 
+        self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
+        self.analyse_corr_button.clicked.connect(self.go_to_correlation_charts)
+
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 6)
 
+    def go_to_portfolio_charts(self):
+        widget.setCurrentIndex(widget.currentIndex() + 1)
+
+    def go_to_correlation_charts(self):
+        widget.setCurrentIndex(widget.currentIndex() + 2)
+
     def load_portfolio(self):
         data = database_connector.select_from(self.combobox.currentText())
 
-        stocks = []
-        values = []
-        past_values = []
+        AnalysePortfolio.stocks = []
+        AnalysePortfolio.values = []
+        AnalysePortfolio.past_values = []
 
         for i in range(len(data)):
-            if data[i][0] in stocks:
-                stock_index = stocks.index(data[i][0])
-                values[stock_index] += int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
-                past_values[stock_index] += float(data[i][2])
+            if data[i][0] in AnalysePortfolio.stocks:
+                stock_index = AnalysePortfolio.stocks.index(data[i][0])
+                AnalysePortfolio.values[stock_index] += int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
+                AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
-                stocks.append(data[i][0])
-                values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
-                past_values.append(float(data[i][2]))
+                AnalysePortfolio.stocks.append(data[i][0])
+                AnalysePortfolio.values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+                AnalysePortfolio.past_values.append(float(data[i][2]))
 
-        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
+        fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
-        self.value.setText(str(round(sum(values),2)) + ' $')
+        self.value.setText(str(round(sum(AnalysePortfolio.values),2)) + ' $')
 
         # creating a color effect
         color_effect = QGraphicsColorizeEffect()
 
         #TODO: Compering the current value with the value from the date of portfolio last edit
-        change = round(sum(values) - sum(past_values), 2)
-        percentage_change = round((change/sum(past_values)) * 100, 2)
+        change = round(sum(AnalysePortfolio.values) - sum(AnalysePortfolio.past_values), 2)
+        percentage_change = round((change/sum(AnalysePortfolio.past_values)) * 100, 2)
         if change > 0.0:
             profit = '+' + str(change) + ' $' + '       +' + str(percentage_change) + ' %'
             # setting color to color effect
@@ -666,13 +688,13 @@ class AnalysePortfolio(QMainWindow):
             self.my_table.setItem(row_position, 4, item5)
 
         try:
-            sharpe_ratio = data_analysis.sharpe_ratio(stocks, values)
+            sharpe_ratio = data_analysis.sharpe_ratio(AnalysePortfolio.stocks, AnalysePortfolio.values)
             self.sharpe.setText('Sharpe ratio: ' + str(round(sharpe_ratio, 2)))
         except Exception as e:
             print('DUPA: ')
             print(e)
 
-        corr_data = data_analysis.correlation(stocks)
+        corr_data = data_analysis.correlation(AnalysePortfolio.stocks)
         (corr, extremes) = corr_data
         keys = list(extremes)
         if len(keys) == 1:
@@ -694,6 +716,80 @@ class AnalysePortfolio(QMainWindow):
         for i in reversed(range(self.my_table.rowCount())):
             self.my_table.removeRow(i)
 
+class PortfolioChart(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        # read the window layout from file
+        loadUi("static/portfolio_charts.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_analyse_portfolio)
+
+        # setup a webengine for plots
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        self.show_plot()
+
+    def show_plot(self):
+        # getting a current stock from combobox
+        (data, dates)= data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
+
+        # initialise line plot
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
+        fig.layout.update(title_text='Returns', xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
+
+        # changing plot into html file so that it can be displayed with webengine
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() - 1)
+
+class CorrelationWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        # read the window layout from file
+        loadUi("static/portfolio_charts.ui", self)
+
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_analyse_portfolio)
+
+        # setup a webengine for plots
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        self.show_plot()
+
+    def show_plot(self):
+        # getting a current stock from combobox
+        data = data_analysis.correlation(AnalysePortfolio.stocks)
+        (corr, extremes) = data
+
+        def df_to_plotly(df):
+            return {'z': df.values.tolist(),
+                    'x': df.columns.tolist(),
+                    'y': df.index.tolist()}
+
+        fig = go.Figure(data=go.Heatmap(df_to_plotly(corr)))
+        # initialise line plot
+        '''
+        fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
+        fig.layout.update(title_text='Returns', xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
+        '''
+
+        # changing plot into html file so that it can be displayed with webengine
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() - 2)
+
+
+
+
 
 # run GUI
 if __name__ == "__main__":
@@ -710,6 +806,8 @@ if __name__ == "__main__":
     portfolio_form_window = PortfolioForm()
     portfolio_edit_window = PortfolioEdit()
     analyse_portfolio_window = AnalysePortfolio()
+    portfolio_charts_window = PortfolioChart()
+    correlation_charts_window = CorrelationWindow()
 
 
     # add main window to stack
@@ -735,6 +833,8 @@ if __name__ == "__main__":
     widget.addWidget(portfolio_form_window)
     widget.addWidget(portfolio_edit_window)
     widget.addWidget(analyse_portfolio_window)
+    widget.addWidget(portfolio_charts_window)
+    widget.addWidget(correlation_charts_window)
 
     # open in full screen
     widget.showMaximized()

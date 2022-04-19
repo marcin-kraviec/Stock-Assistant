@@ -60,7 +60,7 @@ x = data['Close'].pct_change()
 #portfolio return
 ret = (x * weights).sum(axis=1)
 cumulative = (ret + 1).cumprod()
-#cumulative.plot()
+cumulative.plot()
 
 
 '''
