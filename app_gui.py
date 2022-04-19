@@ -6,6 +6,7 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objs as go
 import plotly.figure_factory as ff
+import plotly.express as px
 from PyQt5 import QtWidgets, QtGui, QtWebEngineWidgets, QtCore
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QWidget, QTableWidgetItem, QPushButton, \
@@ -537,9 +538,11 @@ class PortfolioEdit(PortfolioForm):
         #TODO: Alert box with confirmation
         portfolio_to_drop = self.portfolio_combobox.currentText()
         index = self.portfolio_combobox.findText(portfolio_to_drop)
+        index2 = analyse_portfolio_window.combobox.findText(portfolio_to_drop)
         print('DROPING:' + portfolio_to_drop)
         database_connector.drop_table(portfolio_to_drop)
         self.portfolio_combobox.removeItem(index)
+        analyse_portfolio_window.combobox.removeItem(index2)
         #Error when combobox is clear
         #TODO: Specify an exception
         try:
@@ -589,6 +592,7 @@ class AnalysePortfolio(QMainWindow):
 
         self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
         self.analyse_corr_button.clicked.connect(self.go_to_correlation_charts)
+        self.analyse_sharpe_button.clicked.connect(self.go_to_sharpe_charts)
 
 
     def go_to_home(self):
@@ -600,7 +604,12 @@ class AnalysePortfolio(QMainWindow):
 
     def go_to_correlation_charts(self):
         widget.setCurrentIndex(widget.currentIndex() + 2)
-        portfolio_charts_window.show_plot()
+        correlation_charts_window.show_plot()
+
+    def go_to_sharpe_charts(self):
+        widget.setCurrentIndex(widget.currentIndex() + 3)
+        sharpe_charts_window.show_plot()
+
 
     def load_portfolio(self):
         data = database_connector.select_from(self.combobox.currentText())
@@ -708,6 +717,10 @@ class AnalysePortfolio(QMainWindow):
             (c, d) = keys[1]
             self.corr.setText('Highest correletion between ' + a + ' and ' + b +': '+ str(round(extremes[keys[0]], 2)) + '\n' + 'Lowest correletion between ' + c + ' and ' + d +': '+str(round(extremes[keys[1]], 2)))
 
+        vol_data = data_analysis.volatility(AnalysePortfolio.stocks, AnalysePortfolio.values)
+        (annual, daily) = vol_data
+        self.risk.setText('Daily volatility: ' + str(round(daily*100, 2)) + ' %\n' + 'Annual volatility: ' + str(round(annual*100, 2)) + ' %' )
+
     # fill combobox with stock names
     def fill_combo_box(self):
         for name in database_connector.show_tables():
@@ -737,6 +750,7 @@ class PortfolioChart(QMainWindow):
 
     def show_plot(self):
         # getting a current stock from combobox
+        y = AnalysePortfolio.stocks
         (data, dates) = data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
 
         # initialise line plot
@@ -786,8 +800,40 @@ class CorrelationWindow(QMainWindow):
     def go_to_analyse_portfolio(self):
         widget.setCurrentIndex(widget.currentIndex() - 2)
 
+class SharpeWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        # read the window layout from file
+        loadUi("static/portfolio_charts.ui", self)
 
+        # move to home window after clicking a button
+        self.back_button.clicked.connect(self.go_to_analyse_portfolio)
 
+        # setup a webengine for plots
+        self.browser = QtWebEngineWidgets.QWebEngineView(self)
+        self.vlayout.addWidget(self.browser)
+
+        self.show_plot()
+
+    def show_plot(self):
+        # getting a current stock from combobox
+        data = data_analysis.optimise(AnalysePortfolio.stocks, AnalysePortfolio.values)
+        (p_risk, p_returns, p_sharpe, p_weights, max_ind) = data
+        print(p_risk[max_ind])
+        print(p_returns[max_ind])
+        #fig = go.Figure()
+        #fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
+        #fig.add_trace(go.Scatter(x=p_risk, y=p_returns, color=p_sharpe))
+        fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe)
+        fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers',marker_symbol='x-thin', marker_size=10, marker_color="green"))
+        #fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers', marker_symbol='x-thin', marker_size=10, marker_color="blue"))
+        #plt.scatter(p_risk[max_ind], p_returns[max_ind], color='r', marker='*', s=500)
+
+        # changing plot into html file so that it can be displayed with webengine
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def go_to_analyse_portfolio(self):
+        widget.setCurrentIndex(widget.currentIndex() - 3)
 
 
 # run GUI
@@ -807,6 +853,7 @@ if __name__ == "__main__":
     analyse_portfolio_window = AnalysePortfolio()
     portfolio_charts_window = PortfolioChart()
     correlation_charts_window = CorrelationWindow()
+    sharpe_charts_window = SharpeWindow()
 
 
     # add main window to stack
@@ -834,6 +881,8 @@ if __name__ == "__main__":
     widget.addWidget(analyse_portfolio_window)
     widget.addWidget(portfolio_charts_window)
     widget.addWidget(correlation_charts_window)
+    widget.addWidget(sharpe_charts_window)
+
 
     # open in full screen
     widget.showMaximized()
