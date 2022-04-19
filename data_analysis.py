@@ -33,3 +33,34 @@ class DataAnalysis():
         dict = {pairs.idxmax(): pairs.max(), pairs.idxmin(): pairs.min()}
 
         return corr, dict
+
+    @staticmethod
+    def volatility(stocks, values):
+        weights = []
+        for value in values:
+            weights.append(value / sum(values))
+
+        data = yf.download(stocks, start='2021-01-01')
+        x = data['Close'].pct_change()
+        dates = data['Date']
+
+        ret = (x * weights).sum(axis=1)
+        vol = np.std(ret)
+        annual_std = vol * np.sqrt(252)
+        return annual_std
+
+    @staticmethod
+    def cumulative_returns(stocks, values):
+        weights = []
+        for value in values:
+            weights.append(value / sum(values))
+
+        data = yf.download(stocks, start='2021-01-01', interval="1d")
+        data.reset_index(inplace=True)
+        x = data['Close'].pct_change()
+        dates = data['Date']
+
+        # portfolio return
+        ret = (x * weights).sum(axis=1)
+        cumulative = (ret + 1).cumprod()
+        return cumulative, dates
