@@ -109,6 +109,32 @@ class ChartWindow(QMainWindow):
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
+    def show_cumulative_return_plot(self):
+        # getting a current stock from combobox
+        stock = self.stocks_combobox.currentText()
+
+        '''
+        After understanding how the returns are distributed, we can calculate the returns from an investment.
+        For that, we need to calculate the cumulative returns, which can be done using the cumprod() function:
+        '''
+
+        # downloading data of stock from yfinance
+        data = yf.download(stock, '2021-01-01', interval="1d")
+        # data = yf.download(stock,'2022-04-01',interval="1h")
+        data.reset_index(inplace=True)
+
+        x = data['Close'].pct_change()
+        returns = (x + 1).cumprod()
+
+        # initialise line plot
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=data['Date'], y=returns, name='Cumulative return'))
+        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_layout(hovermode="x unified")
+
+        # changing plot into html file so that it can be displayed with webengine
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
     # switching between plot types
     def set_plot_type(self, button):
         if button.isChecked():
@@ -116,6 +142,8 @@ class ChartWindow(QMainWindow):
                 self.show_line_plot()
             elif button.text() == 'Candlestick':
                 self.show_candlestick_plot()
+            elif button.text() == 'Cumulative returns':
+                self.show_cumulative_return_plot()
 
     # fill combobox with stock names
     def fill_combo_box(self, dict, combobox):
@@ -163,10 +191,12 @@ class AnalyseStocks(ChartWindow):
         # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.cumulative_returns_plot_button.toggled.connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
 
         # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
         self.stocks_combobox.activated[str].connect(
             lambda: self.stock_info_label.setText(self.stocks[self.stocks_combobox.currentText()]))
 
@@ -203,10 +233,12 @@ class AnalyseCrypto(ChartWindow):
         # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.cumulative_returns_plot_button.toggled.connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
 
         # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
         self.stocks_combobox.activated[str].connect(
             lambda: self.stock_info_label.setText(self.cryptos[self.stocks_combobox.currentText()]))
 
@@ -241,12 +273,17 @@ class AnalyseCurrencies(ChartWindow):
         # switching between plot types with radio buttons
         self.line_plot_button.toggled.connect(lambda: self.set_plot_type(self.line_plot_button))
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
-
+        self.cumulative_returns_plot_button.toggled.connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
         # make elements of layout dependent from combobox value
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
+<<<<<<< HEAD
         self.stocks_combobox.activated[str].connect(
             lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
+=======
+        self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
+        self.stocks_combobox.activated[str].connect(lambda: self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()]))
+>>>>>>> 64547dee069fd1d8a22502cd2d3b75144aef03d5
 
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
@@ -438,8 +475,13 @@ class PortfolioEdit(PortfolioForm):
             print(self.my_table.item(rows[j], 3).text())
             if (str(date.today()) == self.my_table.item(rows[j], 3).text()):
                 b = False
+<<<<<<< HEAD
         # TODO: Additional check for date:
         # if (self.spinBox_4.value() > 0 and (len(x)==0 or (str(date.today())!=self.my_table.item(r[:],3)))):
+=======
+
+        #TODO: Additional check for date:
+>>>>>>> 64547dee069fd1d8a22502cd2d3b75144aef03d5
         if (self.spinBox_4.value() > 0 and (len(x) == 0 or b)):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
             item2 = QTableWidgetItem(str(self.spinBox_4.value()))
@@ -559,9 +601,20 @@ class AnalysePortfolio(QMainWindow):
         past_values = []
 
         for i in range(len(data)):
+<<<<<<< HEAD
             stocks.append(data[i][0])
             values.append(int(data[i][1]) * round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
             past_values.append(float(data[i][2]))
+=======
+            if data[i][0] in stocks:
+                stock_index = stocks.index(data[i][0])
+                values[stock_index] += int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
+                past_values[stock_index] += float(data[i][2])
+            else:
+                stocks.append(data[i][0])
+                values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+                past_values.append(float(data[i][2]))
+>>>>>>> 64547dee069fd1d8a22502cd2d3b75144aef03d5
 
         fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -637,11 +690,21 @@ class AnalysePortfolio(QMainWindow):
             self.my_table.setItem(row_position, 3, item4)
             self.my_table.setItem(row_position, 4, item5)
 
-        sharpe_ratio = data_analysis.sharpe_ratio(stocks, values)
-        self.sharpe.setText(str(sharpe_ratio))
+        try:
+            sharpe_ratio = data_analysis.sharpe_ratio(stocks, values)
+            self.sharpe.setText('Sharpe ratio: ' + str(round(sharpe_ratio, 2)))
+        except Exception as e:
+            print('DUPA: ')
+            print(e)
 
-        correlation = data_analysis.correlation(stocks)
-        print(correlation)
+        corr_data = data_analysis.correlation(stocks)
+        (corr, extremes) = corr_data
+        keys = list(extremes)
+        (a,b) = keys[0]
+        (c,d) = keys[1]
+
+
+        self.corr.setText('Highest correletion between ' + a + ' and ' + b +': '+ str(round(extremes[keys[0]], 2)) + '\n' + 'Lowest correletion between ' + c + ' and ' + d +': '+str(round(extremes[keys[1]], 2)))
 
     # fill combobox with stock names
     def fill_combo_box(self):

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>123</height>
+    <height>274</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -88,6 +88,19 @@
     </property>
     <property name="text">
      <string>Candlestick</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="cumulative_returns_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>60</y>
+      <width>121</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cumulative returns</string>
     </property>
    </widget>
   </widget>
