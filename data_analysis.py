@@ -25,4 +25,11 @@ class DataAnalysis():
         data = yf.download(stocks, start='2021-01-01')
         x = data['Close'].pct_change()
         corr = x.corr()
-        return(corr)
+        pairs = corr.abs().unstack().sort_values(kind='quicksort').drop_duplicates()
+
+        #drop self correlation
+        pairs = pairs.drop(pairs.idxmax())
+
+        dict = {pairs.idxmax(): pairs.max(), pairs.idxmin(): pairs.min()}
+
+        return corr, dict

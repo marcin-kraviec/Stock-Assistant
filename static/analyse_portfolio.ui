@@ -170,11 +170,24 @@
       <x>970</x>
       <y>640</y>
       <width>201</width>
-      <height>51</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>sharpe</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="corr">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>690</y>
+      <width>661</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>corr</string>
     </property>
    </widget>
   </widget>
