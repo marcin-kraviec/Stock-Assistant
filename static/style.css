@@ -70,20 +70,20 @@ QRadioButton {
     font-family: 'Sora';
 }
 
-QSpinBox{
+QSpinBox, QDoubleSpinBox{
     font-family: 'Sora';
     background-color: #a8a8a8;
     color: white;
     border-radius: 5px;
 }
 
-QSpinBox::down-button, QSpinBox::up-button{
+QSpinBox::down-button, QSpinBox::up-button, QDoubleSpinBox::down-button, QDoubleSpinBox::up-button{
     background-color: #a8a8a8;
     border-radius: 5px;
 }
 
 
-QSpinBox::up-button:hover, QSpinBox::down-button:hover {
+QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
     background-color: #969696;
     border-radius: 5px;
 }

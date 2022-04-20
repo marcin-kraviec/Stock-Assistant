@@ -152,6 +152,38 @@
      <string>Edit Portfolio</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="create_portfolio_crypto_button">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>430</y>
+      <width>801</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Create Portfolio Crypto</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="edit_portfolio_crypto_button">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>310</y>
+      <width>801</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Edit Portfolio Crypto</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
