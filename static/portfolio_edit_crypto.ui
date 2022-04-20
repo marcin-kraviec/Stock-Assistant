@@ -287,7 +287,7 @@ border-radius: 10px;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+   <widget class="QDoubleSpinBox" name="spinBox_4">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -298,6 +298,9 @@ border-radius: 10px;</string>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="singleStep">
+     <double>0.050000000000000</double>
     </property>
    </widget>
    <zorder>widget</zorder>
@@ -313,7 +316,7 @@ border-radius: 10px;</string>
    <zorder>portfolio_combobox</zorder>
    <zorder>load_button</zorder>
    <zorder>delete_portfolio_button</zorder>
-   <zorder>doubleSpinBox</zorder>
+   <zorder>spinBox_4</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
