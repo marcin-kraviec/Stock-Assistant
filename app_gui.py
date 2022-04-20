@@ -78,12 +78,46 @@ class ChartWindow(QMainWindow):
         data.reset_index(inplace=True)
 
         # initialise candlestick plot
-        fig = go.Figure()
-        fig.add_trace(
-            go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        # fig.add_trace(go.Candlestick(x=data['index'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High']))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        trace = go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High'])
+        data = [trace]
+        layout = dict(
+            title='Time series with range slider and selectors',
+            xaxis=dict(
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                             label='1m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=6,
+                             label='6m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=1,
+                             label='YTD',
+                             step='year',
+                             stepmode='todate'),
+                        dict(count=1,
+                             label='1y',
+                             step='year',
+                             stepmode='backward'),
+                        dict(step='all')
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type='date'
+            )
+        )
+
+        fig = go.FigureWidget(data=data, layout=layout)
+        fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
+
+        #fig.update_xaxes(showspikes=True, spikecolor="grey", spikesnap="cursor", spikemode="across", spikethickness=1)
+        #fig.update_yaxes(showspikes=True, spikecolor="grey", spikethickness=1)
+
         fig.layout.template = templates[3]
 
         # changing plot into html file so that it can be displayed with webengine
@@ -98,26 +132,49 @@ class ChartWindow(QMainWindow):
         # data = yf.download(stock,'2022-04-01',interval="1h")
         data.reset_index(inplace=True)
 
-        # initialise line plot
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name='Open'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name='Close'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['Low'], name='Low'))
-        fig.add_trace(go.Scatter(x=data['Date'], y=data['High'], name='High'))
-        fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
-        fig.update_layout(hovermode="x unified")
+        trace = go.Scatter(x=data['Date'], y=data['Open'], name='Open')
+        trace2 = go.Scatter(x=data['Date'], y=data['Close'], name='Close')
+        data = [trace, trace2]
+        layout = dict(
+            title='Time series with range slider and selectors',
+            xaxis=dict(
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                             label='1m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=6,
+                             label='6m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=1,
+                             label='YTD',
+                             step='year',
+                             stepmode='todate'),
+                        dict(count=1,
+                             label='1y',
+                             step='year',
+                             stepmode='backward'),
+                        dict(step='all')
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type='date'
+            )
+        )
 
+        fig = go.FigureWidget(data=data, layout=layout)
+        fig.update_yaxes(fixedrange=False)
+        fig.update_layout(hovermode="x unified")
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     def show_cumulative_return_plot(self):
         # getting a current stock from combobox
         stock = self.stocks_combobox.currentText()
-
-        '''
-        After understanding how the returns are distributed, we can calculate the returns from an investment.
-        For that, we need to calculate the cumulative returns, which can be done using the cumprod() function:
-        '''
 
         # downloading data of stock from yfinance
         data = yf.download(stock, '2021-01-01', interval="1d")
@@ -128,9 +185,43 @@ class ChartWindow(QMainWindow):
         returns = (x + 1).cumprod()
 
         # initialise line plot
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=data['Date'], y=returns, name='Cumulative return'))
+
+        trace = go.Scatter(x=data['Date'], y=returns, name='Cumulative return')
+        data = [trace]
+        layout = dict(
+            title='Time series with range slider and selectors',
+            xaxis=dict(
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                             label='1m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=6,
+                             label='6m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=1,
+                             label='YTD',
+                             step='year',
+                             stepmode='todate'),
+                        dict(count=1,
+                             label='1y',
+                             step='year',
+                             stepmode='backward'),
+                        dict(step='all')
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type='date'
+            )
+        )
+
+        fig = go.FigureWidget(data=data, layout=layout)
         fig.layout.update(title_text=stock, xaxis_rangeslider_visible=True)
+        fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
 
         # changing plot into html file so that it can be displayed with webengine
@@ -622,6 +713,7 @@ class AnalysePortfolio(QMainWindow):
                 AnalysePortfolio.past_values.append(float(data[i][2]))
 
         fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        #fig.layout.template = 'plotly_dark'
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
         self.value.setText(str(round(sum(AnalysePortfolio.values),2)) + ' $')
