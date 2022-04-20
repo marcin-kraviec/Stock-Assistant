@@ -129,6 +129,12 @@
     <property name="dragDropMode">
      <enum>QAbstractItemView::DropOnly</enum>
     </property>
+    <property name="alternatingRowColors">
+     <bool>true</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::NoSelection</enum>
+    </property>
     <property name="selectionBehavior">
      <enum>QAbstractItemView::SelectRows</enum>
     </property>
@@ -148,7 +154,7 @@
      <number>5</number>
     </property>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>170</number>
+     <number>155</number>
     </attribute>
     <column>
      <property name="text">

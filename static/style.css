@@ -29,9 +29,18 @@ QComboBox {
     font-family: 'Sora';
 }
 
+
 QTableWidget {
-    border-radius: 10px;
     font-family: 'Sora';
+    background-color: #eeeeee;
+    border-radius: 10px;
+    selection-background-color: #b7b7b7;
+}
+
+QHeaderView::section {
+    background-color: white;
+    border: 0px;
+    font-family: 'Sora'
 }
 
 QComboBox:hover {
