@@ -375,6 +375,7 @@ class AnalyseCurrencies(ChartWindow):
         self.candlestick_plot_button.toggled.connect(lambda: self.set_plot_type(self.candlestick_plot_button))
         self.cumulative_returns_plot_button.toggled.connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
         # make elements of layout dependent from combobox value
+        self.stock_info_label.setText(self.currencies[self.stocks_combobox.currentText()])
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.line_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.candlestick_plot_button))
         self.stocks_combobox.activated[str].connect(lambda: self.set_plot_type(self.cumulative_returns_plot_button))
