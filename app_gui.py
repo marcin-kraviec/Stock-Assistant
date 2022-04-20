@@ -935,9 +935,42 @@ class PortfolioChart(QMainWindow):
         (data, dates) = data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
 
         # initialise line plot
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
-        fig.layout.update(title_text='Returns', xaxis_rangeslider_visible=True)
+
+        trace = go.Scatter(x=dates, y=data, name='Cumulative return')
+        data = [trace]
+        layout = dict(
+            title='Time series with range slider and selectors',
+            xaxis=dict(
+                rangeselector=dict(
+                    buttons=list([
+                        dict(count=1,
+                             label='1m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=6,
+                             label='6m',
+                             step='month',
+                             stepmode='backward'),
+                        dict(count=1,
+                             label='YTD',
+                             step='year',
+                             stepmode='todate'),
+                        dict(count=1,
+                             label='1y',
+                             step='year',
+                             stepmode='backward'),
+                        dict(step='all')
+                    ])
+                ),
+                rangeslider=dict(
+                    visible=True
+                ),
+                type='date'
+            )
+        )
+
+        fig = go.FigureWidget(data=data, layout=layout)
+        fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
 
         # changing plot into html file so that it can be displayed with webengine
