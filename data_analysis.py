@@ -75,8 +75,10 @@ class DataAnalysis():
         p_risk = []
         p_sharpe = []
 
+        current_weights = []
         for value in values:
-            p_weights.append(value / sum(values))
+            current_weights.append(value / sum(values))
+        p_weights.append(current_weights)
 
         data = yf.download(stocks, start='2021-01-01', interval='1d')
         data.reset_index(inplace=True)

@@ -82,7 +82,7 @@ class ChartWindow(QMainWindow):
         templates = ['ggplot2', 'seaborn', 'simple_white', 'plotly', 'plotly_white', 'plotly_dark', 'presentation',
                      'xgridoff', 'ygridoff', 'gridon', 'none']
         # downloading data of stock from yfinance
-        data = yf.download(stock, '2021-01-01', interval="1d")
+        data = yf.download(stock)
         # data = yf.download(stock,'2022-04-01',interval="1h")
         data.reset_index(inplace=True)
 
@@ -137,7 +137,7 @@ class ChartWindow(QMainWindow):
         stock = self.stocks_combobox.currentText()
 
         # downloading data of stock from yfinance
-        data = yf.download(stock, '2021-01-01', interval="1d")
+        data = yf.download(stock)
         # data = yf.download(stock,'2022-04-01',interval="1h")
         data.reset_index(inplace=True)
 
@@ -186,7 +186,7 @@ class ChartWindow(QMainWindow):
         stock = self.stocks_combobox.currentText()
 
         # downloading data of stock from yfinance
-        data = yf.download(stock, '2021-01-01', interval="1d")
+        data = yf.download(stock)
         # data = yf.download(stock,'2022-04-01',interval="1h")
         data.reset_index(inplace=True)
 
@@ -788,7 +788,7 @@ class AnalysePortfolio(QMainWindow):
 
     def go_to_sharpe_charts(self):
         widget.setCurrentIndex(widget.currentIndex() + 3)
-        sharpe_charts_window.show_plot()
+        sharpe_charts_window.show_optimalisation_plot()
 
 
     def load_portfolio(self):
@@ -1027,9 +1027,13 @@ class SharpeWindow(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        self.show_plot()
+        self.show_optimalisation_plot()
 
-    def show_plot(self):
+        # switching between plot types with radio buttons
+        self.option_a_button.toggled.connect(lambda: self.set_plot_type(self.option_a_button))
+        self.option_b_button.toggled.connect(lambda: self.set_plot_type(self.option_b_button))
+
+    def show_optimalisation_plot(self):
         # getting a current stock from combobox
         data = data_analysis.optimise(AnalysePortfolio.stocks, AnalysePortfolio.values)
         (p_risk, p_returns, p_sharpe, p_weights, max_ind) = data
@@ -1039,15 +1043,37 @@ class SharpeWindow(QMainWindow):
         #fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
         #fig.add_trace(go.Scatter(x=p_risk, y=p_returns, color=p_sharpe))
         fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe)
-        fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers',marker_symbol='x-thin', marker_size=10, marker_color="green"))
+        fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers',marker_symbol='star', marker_size=10, marker_color="darkgreen"))
+        fig.add_trace(go.Scatter(x=[p_risk[0]], y=[p_returns[0]], mode='markers', marker_symbol='star',marker_size=10, marker_color="green"))
         #fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers', marker_symbol='x-thin', marker_size=10, marker_color="blue"))
         #plt.scatter(p_risk[max_ind], p_returns[max_ind], color='r', marker='*', s=500)
 
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
+    def show_weight_plot(self):
+        data = data_analysis.optimise(AnalysePortfolio.stocks, AnalysePortfolio.values)
+        (p_risk, p_returns, p_sharpe, p_weights, max_ind) = data
+
+        fig = go.Figure(data=[
+            go.Bar(name='Optimal: ' + str(round(p_sharpe[max_ind], 2)), x=AnalysePortfolio.stocks, y=p_weights[max_ind]),
+            go.Bar(name='Current: ' + str(round(p_sharpe[0], 2)), x=AnalysePortfolio.stocks, y=p_weights[0])
+        ])
+        # Change the bar mode
+        fig.update_layout(barmode='group')
+
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
+
+    def set_plot_type(self, button):
+        if button.isChecked():
+            if button.text() == 'A':
+                self.show_optimalisation_plot()
+            elif button.text() == 'B':
+                self.show_weight_plot()
+
     def go_to_analyse_portfolio(self):
         widget.setCurrentIndex(widget.currentIndex() - 3)
+
 
 
 # run GUI

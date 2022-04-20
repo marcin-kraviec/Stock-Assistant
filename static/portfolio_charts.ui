@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>57</height>
+    <height>832</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -49,9 +49,13 @@
       <height>931</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="vlayout"/>
+    <layout class="QVBoxLayout" name="vlayout">
+     <item>
+      <layout class="QHBoxLayout" name="hlayout"/>
+     </item>
+    </layout>
    </widget>
-   <widget class="QRadioButton" name="line_plot_button">
+   <widget class="QRadioButton" name="option_a_button">
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -61,13 +65,13 @@
      </rect>
     </property>
     <property name="text">
-     <string>Line</string>
+     <string>A</string>
     </property>
     <property name="checked">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="candlestick_plot_button">
+   <widget class="QRadioButton" name="option_b_button">
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -77,20 +81,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Candlestick</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="cumulative_returns_plot_button">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>60</y>
-      <width>121</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Cumulative returns</string>
+     <string>B</string>
     </property>
    </widget>
   </widget>
