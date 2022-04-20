@@ -452,7 +452,7 @@ class PortfolioForm(QMainWindow):
             amount = self.my_table.item(row, 1).text()
             value = self.my_table.item(row, 2).text()
             database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value, '\''+str(date.today())+'\'')
-            past_values.append(int(amount) * round(yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0], 2))
+            past_values.append(round(float(amount) * (yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0]), 2))
 
         for i in range(analyse_portfolio_window.combobox.count()):
             if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
@@ -558,6 +558,31 @@ class PortfolioFormCrypto(PortfolioForm):
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 10)
 
+    def save_it(self):
+        database_connector.create_table(self.textEdit.toPlainText())
+
+        past_values = []
+
+        for row in range(self.my_table.rowCount()):
+            stock = '\''+self.my_table.item(row, 0).text()+'\''
+            amount = (self.my_table.item(row, 1).text())
+            print(amount)
+            value = self.my_table.item(row, 2).text()
+            database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value, '\''+str(date.today())+'\'')
+            past_values.append(round(float(amount) * (yf.Ticker(self.my_table.item(row,0).text()).history(period='1d')['Close'][0]), 2))
+
+        for i in range(analyse_portfolio_window.combobox.count()):
+            if (analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+                self.alert_window("Portfolio with this name already exists!", "Alert window")
+                print('Portfolio exists')
+                break
+        else:
+            analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+            portfolio_edit_crypto_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+            self.textEdit.clear()
+            self.clear()
+            self.show_pie_plot()
+
 
 class PortfolioEdit(PortfolioForm):
 
@@ -598,7 +623,6 @@ class PortfolioEdit(PortfolioForm):
         self.spinBox_4.valueChanged.connect(self.label_update)
         self.comboBox_3.activated.connect(self.label_update)
         self.label_5.setText(str(round(yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0]*(self.spinBox_4.value()), 2)))
-
         self.save_button.clicked.connect(self.save_it)
 
     def add_it(self):
@@ -645,7 +669,10 @@ class PortfolioEdit(PortfolioForm):
     def fill_portfolio_combo_box(self):
         names = database_connector.show_tables()
         for name in names:
-            self.portfolio_combobox.addItem(name)
+            x = database_connector.select_from(name)[0][0]
+            for stock in PortfolioForm.stocks:
+                if (stock==x):
+                    self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
 
@@ -740,6 +767,34 @@ class PortfolioEditCrypto(PortfolioEdit):
     def go_to_home(self):
         widget.setCurrentIndex(widget.currentIndex() - 11)
 
+    def fill_portfolio_combo_box(self):
+        names = database_connector.show_tables()
+        for name in names:
+            x = database_connector.select_from(name)[0][0]
+            for crypto in PortfolioFormCrypto.cryptos:
+                if (crypto==x):
+                    self.portfolio_combobox.addItem(name)
+
+    def load_portfolio(self):
+        data = database_connector.select_from(self.portfolio_combobox.currentText())
+
+        if PortfolioEditCrypto.current_portfolio != self.portfolio_combobox.currentText():
+            self.clear()
+            for i in range(len(data)):
+                item = QTableWidgetItem(str(data[i][0]))
+                item2 = QTableWidgetItem(str(data[i][1]))
+                item3 = QTableWidgetItem(str(data[i][2]))
+                item4 = QTableWidgetItem(str(data[i][3]))
+                row_position = self.my_table.rowCount()
+                self.my_table.insertRow(row_position)
+                self.my_table.setItem(row_position, 0, item)
+                self.my_table.setItem(row_position, 1, item2)
+                self.my_table.setItem(row_position, 2, item3)
+                self.my_table.setItem(row_position, 3, item4)
+
+        PortfolioEditCrypto.current_portfolio = self.portfolio_combobox.currentText()
+        PortfolioEditCrypto.portfolio_length = self.my_table.rowCount()
+        self.show_pie_plot()
 
 class AnalysePortfolio(QMainWindow):
 
@@ -801,11 +856,11 @@ class AnalysePortfolio(QMainWindow):
         for i in range(len(data)):
             if data[i][0] in AnalysePortfolio.stocks:
                 stock_index = AnalysePortfolio.stocks.index(data[i][0])
-                AnalysePortfolio.values[stock_index] += int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
+                AnalysePortfolio.values[stock_index] += round(float(data[i][1])*yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
                 AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
                 AnalysePortfolio.stocks.append(data[i][0])
-                AnalysePortfolio.values.append(int(data[i][1])*round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
+                AnalysePortfolio.values.append(round(float(data[i][1])*yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
                 AnalysePortfolio.past_values.append(float(data[i][2]))
 
         fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
@@ -842,9 +897,9 @@ class AnalysePortfolio(QMainWindow):
 
         for i in range(len(data)):
             item = QTableWidgetItem(str(data[i][0]))
-            item2 = QTableWidgetItem(str(round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
+            item2 = QTableWidgetItem(str(round(float(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
             item3 = QTableWidgetItem(str(data[i][3]))
-            component_change = round(int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
+            component_change = round(float(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
             font = QFont()
             font.setBold(True)
             if component_change > 0.0:
@@ -860,7 +915,7 @@ class AnalysePortfolio(QMainWindow):
             #item4.setBackground(color)
             item4.setForeground(color)
             item4.setFont(font)
-            component_percentage_change = round(((int(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2])/data[i][2])*100, 2)
+            component_percentage_change = round(((float(data[i][1])*(yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2])/data[i][2])*100, 2)
             if component_percentage_change > 0.0:
                 component_percentage_change = '+'+str(component_percentage_change)+' %'
             elif component_percentage_change == 0.0:
