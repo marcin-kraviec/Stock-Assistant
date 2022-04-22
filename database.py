@@ -9,7 +9,7 @@ class DatabaseConnector():
     @staticmethod
     def create_table(name):
 
-        query = 'CREATE TABLE IF NOT EXISTS %s (id INT AUTO_INCREMENT PRIMARY KEY, stock VARCHAR(250) NOT NULL, amount INT NOT NULL, value FLOAT NOT NULL, date VARCHAR(250) NOT NULL )' % name
+        query = 'CREATE TABLE IF NOT EXISTS %s (id INT AUTO_INCREMENT PRIMARY KEY, stock VARCHAR(250) NOT NULL, amount FLOAT NOT NULL, value FLOAT NOT NULL, date VARCHAR(250) NOT NULL )' % name
         print(query)
 
         #TODO: exception needs to be specified

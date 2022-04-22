@@ -6,7 +6,7 @@ import numpy as np
 from datetime import date
 
 
-class DataAnalysis():
+class DataAnalysis:
 
     @staticmethod
     def sharpe_ratio(stocks, values):
