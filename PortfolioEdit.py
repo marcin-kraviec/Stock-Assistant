@@ -1,7 +1,10 @@
 from datetime import date
+
+from PyQt5.QtCore import Qt
+
 from PortfolioForm import PortfolioForm
-from PyQt5 import QtWebEngineWidgets, Qt
-from PyQt5.QtWidgets import QTableWidgetItem
+from PyQt5 import QtWebEngineWidgets, QtGui
+from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from PyQt5.uic import loadUi
 import yfinance as yf
 
@@ -116,20 +119,35 @@ class PortfolioEdit(PortfolioForm):
         self.show_pie_plot()
 
     def delete_portfolio(self):
-        # TODO: Alert box with confirmation
-        portfolio_to_drop = self.portfolio_combobox.currentText()
-        index = self.portfolio_combobox.findText(portfolio_to_drop)
-        index2 = self.analyse_portfolio_window.combobox.findText(portfolio_to_drop)
-        print('DROPING:' + portfolio_to_drop)
-        self.database_connector.drop_table(portfolio_to_drop)
-        self.portfolio_combobox.removeItem(index)
-        self.analyse_portfolio_window.combobox.removeItem(index2)
-        # Error when combobox is clear
-        # TODO: Specify an exception
-        try:
-            self.load_portfolio()
-        except:
-            self.clear()
+        if self.my_table.rowCount()==0:
+            self.alert_window("Please, load Your portfolio!", "Alert window")
+        else:
+            m = QMessageBox(self)
+            # m.setIcon(QMessageBox.Information)
+            m.setWindowIcon(QtGui.QIcon("static/alert.png"))
+            m.setText("Are you sure you want to delete this portfolio?")
+            m.setWindowTitle("Confirmation window")
+            m.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            btn = m.exec()
+            if btn == QMessageBox.Yes:
+                portfolio_to_drop = self.portfolio_combobox.currentText()
+                index = self.portfolio_combobox.findText(portfolio_to_drop)
+                index2 = self.analyse_portfolio_window.combobox.findText(portfolio_to_drop)
+                print('DROPING:' + portfolio_to_drop)
+                self.database_connector.drop_table(portfolio_to_drop)
+                self.portfolio_combobox.removeItem(index)
+                self.analyse_portfolio_window.combobox.removeItem(index2)
+                # Error when combobox is clear
+                # TODO: Specify an exception
+                try:
+                    self.load_portfolio()
+                except:
+                    self.clear()
+                self.alert_window("Portfolio has been deleted succesfully.", "Alert window")
+
+
+
+
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -140,3 +158,12 @@ class PortfolioEdit(PortfolioForm):
         # TODO: deleting from database when save button clicked !!!
         self.my_table.removeRow(clicked)
         self.database_connector.delete_from(self.portfolio_combobox.currentText(), stock, date)
+
+    def confirmation_window(self, text, window_title):
+        m = QMessageBox(self)
+        # m.setIcon(QMessageBox.Information)
+        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
+        m.setText(text)
+        m.setWindowTitle(window_title)
+        m.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        m.exec()

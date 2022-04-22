@@ -1,7 +1,10 @@
 import csv
 from datetime import date
+
+from PyQt5.QtCore import Qt
+
 import database
-from PyQt5 import QtGui, Qt, QtWebEngineWidgets
+from PyQt5 import QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow
 from PyQt5.uic import loadUi
 from numpy import double
@@ -73,27 +76,31 @@ class PortfolioForm(QMainWindow):
         self.database_connector.create_table(self.textEdit.toPlainText())
 
         past_values = []
-
-        for row in range(self.my_table.rowCount()):
-            stock = '\'' + self.my_table.item(row, 0).text() + '\''
-            amount = self.my_table.item(row, 1).text()
-            value = self.my_table.item(row, 2).text()
-            self.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value,
-                                                '\'' + str(date.today()) + '\'')
-            past_values.append(
-                int(amount) * round(yf.Ticker(self.my_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
-
-        for i in range(self.analyse_portfolio_window.combobox.count()):
-            if (self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
-                self.alert_window("Portfolio with this name already exists!", "Alert window")
-                print('Portfolio exists')
-                break
+        if self.my_table.rowCount() == 0:
+            self.alert_window("Portfolio is empty!", "Alert window")
+            print('Portfolio is empty!')
         else:
-            self.analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
-            self.portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
-            self.textEdit.clear()
-            self.clear()
-            self.show_pie_plot()
+            for i in range(self.analyse_portfolio_window.combobox.count()):
+                if (self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+                    self.alert_window("Portfolio with this name already exists!", "Alert window")
+                    print('Portfolio exists')
+                    break
+            else:
+                for row in range(self.my_table.rowCount()):
+                    stock = '\'' + self.my_table.item(row, 0).text() + '\''
+                    amount = self.my_table.item(row, 1).text()
+                    value = self.my_table.item(row, 2).text()
+                    self.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value,
+                                                        '\'' + str(date.today()) + '\'')
+                    past_values.append(
+                        int(amount) * round(
+                            yf.Ticker(self.my_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
+                self.analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+                self.portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+                self.textEdit.clear()
+                self.clear()
+                self.show_pie_plot()
+                self.alert_window("Portfolio has been saved succesfully.", "Alert window")
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
@@ -138,5 +145,6 @@ class PortfolioForm(QMainWindow):
         m.setWindowIcon(QtGui.QIcon("static/alert.png"))
         m.setText(text)
         m.setWindowTitle(window_title)
-        m.setStandardButtons(QMessageBox.Ok)
+        m.addButton(QMessageBox.Ok)
+        # m.setStandardButtons(QMessageBox.Ok | QMessageBox.Close)
         m.exec()
