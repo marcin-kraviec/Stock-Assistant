@@ -121,6 +121,7 @@ class CreateGui:
     def go_to_portfolio_chart(self, window):
         window.close()
         self.portfolio_charts_window.show()
+        self.portfolio_charts_window.show_plot()
 
     def go_to_analyse_portfolio_2(self, window):
         window.close()
@@ -129,10 +130,12 @@ class CreateGui:
     def go_to_sharpe_window(self, window):
         window.close()
         self.sharpe_charts_window.show()
+        self.sharpe_charts_window.show_optimase_plot()
 
     def go_to_correlation_window(self, window):
         window.close()
         self.correlation_charts_window.show()
+        self.correlation_charts_window.show_correlation_plot()
 
 
 # run GUI

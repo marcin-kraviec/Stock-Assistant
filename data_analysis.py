@@ -75,16 +75,25 @@ class DataAnalysis:
         p_risk = []
         p_sharpe = []
 
+        current_weights = []
         for value in values:
-            p_weights.append(value / sum(values))
+            current_weights.append(value / sum(values))
 
+        p_weights.append(current_weights)
         data = yf.download(stocks, start='2021-01-01', interval='1d')
         data.reset_index(inplace=True)
 
         x = data['Close'].pct_change()
 
-        wts = np.random.uniform(size=len(x.columns))
-        wts - wts / np.sum(wts)
+        current_mean_ret = (x.mean() * p_weights[0]).sum() * 252
+        p_returns.append(current_mean_ret)
+
+        current_ret = (x * p_weights[0]).sum(axis=1)
+        current_annual_std = np.std(current_ret) * np.sqrt(252)
+        p_risk.append(current_annual_std)
+
+        current_sharpe = (np.mean(current_ret) / np.std(current_ret)) * np.sqrt(252)
+        p_sharpe.append(current_sharpe)
 
         count = 1000
         for k in range(0, count):
