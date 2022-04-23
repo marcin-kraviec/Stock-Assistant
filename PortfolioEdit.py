@@ -92,9 +92,8 @@ class PortfolioEdit(PortfolioForm):
         names = self.database_connector.show_tables()
         for name in names:
             x = self.database_connector.select_from(name)[0][0]
-            for stock in PortfolioForm.stocks:
-                if stock == x:
-                    self.portfolio_combobox.addItem(name)
+            if x in PortfolioForm.stocks:
+                self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
 

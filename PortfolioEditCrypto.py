@@ -18,7 +18,7 @@ class PortfolioEditCrypto(PortfolioEdit):
         # read the window layout from file
         loadUi("static/portfolio_edit_crypto.ui", self)
 
-        self.fill_portfolio_combo_box2()
+
         self.load_button.clicked.connect(self.load_portfolio)
         self.delete_portfolio_button.clicked.connect(self.delete_portfolio)
 
@@ -36,6 +36,8 @@ class PortfolioEditCrypto(PortfolioEdit):
         self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
         self.fill_combo_box(PortfolioFormCrypto.cryptos, self.comboBox_3)
 
+        self.fill_portfolio_combo_box()
+
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
@@ -48,13 +50,13 @@ class PortfolioEditCrypto(PortfolioEdit):
 
         self.save_button.clicked.connect(self.save_it)
 
-    def fill_portfolio_combo_box2(self):
+    def fill_portfolio_combo_box(self):
         names = self.database_connector.show_tables()
         for name in names:
             x = self.database_connector.select_from(name)[0][0]
-            for crypto in PortfolioFormCrypto.cryptos:
-                if crypto == x:
-                    self.portfolio_combobox.addItem(name)
+            cryptos = PortfolioFormCrypto.cryptos
+            if x in PortfolioFormCrypto.cryptos:
+                self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())

@@ -7,6 +7,7 @@ from PortfolioForm import PortfolioForm
 
 
 class PortfolioFormCrypto(PortfolioForm):
+
     cryptos = {}
 
     def __init__(self, analyse_portfolio_window, portfolio_edit_window, portfolio_edit_crypto_window):

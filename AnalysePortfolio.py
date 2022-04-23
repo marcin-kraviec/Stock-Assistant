@@ -49,14 +49,13 @@ class AnalysePortfolio(QMainWindow):
         for i in range(len(data)):
             if data[i][0] in AnalysePortfolio.stocks:
                 stock_index = AnalysePortfolio.stocks.index(data[i][0])
-                AnalysePortfolio.values[stock_index] += int(data[i][1]) * round(
+                AnalysePortfolio.values[stock_index] += float(data[i][1]) * round(
                     yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2)
                 AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
                 AnalysePortfolio.stocks.append(data[i][0])
-                AnalysePortfolio.values.append(
-                    int(data[i][1]) * round(yf.Ticker(data[i][0]).history(period='1d')['Close'][0], 2))
-                AnalysePortfolio.past_values.append(float(data[i][2]))
+                AnalysePortfolio.values.append(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
+                AnalysePortfolio.past_values.append(round(float(data[i][2]), 2))
 
         fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
         # fig.layout.template = 'plotly_dark'
@@ -93,10 +92,10 @@ class AnalysePortfolio(QMainWindow):
         for i in range(len(data)):
             item = QTableWidgetItem(str(data[i][0]))
             item2 = QTableWidgetItem(
-                str(round(int(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
+                str(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2)) + ' $')
             item3 = QTableWidgetItem(str(data[i][3]))
             component_change = round(
-                int(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
+                float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2], 2)
             font = QFont()
             font.setBold(True)
             if component_change > 0.0:
@@ -112,7 +111,7 @@ class AnalysePortfolio(QMainWindow):
             # item4.setBackground(color)
             item4.setForeground(color)
             item4.setFont(font)
-            component_percentage_change = round(((int(data[i][1]) * (
+            component_percentage_change = round(((float(data[i][1]) * (
                 yf.Ticker(data[i][0]).history(period='1d')['Close'][0]) - data[i][2]) / data[i][2]) * 100, 2)
             if component_percentage_change > 0.0:
                 component_percentage_change = '+' + str(component_percentage_change) + ' %'
