@@ -9,10 +9,13 @@ QPushButton {
     font-size: 12px;
     font-weight: bold;
     font-family: "Sora";
+    min-height: 30px;
+    min-width: 60px;
 }
 
 QPushButton:hover {
     background-color: #969696;
+    cursor: pointer;
 }
 
 QLabel {
@@ -29,8 +32,12 @@ QComboBox {
     font-family: 'Sora';
 }
 
-QComboBox:hover, QComboBox::drop-down:hover {
+QComboBox:hover {
     background-color: #969696;
+}
+
+QComboBox::down-arrow{
+    image: url(static/arrow_down.png);
 }
 
 QComboBox::drop-down{
@@ -88,8 +95,12 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-butto
     border-radius: 5px;
 }
 
-QSpinBox::up-arrow {
-    image: url(arrow_down.png);
+QSpinBox::down-arrow{
+    image: url(static/arrow_down.png);
+}
+
+QSpinBox::up-arrow{
+    image: url(static/arrow_up.png);
 }
 
 QMainWindow {

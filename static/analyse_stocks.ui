@@ -83,10 +83,10 @@ border-radius: 10px;</string>
     <widget class="QRadioButton" name="cumulative_returns_plot_button">
      <property name="geometry">
       <rect>
-       <x>770</x>
+       <x>710</x>
        <y>50</y>
-       <width>121</width>
-       <height>17</height>
+       <width>181</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="cursor">
@@ -102,10 +102,10 @@ border-radius: 10px;</string>
     <widget class="QRadioButton" name="candlestick_plot_button">
      <property name="geometry">
       <rect>
-       <x>810</x>
+       <x>731</x>
        <y>30</y>
-       <width>82</width>
-       <height>17</height>
+       <width>161</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="cursor">
@@ -121,10 +121,10 @@ border-radius: 10px;</string>
     <widget class="QRadioButton" name="line_plot_button">
      <property name="geometry">
       <rect>
-       <x>810</x>
+       <x>731</x>
        <y>10</y>
-       <width>82</width>
-       <height>17</height>
+       <width>161</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="cursor">
