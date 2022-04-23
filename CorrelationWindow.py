@@ -24,6 +24,7 @@ class CorrelationWindow(QMainWindow):
         data = self.data_analysis.correlation(AnalysePortfolio.stocks)
         (corr, extremes) = data
 
+
         def df_to_plotly(df):
             return {'z': df.values.tolist(),
                     'x': df.columns.tolist(),
