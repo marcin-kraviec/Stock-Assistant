@@ -158,12 +158,3 @@ class PortfolioEdit(PortfolioForm):
         # TODO: deleting from database when save button clicked !!!
         self.my_table.removeRow(clicked)
         self.database_connector.delete_from(self.portfolio_combobox.currentText(), stock, date)
-
-    def confirmation_window(self, text, window_title):
-        m = QMessageBox(self)
-        # m.setIcon(QMessageBox.Information)
-        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
-        m.setText(text)
-        m.setWindowTitle(window_title)
-        m.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        m.exec()

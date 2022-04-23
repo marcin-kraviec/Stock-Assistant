@@ -95,7 +95,7 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-butto
     border-radius: 5px;
 }
 
-QSpinBox::down-arrow{
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow{
     image: url(static/arrow_down.png);
 }
 
