@@ -1,6 +1,7 @@
 # add new requirement to requirements.txt by executing: pipreqs --force [project_path]
 
 import sys
+from time import sleep
 
 import pandas as pd
 import yfinance as yf
@@ -31,7 +32,7 @@ from PortfolioFormCrypto import PortfolioFormCrypto
 from CorrelationWindow import CorrelationWindow
 from PortfolioChart import PortfolioChart
 from SharpeWindow import SharpeWindow
-from LoadingWindow import LoadingWindow
+from LoadingWindow import LoadingWindow, myThread
 # tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 
@@ -57,7 +58,6 @@ class CreateGui:
         self.correlation_charts_window = CorrelationWindow()
         self.portfolio_charts_window = PortfolioChart()
         self.sharpe_charts_window = SharpeWindow()
-        self.loading_window = LoadingWindow()
 
         self.home_window.analyse_stocks_button.clicked.connect(self.go_to_analyse_stocks)
         self.home_window.analyse_crypto_button.clicked.connect(self.go_to_analyse_crypto)
@@ -156,14 +156,14 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     loading_window = LoadingWindow()
-    loading_window.setGeometry(730,405,460,270)
+    t = myThread(loading_window)
+    t.start()
+    loading_window.setGeometry(730, 405, 460, 270)
     loading_window.show()
-    loading_window.run()
 
     database_connector = database.DatabaseConnector()
     data_analysis = data_analysis.DataAnalysis()
     # initialise all the windows
-
     controller = CreateGui()
 
     # customise the app with css styling
