@@ -85,6 +85,33 @@ class DataAnalysis:
 
         x = data['Close'].pct_change()
 
+        count = 1000
+        for k in range(0, count):
+
+            # returns
+            mean_ret = (x.mean() * p_weights[k]).sum() * 252
+            p_returns.append(mean_ret)
+
+            wts = np.random.uniform(size=len(x.columns))
+            wts = wts / np.sum(wts)
+            p_weights.append(wts)
+
+            # volatility
+            ret = (x * p_weights[k]).sum(axis=1)
+            annual_std = np.std(ret) * np.sqrt(252)
+            p_risk.append(annual_std)
+
+            # Sharpe ratio
+            sharpe = (np.mean(ret) / np.std(ret)) * np.sqrt(252)
+            p_sharpe.append(sharpe)
+
+        max_ind = np.argmax(p_sharpe)
+        # print('Max sharpe ratio: ')
+        # print(p_sharpe[max_ind])
+        # print(p_weights[max_ind])
+        return p_risk, p_returns, p_sharpe, p_weights, max_ind
+
+        '''
         current_mean_ret = (x.mean() * p_weights[0]).sum() * 252
         p_returns.append(current_mean_ret)
 
@@ -94,7 +121,9 @@ class DataAnalysis:
 
         current_sharpe = (np.mean(current_ret) / np.std(current_ret)) * np.sqrt(252)
         p_sharpe.append(current_sharpe)
-
+        
+        
+        
         count = 1000
         for k in range(0, count):
             wts = np.random.uniform(size=len(x.columns))
@@ -119,7 +148,7 @@ class DataAnalysis:
         #print(p_sharpe[max_ind])
         #print(p_weights[max_ind])
         return p_risk, p_returns, p_sharpe, p_weights, max_ind
-
+        '''
         # s = pd.Series(p_weights[max_ind], index=x.columns)
         # s.plot(kind='bar') # this plots weights
 
