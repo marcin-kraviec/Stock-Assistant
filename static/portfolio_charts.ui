@@ -54,7 +54,7 @@
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
    </widget>
-   <widget class="QRadioButton" name="line_plot_button">
+   <widget class="QRadioButton" name="a_button">
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -67,13 +67,13 @@
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
-     <string>Line</string>
+     <string>A</string>
     </property>
     <property name="checked">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="candlestick_plot_button">
+   <widget class="QRadioButton" name="b_button">
     <property name="geometry">
      <rect>
       <x>730</x>
@@ -86,23 +86,7 @@
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="text">
-     <string>Candlestick</string>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="cumulative_returns_plot_button">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>60</y>
-      <width>121</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="text">
-     <string>Cumulative returns</string>
+     <string>B</string>
     </property>
    </widget>
   </widget>
@@ -112,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
