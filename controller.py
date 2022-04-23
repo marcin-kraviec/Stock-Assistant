@@ -137,6 +137,7 @@ class CreateGui:
 
 # run GUI
 if __name__ == "__main__":
+
     # setup the app
     app = QApplication(sys.argv)
     database_connector = database.DatabaseConnector()
