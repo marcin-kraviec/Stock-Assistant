@@ -103,3 +103,6 @@ QMainWindow {
     min-height: 1080px;
 }
 
+QWidget{
+}
+
