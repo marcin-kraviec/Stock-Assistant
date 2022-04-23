@@ -80,7 +80,7 @@
      <string notr="true">background-color: rgb(213, 213, 213);
 border-radius: 10px;</string>
     </property>
-    <widget class="QRadioButton" name="cumulative_returns_plot_button">
+    <widget class="QRadioButton" name="rsi_plot_button">
      <property name="geometry">
       <rect>
        <x>710</x>
@@ -96,7 +96,7 @@ border-radius: 10px;</string>
       <enum>Qt::RightToLeft</enum>
      </property>
      <property name="text">
-      <string>Cumulative returns</string>
+      <string>RSI</string>
      </property>
     </widget>
     <widget class="QRadioButton" name="candlestick_plot_button">
@@ -153,7 +153,7 @@ border-radius: 10px;</string>
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

@@ -111,46 +111,17 @@ class DataAnalysis:
         # print(p_weights[max_ind])
         return p_risk, p_returns, p_sharpe, p_weights, max_ind
 
-        '''
-        current_mean_ret = (x.mean() * p_weights[0]).sum() * 252
-        p_returns.append(current_mean_ret)
+    @staticmethod
+    def rsi(df, period=13):
+        net_change = df['Close'].diff()
+        increase = net_change.clip(lower=0)
+        decrease = -1 * net_change.clip(upper=0)
+        ema_up = increase.ewm(com=period, adjust=False).mean()
+        ema_down = decrease.ewm(com=period, adjust=False).mean()
+        RS = ema_up / ema_down
+        df['RSI'] = 100 - (100 / (1 + RS))
+        return df
 
-        current_ret = (x * p_weights[0]).sum(axis=1)
-        current_annual_std = np.std(current_ret) * np.sqrt(252)
-        p_risk.append(current_annual_std)
-
-        current_sharpe = (np.mean(current_ret) / np.std(current_ret)) * np.sqrt(252)
-        p_sharpe.append(current_sharpe)
-        
-        
-        
-        count = 1000
-        for k in range(0, count):
-            wts = np.random.uniform(size=len(x.columns))
-            wts = wts / np.sum(wts)
-            p_weights.append(wts)
-
-            # returns
-            mean_ret = (x.mean() * wts).sum() * 252
-            p_returns.append(mean_ret)
-
-            # volatility
-            ret = (x * wts).sum(axis=1)
-            annual_std = np.std(ret) * np.sqrt(252)
-            p_risk.append(annual_std)
-
-            # Sharpe ratio
-            sharpe = (np.mean(ret) / np.std(ret)) * np.sqrt(252)
-            p_sharpe.append(sharpe)
-
-        max_ind = np.argmax(p_sharpe)
-        #print('Max sharpe ratio: ')
-        #print(p_sharpe[max_ind])
-        #print(p_weights[max_ind])
-        return p_risk, p_returns, p_sharpe, p_weights, max_ind
-        '''
-        # s = pd.Series(p_weights[max_ind], index=x.columns)
-        # s.plot(kind='bar') # this plots weights
 
         '''
         We found the best portfolio weights!
