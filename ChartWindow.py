@@ -1,9 +1,9 @@
 import csv
 
 import yfinance as yf
-from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMainWindow
 import plotly.graph_objs as go
+import plotly.express as px
 
 import data_analysis
 
@@ -37,9 +37,9 @@ class ChartWindow(QMainWindow):
 
 
         # Plotting
-        trace2 = go.Scatter(x=lower_band.index, y=lower_band['lower'], name='Lower Band',line_color='rgba(173,204,255,0.2)')
-        trace3 = go.Scatter(x=upper_band.index, y=upper_band['upper'], name='Upper Band', fill='tonexty',fillcolor='rgba(173,204,255,0.2)', line_color='rgba(173,204,255,0.2)')
-        trace4 = go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'],high=data['High'])
+        trace2 = go.Scatter(x=lower_band.index, y=lower_band['lower'], name='Lower Band', line_color='rgba(173,204,255,0.2)')
+        trace3 = go.Scatter(x=upper_band.index, y=upper_band['upper'], name='Upper Band', fill='tonexty', fillcolor='rgba(173,204,255,0.2)', line_color='rgba(173,204,255,0.2)')
+        trace4 = go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High'])
         trace5 = go.Scatter(x=sma.index, y=sma['Close'], name='SMA', line_color='#FECB52')
 
         data = [ trace2, trace3, trace4, trace5]
@@ -77,14 +77,15 @@ class ChartWindow(QMainWindow):
         fig = go.FigureWidget(data=data, layout=layout)
         fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
-
-        # fig.update_xaxes(
-        #     rangeslider_visible=True,
-        #     rangebreaks=[
-        #         # NOTE: Below values are bound (not single values), ie. hide x to y
-        #         dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
-        #         dict(values=["2019-12-25", "2020-12-24"])]) # hide holidays (Christmas and New Year's, etc)
+        '''
+        fig.update_xaxes(
+            rangeslider_visible=True,
+            rangebreaks=[
+                # NOTE: Below values are bound (not single values), ie. hide x to y
+                dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+                dict(values=["2019-12-25", "2020-12-24"])]) # hide holidays (Christmas and New Year's, etc)
         # changing plot into html file so that it can be displayed with webengine
+        '''
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
 
@@ -110,10 +111,10 @@ class ChartWindow(QMainWindow):
         sellers = bb[bb['Close'] >= bb['upper']]
 
         # Plotting
-        trace2 = go.Scatter(x=lower_band.index,y=lower_band['lower'],name='Lower Band',line_color='rgba(173,204,255,0.2)')
-        trace3 = go.Scatter(x=upper_band.index,y=upper_band['upper'],name='Upper Band',fill='tonexty',fillcolor='rgba(173,204,255,0.2)',line_color='rgba(173,204,255,0.2)')
-        trace4 = go.Scatter(x=df.index,y=df['Close'],name='Close',line_color='#636EFA')
-        trace5 = go.Scatter(x=sma.index,y=sma['Close'],name='SMA',line_color='#FECB52')
+        trace2 = go.Scatter(x=lower_band.index,y=lower_band['lower'],name='Lower Band', line_color='rgba(173,204,255,0.2)')
+        trace3 = go.Scatter(x=upper_band.index,y=upper_band['upper'],name='Upper Band',fill='tonexty',fillcolor='rgba(173,204,255,0.2)', line_color='rgba(173,204,255,0.2)')
+        trace4 = go.Scatter(x=df.index,y=df['Close'],name='Close', line_color='#636EFA')
+        trace5 = go.Scatter(x=sma.index,y=sma['Close'],name='SMA', line_color='#FECB52')
         trace6 = go.Scatter(x=buyers.index,y=buyers['Close'],name='Buyers',mode='markers',marker=dict(color='#00CC96',size=10,))
         trace7 = go.Scatter(x=sellers.index,y=sellers['Close'],name='Sellers',mode='markers',marker=dict(color='#EF553B',size=10,))
 
@@ -153,13 +154,15 @@ class ChartWindow(QMainWindow):
         fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
 
-        # fig.update_xaxes(
-        #     rangeslider_visible=True,
-        #     rangebreaks=[
-        #         # NOTE: Below values are bound (not single values), ie. hide x to y
-        #         dict(bounds=["Sat", "Mon"]),  # hide weekends, eg. hide sat to before mon
-        #         dict(values=["2019-12-25", "2020-12-24"])])  # hide holidays (Christmas and New Year's, etc)
+        '''
+        fig.update_xaxes(
+            rangeslider_visible=True,
+            rangebreaks=[
+                # NOTE: Below values are bound (not single values), ie. hide x to y
+                dict(bounds=["Sat", "Mon"]),  # hide weekends, eg. hide sat to before mon
+                dict(values=["2019-12-25", "2020-12-24"])])  # hide holidays (Christmas and New Year's, etc)
         # changing plot into html file so that it can be displayed with webengine
+        '''
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
 
@@ -215,7 +218,25 @@ class ChartWindow(QMainWindow):
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
+    def show_correlation_plot(self):
+        # getting a current stock from combobox
+        stock = self.stocks_combobox.currentText()
+        stocks = [self.stocks_combobox.itemText(i) for i in range(self.stocks_combobox.count())]
 
+        data = self.data_analysis.correlation(stocks)
+        (corr, extremes) = data
+
+        df = corr[stock].abs().sort_values()
+
+        def df_to_plotly(df):
+            return {'y': df.values.tolist(),
+                    'x': df.index.tolist()}
+
+        #fig = go.Figure(data=go.Heatmap(df_to_plotly(df), colorscale='Viridis'))
+        #fig = go.Figure(data=go.Bar(df_to_plotly(df), marker=dict(color = df.values.tolist(),colorscale='viridis')))
+
+        fig = px.bar(x=df.index.tolist(), y=df.values.tolist(), color=df.values.tolist(),  color_continuous_scale=px.colors.sequential.Viridis)
+        self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
     # switching between plot types
     def set_plot_type(self, button):
@@ -226,6 +247,8 @@ class ChartWindow(QMainWindow):
                 self.show_candlestick_plot()
             elif button.text() == 'RSI':
                 self.show_rsi_plot()
+            elif button.text() == 'Correlation':
+                self.show_correlation_plot()
 
     # fill combobox with stock names
     def fill_combo_box(self, dict, combobox):

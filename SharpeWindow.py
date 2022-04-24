@@ -36,7 +36,7 @@ class SharpeWindow(QMainWindow):
         #fig = go.Figure()
         #fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
         #fig.add_trace(go.Scatter(x=p_risk, y=p_returns, color=p_sharpe))
-        fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe)
+        fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe, color_continuous_scale=px.colors.sequential.Viridis)
         fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers',marker_symbol='star', marker_size=10, marker_color="green"))
         fig.add_trace(go.Scatter(x=[p_risk[0]], y=[p_returns[0]], mode='markers', marker_symbol='star', marker_size=10, marker_color="blue"))
         #plt.scatter(p_risk[max_ind], p_returns[max_ind], color='r', marker='*', s=500)
