@@ -10,6 +10,7 @@ from PyQt5.uic import loadUi
 from numpy import double
 import yfinance as yf
 import plotly.graph_objs as go
+import plotly.express as px
 
 
 class PortfolioForm(QMainWindow):
@@ -132,7 +133,8 @@ class PortfolioForm(QMainWindow):
             stocks.append(self.my_table.item(row, 0).text())
             values.append(float(self.my_table.item(row, 2).text()))
 
-        fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
+        #fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
+        fig = px.pie(values=values, names=stocks, hole=.4,color_discrete_sequence=px.colors.sequential.Viridis[::-1])
 
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))

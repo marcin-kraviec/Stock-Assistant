@@ -7,6 +7,7 @@ import yfinance as yf
 import database
 import data_analysis
 import plotly.graph_objs as go
+import plotly.express as px
 
 class AnalysePortfolio(QMainWindow):
     database_connector = database.DatabaseConnector()
@@ -57,7 +58,8 @@ class AnalysePortfolio(QMainWindow):
                 AnalysePortfolio.values.append(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
                 AnalysePortfolio.past_values.append(round(float(data[i][2]), 2))
 
-        fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        #fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        fig = px.pie(values=AnalysePortfolio.values, names=AnalysePortfolio.stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis[::-1])
         # fig.layout.template = 'plotly_dark'
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
