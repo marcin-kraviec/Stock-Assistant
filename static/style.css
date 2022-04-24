@@ -54,12 +54,6 @@ QComboBox QAbstractItemView {
     font-family: 'Sora';
 }
 
-/*QComboBox::down-arrow {*/
-/*    image: url(arrow_down.png);*/
-/*    width: 7px;*/
-/*    height: 7px;*/
-/*}*/
-
 QTableWidget {
     font-family: 'Sora';
     background-color: #eeeeee;
@@ -99,11 +93,14 @@ QSpinBox::down-arrow, QDoubleSpinBox::down-arrow{
     image: url(static/arrow_down.png);
 }
 
-QSpinBox::up-arrow{
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow{
     image: url(static/arrow_up.png);
 }
 
 QMainWindow {
     background-color: white;
+    min-width: 1920px;
+    min-height: 1080px;
 }
+
 

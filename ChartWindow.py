@@ -1,6 +1,7 @@
 import csv
 
 import yfinance as yf
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMainWindow
 import plotly.graph_objs as go
 import plotly.express as px
