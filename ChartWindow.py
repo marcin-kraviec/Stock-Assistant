@@ -78,12 +78,12 @@ class ChartWindow(QMainWindow):
         fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
 
-        fig.update_xaxes(
-            rangeslider_visible=True,
-            rangebreaks=[
-                # NOTE: Below values are bound (not single values), ie. hide x to y
-                dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
-                dict(values=["2019-12-25", "2020-12-24"])]) # hide holidays (Christmas and New Year's, etc)
+        # fig.update_xaxes(
+        #     rangeslider_visible=True,
+        #     rangebreaks=[
+        #         # NOTE: Below values are bound (not single values), ie. hide x to y
+        #         dict(bounds=["sat", "mon"]),  # hide weekends, eg. hide sat to before mon
+        #         dict(values=["2019-12-25", "2020-12-24"])]) # hide holidays (Christmas and New Year's, etc)
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
@@ -153,12 +153,12 @@ class ChartWindow(QMainWindow):
         fig.update_yaxes(fixedrange=False)
         fig.update_layout(hovermode="x unified")
 
-        fig.update_xaxes(
-            rangeslider_visible=True,
-            rangebreaks=[
-                # NOTE: Below values are bound (not single values), ie. hide x to y
-                dict(bounds=["Sat", "Mon"]),  # hide weekends, eg. hide sat to before mon
-                dict(values=["2019-12-25", "2020-12-24"])])  # hide holidays (Christmas and New Year's, etc)
+        # fig.update_xaxes(
+        #     rangeslider_visible=True,
+        #     rangebreaks=[
+        #         # NOTE: Below values are bound (not single values), ie. hide x to y
+        #         dict(bounds=["Sat", "Mon"]),  # hide weekends, eg. hide sat to before mon
+        #         dict(values=["2019-12-25", "2020-12-24"])])  # hide holidays (Christmas and New Year's, etc)
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 

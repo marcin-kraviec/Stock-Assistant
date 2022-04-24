@@ -4,9 +4,23 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 import yfinance as yf
+from sqlalchemy import true
+
 import database
 import data_analysis
 import plotly.graph_objs as go
+from LoadingPortfolio import LoadingPortfolio, myThread
+
+
+def show_loading():
+    loading_portfolio = LoadingPortfolio()
+    loading_portfolio.setGeometry(730, 405, 460, 270)
+    t = myThread(loading_portfolio)
+    t.start()
+    loading_portfolio.show()
+    if loading_portfolio.progressBar.value() == 100:
+        loading_portfolio.close()
+
 
 class AnalysePortfolio(QMainWindow):
     database_connector = database.DatabaseConnector()
@@ -33,6 +47,13 @@ class AnalysePortfolio(QMainWindow):
             print('Preventing from crashing as there is no portfolio in database')
             print(e)
 
+        # loading_portfolio = LoadingPortfolio()
+        # loading_portfolio.setGeometry(730, 405, 460, 270)
+        # t = myThread2(loading_portfolio)
+        # self.load_button.clicked.connect(lambda: loading_portfolio.show())
+        # self.load_button.clicked.connect(lambda: t.start())
+        self.load_button.setCheckable(True)
+        self.load_button.clicked.connect(show_loading)
         self.load_button.clicked.connect(self.load_portfolio)
 
         # self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
@@ -40,6 +61,7 @@ class AnalysePortfolio(QMainWindow):
         # self.analyse_sharpe_button.clicked.connect(self.go_to_sharpe_charts)
 
     def load_portfolio(self):
+
         data = self.database_connector.select_from(self.combobox.currentText())
 
         AnalysePortfolio.stocks = []
@@ -54,7 +76,8 @@ class AnalysePortfolio(QMainWindow):
                 AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
                 AnalysePortfolio.stocks.append(data[i][0])
-                AnalysePortfolio.values.append(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
+                AnalysePortfolio.values.append(
+                    round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
                 AnalysePortfolio.past_values.append(round(float(data[i][2]), 2))
 
         fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
