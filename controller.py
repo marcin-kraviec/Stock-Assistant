@@ -187,4 +187,5 @@ if __name__ == "__main__":
     loading_window.finish(controller.home_window)
     t.terminate()
 
+
     sys.exit(app.exec_())

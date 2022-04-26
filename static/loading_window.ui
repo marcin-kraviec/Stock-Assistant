@@ -25,20 +25,20 @@
   <widget class="QProgressBar" name="progressBar">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>400</y>
-     <width>651</width>
-     <height>51</height>
+     <x>0</x>
+     <y>480</y>
+     <width>811</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QProgressBar{
-	border-radius: 20px;
-	background-color: rgb(255, 255, 255);
+	border-radius: 0px;
+	background-color: rgb(0, 0, 0)
 }
 QProgressBar::chunk{
-	border-radius: 20px;
-	background-color: rgb(0, 0, 0);
+	border-radius: 0px;
+	background-color: rgb(255, 255, 255)
 }</string>
    </property>
    <property name="maximum">
@@ -54,44 +54,22 @@ QProgressBar::chunk{
     <enum>QProgressBar::BottomToTop</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="counter">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>340</y>
-     <width>101</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="layoutDirection">
-    <enum>Qt::LeftToRight</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Reem Kufi&quot;;</string>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>10</y>
-     <width>551</width>
-     <height>221</height>
+     <x>50</x>
+     <y>20</y>
+     <width>561</width>
+     <height>131</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 60pt &quot;Reem Kufi&quot;;
-color: white;
+    <string notr="true">color: white;
+font-size: 65px;
 </string>
    </property>
    <property name="text">
-    <string>Welcome!</string>
+    <string>Stock Assistant  </string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -110,13 +88,34 @@ color: white;
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>fiufiu.jpg</pixmap>
+    <pixmap>fiufiu2.jpg</pixmap>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>590</x>
+     <y>50</y>
+     <width>111</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font-size: 35px;
+color: white;
+</string>
+   </property>
+   <property name="text">
+    <string>1.0</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <zorder>label_2</zorder>
   <zorder>progressBar</zorder>
-  <zorder>counter</zorder>
   <zorder>label</zorder>
+  <zorder>label_3</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -1,4 +1,5 @@
 from PyQt5 import QtWebEngineWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.uic import loadUi
 
@@ -8,7 +9,6 @@ import yfinance as yf
 
 
 class PortfolioEditCrypto(PortfolioEdit):
-
     current_portfolio = ''
     portfolio_length = 0
 
@@ -17,7 +17,7 @@ class PortfolioEditCrypto(PortfolioEdit):
 
         # read the window layout from file
         loadUi("static/portfolio_edit_crypto.ui", self)
-
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.load_button.clicked.connect(self.load_portfolio)
         self.delete_portfolio_button.clicked.connect(self.delete_portfolio)

@@ -1,6 +1,7 @@
 from datetime import date
 
 from PyQt5 import QtWebEngineWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 import yfinance as yf
 from PortfolioForm import PortfolioForm
@@ -15,6 +16,7 @@ class PortfolioFormCrypto(PortfolioForm):
         self.portfolio_edit_crypto_window = portfolio_edit_crypto_window
         # read the window layout from file
         loadUi("static/portfolio_form_crypto.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         # add, delete, clear elements in portfolio form
         self.add_button.clicked.connect(self.add_it)

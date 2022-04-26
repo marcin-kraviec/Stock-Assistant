@@ -17,8 +17,8 @@
    <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
-      <x>1360</x>
-      <y>20</y>
+      <x>1320</x>
+      <y>30</y>
       <width>471</width>
       <height>51</height>
      </rect>
@@ -31,10 +31,14 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>30</y>
-      <width>391</width>
-      <height>41</height>
+      <y>20</y>
+      <width>481</width>
+      <height>81</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: #0c705f;
+font-size: 35px;</string>
     </property>
     <property name="text">
      <string>TextLabel</string>
@@ -60,111 +64,92 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>110</y>
+      <y>130</y>
       <width>1911</width>
-      <height>911</height>
+      <height>891</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QRadioButton" name="line_plot_button">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>1000</x>
       <y>10</y>
-      <width>911</width>
-      <height>81</height>
+      <width>161</width>
+      <height>20</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(213, 213, 213);
-border-radius: 10px;</string>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
     </property>
-    <widget class="QRadioButton" name="rsi_plot_button">
-     <property name="geometry">
-      <rect>
-       <x>710</x>
-       <y>40</y>
-       <width>181</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string>RSI</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="candlestick_plot_button">
-     <property name="geometry">
-      <rect>
-       <x>731</x>
-       <y>20</y>
-       <width>161</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string>Candlestick</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="line_plot_button">
-     <property name="geometry">
-      <rect>
-       <x>731</x>
-       <y>0</y>
-       <width>161</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string>Line</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="correlation_plot_button">
-     <property name="geometry">
-      <rect>
-       <x>700</x>
-       <y>60</y>
-       <width>191</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string>Correlation</string>
-     </property>
-    </widget>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Line</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
-   <zorder>widget</zorder>
-   <zorder>stocks_combobox</zorder>
-   <zorder>stock_info_label</zorder>
-   <zorder>back_button</zorder>
-   <zorder>verticalLayoutWidget</zorder>
+   <widget class="QRadioButton" name="candlestick_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>40</y>
+      <width>161</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Candlestick</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="rsi_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>70</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>RSI</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="correlation_plot_button">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>100</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>Correlation</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -172,7 +157,7 @@ border-radius: 10px;</string>
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -20,8 +20,8 @@
    <widget class="QPushButton" name="add_button">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>120</y>
+      <x>720</x>
+      <y>140</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -52,8 +52,8 @@
    <widget class="QSpinBox" name="spinBox_4">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>120</y>
+      <x>380</x>
+      <y>140</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -68,9 +68,9 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>120</y>
-      <width>171</width>
+      <x>490</x>
+      <y>140</y>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -87,8 +87,8 @@
    <widget class="QComboBox" name="comboBox_3">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>120</y>
+      <x>120</x>
+      <y>140</y>
       <width>241</width>
       <height>31</height>
      </rect>
@@ -102,7 +102,7 @@
      <rect>
       <x>840</x>
       <y>110</y>
-      <width>1031</width>
+      <width>991</width>
       <height>801</height>
      </rect>
     </property>
@@ -234,7 +234,7 @@
    <widget class="QComboBox" name="portfolio_combobox">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>510</x>
       <y>20</y>
       <width>191</width>
       <height>31</height>
@@ -247,7 +247,7 @@
    <widget class="QPushButton" name="load_button">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>720</x>
       <y>20</y>
       <width>91</width>
       <height>31</height>
@@ -265,7 +265,7 @@
      <rect>
       <x>120</x>
       <y>840</y>
-      <width>191</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -276,47 +276,22 @@
      <string>Delete portfolio</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QLabel" name="title">
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>9</y>
-      <width>691</width>
-      <height>161</height>
+      <y>30</y>
+      <width>361</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(213, 213, 213);
-border-radius: 10px;</string>
+     <string notr="true">font-size: 30px;</string>
     </property>
-    <widget class="QLabel" name="title">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>231</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Edit your Portfolio!</string>
-     </property>
-    </widget>
+    <property name="text">
+     <string>Edit your Portfolio!</string>
+    </property>
    </widget>
-   <zorder>widget</zorder>
-   <zorder>add_button</zorder>
-   <zorder>back_button</zorder>
-   <zorder>spinBox_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>comboBox_3</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>delete_it_button</zorder>
-   <zorder>clear_button</zorder>
-   <zorder>my_table</zorder>
-   <zorder>save_button</zorder>
-   <zorder>portfolio_combobox</zorder>
-   <zorder>load_button</zorder>
-   <zorder>delete_portfolio_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -1,4 +1,5 @@
 from PyQt5 import QtWebEngineWidgets, QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from ChartWindow import ChartWindow
 
@@ -12,7 +13,7 @@ class AnalyseStocks(ChartWindow):
 
         # read the window layout from file
         loadUi("static/analyse_stocks.ui", self)
-
+        self.setWindowFlags(Qt.FramelessWindowHint)
         # move to home window after clicking a button
 
         # setup a webengine for plots

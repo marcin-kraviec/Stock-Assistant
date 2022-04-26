@@ -1,4 +1,5 @@
 from PyQt5 import QtWebEngineWidgets
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
 from ChartWindow import ChartWindow
@@ -12,6 +13,7 @@ class AnalyseCrypto(ChartWindow):
 
         # read the window layout from file
         loadUi("static/analyse_stocks.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         # move to home window after clicking a button
 
