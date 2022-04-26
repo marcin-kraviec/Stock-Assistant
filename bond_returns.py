@@ -1,3 +1,5 @@
+from PyQt5.QtCore import Qt
+
 import database
 from PyQt5 import QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow, QHeaderView
@@ -17,6 +19,7 @@ class BondReturns(QMainWindow):
     def __init__(self):
         super().__init__()
         loadUi("static/bond_returns.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         header = self.tableWidget.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)

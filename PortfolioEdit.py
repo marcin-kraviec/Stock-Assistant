@@ -18,6 +18,7 @@ class PortfolioEdit(PortfolioForm):
 
         # read the window layout from file
         loadUi("static/portfolio_edit.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.fill_portfolio_combo_box()
         self.load_button.clicked.connect(self.load_portfolio)

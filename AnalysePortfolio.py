@@ -22,6 +22,7 @@ class AnalysePortfolio(QMainWindow):
 
         # read the window layout from file
         loadUi("static/analyse_portfolio.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)

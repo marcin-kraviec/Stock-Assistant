@@ -1,4 +1,6 @@
-from PyQt5.QtCore import Qt
+import sys
+
+from PyQt5.QtCore import Qt, QCoreApplication
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
 
@@ -9,4 +11,6 @@ class Home(QMainWindow):
 
         # read the window layout from file
         loadUi("static/home.ui", self)
-        # self.setWindowFlags(Qt.FramelessWindowHint)
+        self.exit_button.clicked.connect(QCoreApplication.instance().quit)
+        self.minimize_button.clicked.connect(lambda: self.showMinimized())
+        self.setWindowFlags(Qt.FramelessWindowHint)

@@ -24,6 +24,7 @@ class PortfolioForm(QMainWindow):
 
         # read the window layout from file
         loadUi("static/portfolio_form.ui", self)
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         # add, delete, clear elements in portfolio form
         self.add_button.clicked.connect(self.add_it)
@@ -134,7 +135,7 @@ class PortfolioForm(QMainWindow):
             values.append(float(self.my_table.item(row, 2).text()))
 
         #fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
-        fig = px.pie(values=values, names=stocks, hole=.4,color_discrete_sequence=px.colors.sequential.Viridis[::-1])
+        fig = px.pie(values=values, names=stocks, hole=.4,color_discrete_sequence=px.colors.sequential.Viridis)
 
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
