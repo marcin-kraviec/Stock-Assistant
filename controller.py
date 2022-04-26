@@ -158,7 +158,7 @@ if __name__ == "__main__":
     loading_window = LoadingWindow()
     t = myThread(loading_window)
     t.start()
-    loading_window.setGeometry(730, 405, 460, 270)
+    loading_window.setGeometry(560, 290, 800, 500)
     loading_window.show()
 
     database_connector = database.DatabaseConnector()
@@ -179,5 +179,6 @@ if __name__ == "__main__":
 
     controller.home_window.show()
     loading_window.finish(controller.home_window)
+    t.terminate()
 
     sys.exit(app.exec_())

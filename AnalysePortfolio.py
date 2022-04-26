@@ -12,16 +12,6 @@ import plotly.graph_objs as go
 from LoadingPortfolio import LoadingPortfolio, myThread
 
 
-def show_loading():
-    loading_portfolio = LoadingPortfolio()
-    loading_portfolio.setGeometry(730, 405, 460, 270)
-    t = myThread(loading_portfolio)
-    t.start()
-    loading_portfolio.show()
-    if loading_portfolio.progressBar.value() == 100:
-        loading_portfolio.close()
-
-
 class AnalysePortfolio(QMainWindow):
     database_connector = database.DatabaseConnector()
     data_analysis = data_analysis.DataAnalysis()
@@ -47,18 +37,7 @@ class AnalysePortfolio(QMainWindow):
             print('Preventing from crashing as there is no portfolio in database')
             print(e)
 
-        # loading_portfolio = LoadingPortfolio()
-        # loading_portfolio.setGeometry(730, 405, 460, 270)
-        # t = myThread2(loading_portfolio)
-        # self.load_button.clicked.connect(lambda: loading_portfolio.show())
-        # self.load_button.clicked.connect(lambda: t.start())
-        self.load_button.setCheckable(True)
-        self.load_button.clicked.connect(show_loading)
         self.load_button.clicked.connect(self.load_portfolio)
-
-        # self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
-        # self.analyse_corr_button.clicked.connect(self.go_to_correlation_charts)
-        # self.analyse_sharpe_button.clicked.connect(self.go_to_sharpe_charts)
 
     def load_portfolio(self):
 

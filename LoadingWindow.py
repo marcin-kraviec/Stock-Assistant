@@ -11,12 +11,12 @@ class LoadingWindow(QSplashScreen):
         # read the window layout from file
         loadUi("static/loading_window.ui", self)
 
+
 class myThread(QThread):
     def __init__(self, loading_window):
         super().__init__()
         self.loading_window = loading_window
-
-    change_value = pyqtSignal(int)
+        self.setTerminationEnabled(True)
 
     def run(self):
         cnt = 0
@@ -25,5 +25,5 @@ class myThread(QThread):
             time.sleep(0.06)
             self.loading_window.progressBar.setValue(cnt)
             self.loading_window.counter.setText(str(cnt) + "%")
-            self.change_value.emit(cnt)
+
 

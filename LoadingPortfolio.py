@@ -1,6 +1,6 @@
 import time
 
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal, QMutex
 from PyQt5.QtWidgets import QMainWindow, QWidget, QSplashScreen
 from PyQt5.uic import loadUi
 
@@ -16,6 +16,7 @@ class myThread(QThread):
     def __init__(self, loading_portfolio):
         super().__init__()
         self.loading_portfolio = loading_portfolio
+        self.setTerminationEnabled(True)
 
     def run(self):
         cnt = 0
@@ -24,3 +25,4 @@ class myThread(QThread):
             time.sleep(0.03)
             self.loading_portfolio.progressBar.setValue(cnt)
             self.loading_portfolio.counter.setText(str(cnt) + "%")
+
