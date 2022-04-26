@@ -91,7 +91,7 @@
      <string>Analyse Crypto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="simulate_bond_returns_button">
+   <widget class="QPushButton" name="bond_returns_button">
     <property name="geometry">
      <rect>
       <x>130</x>
@@ -191,7 +191,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

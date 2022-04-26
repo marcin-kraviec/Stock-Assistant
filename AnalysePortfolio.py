@@ -4,13 +4,10 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 import yfinance as yf
-from sqlalchemy import true
-
 import database
 import data_analysis
 import plotly.graph_objs as go
-from LoadingPortfolio import LoadingPortfolio, myThread
-
+import plotly.express as px
 
 class AnalysePortfolio(QMainWindow):
     database_connector = database.DatabaseConnector()
@@ -39,8 +36,11 @@ class AnalysePortfolio(QMainWindow):
 
         self.load_button.clicked.connect(self.load_portfolio)
 
-    def load_portfolio(self):
+        # self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
+        # self.analyse_corr_button.clicked.connect(self.go_to_correlation_charts)
+        # self.analyse_sharpe_button.clicked.connect(self.go_to_sharpe_charts)
 
+    def load_portfolio(self):
         data = self.database_connector.select_from(self.combobox.currentText())
 
         AnalysePortfolio.stocks = []
@@ -55,11 +55,11 @@ class AnalysePortfolio(QMainWindow):
                 AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
                 AnalysePortfolio.stocks.append(data[i][0])
-                AnalysePortfolio.values.append(
-                    round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
+                AnalysePortfolio.values.append(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
                 AnalysePortfolio.past_values.append(round(float(data[i][2]), 2))
 
-        fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        #fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        fig = px.pie(values=AnalysePortfolio.values, names=AnalysePortfolio.stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis[::-1])
         # fig.layout.template = 'plotly_dark'
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 

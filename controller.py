@@ -33,6 +33,7 @@ from CorrelationWindow import CorrelationWindow
 from PortfolioChart import PortfolioChart
 from SharpeWindow import SharpeWindow
 from LoadingWindow import LoadingWindow, myThread
+from bond_returns import BondReturns
 # tell the window that this is my own registered application, so I will decide the icon of it
 import ctypes
 
@@ -58,6 +59,7 @@ class CreateGui:
         self.correlation_charts_window = CorrelationWindow()
         self.portfolio_charts_window = PortfolioChart()
         self.sharpe_charts_window = SharpeWindow()
+        self.bond_returns_window = BondReturns()
 
         self.home_window.analyse_stocks_button.clicked.connect(self.go_to_analyse_stocks)
         self.home_window.analyse_crypto_button.clicked.connect(self.go_to_analyse_crypto)
@@ -67,19 +69,17 @@ class CreateGui:
         self.home_window.edit_portfolio_button.clicked.connect(self.go_to_edit_portfolio)
         self.home_window.create_portfolio_crypto_button.clicked.connect(self.go_to_portfolio_form_crypto)
         self.home_window.edit_portfolio_crypto_button.clicked.connect(self.go_to_portfolio_edit_crypto)
+        self.home_window.bond_returns_button.clicked.connect(self.go_to_bond_returns)
 
         self.analyse_stocks_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_stocks_window))
         self.analyse_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_crypto_window))
-        self.analyse_currencies_window.back_button.clicked.connect(
-            lambda: self.go_to_home(self.analyse_currencies_window))
+        self.analyse_currencies_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_currencies_window))
         self.portfolio_form_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_form_window))
-        self.analyse_portfolio_window.back_button.clicked.connect(
-            lambda: self.go_to_home(self.analyse_portfolio_window))
+        self.analyse_portfolio_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_portfolio_window))
         self.portfolio_edit_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_edit_window))
-        self.portfolio_form_crypto_window.back_button.clicked.connect(
-            lambda: self.go_to_home(self.portfolio_form_crypto_window))
-        self.portfolio_edit_crypto_window.back_button.clicked.connect(
-            lambda: self.go_to_home(self.portfolio_edit_crypto_window))
+        self.portfolio_form_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_form_crypto_window))
+        self.portfolio_edit_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_edit_crypto_window))
+        self.bond_returns_window.back_button.clicked.connect(lambda: self.go_to_home(self.bond_returns_window))
 
         self.analyse_portfolio_window.portfolio_returns_button.clicked.connect(
             lambda: self.go_to_portfolio_chart(self.analyse_portfolio_window))
@@ -126,6 +126,10 @@ class CreateGui:
         self.home_window.close()
         self.portfolio_form_crypto_window.show()
 
+    def go_to_bond_returns(self):
+        self.home_window.close()
+        self.bond_returns_window.show()
+
     def go_to_home(self, window):
         window.close()
         self.home_window.show()
@@ -148,6 +152,8 @@ class CreateGui:
         window.close()
         self.correlation_charts_window.show()
         self.correlation_charts_window.show_correlation_plot()
+
+
 
 
 # run GUI
