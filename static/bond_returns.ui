@@ -65,7 +65,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+   <widget class="QDoubleSpinBox" name="wibor_spinbox">
     <property name="geometry">
      <rect>
       <x>1760</x>
@@ -75,7 +75,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+   <widget class="QDoubleSpinBox" name="inflation_spinbox">
     <property name="geometry">
      <rect>
       <x>1760</x>
@@ -265,6 +265,9 @@
       <width>81</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="maximum">
+     <number>9999</number>
     </property>
    </widget>
    <widget class="QLabel" name="label_7">

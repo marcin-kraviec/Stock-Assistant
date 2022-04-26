@@ -22,6 +22,7 @@ class BondReturns(QMainWindow):
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
         self.info_button.clicked.connect(lambda: self.alert_window(self.info_text(), self.comboBox.currentText()))
         self.current_bond=self.comboBox.currentText()
+        self.spinBox.valueChanged.connect(self.fill_table)
 
     def alert_window(self, text, window_title):
         m = QMessageBox(self)
@@ -71,7 +72,7 @@ class BondReturns(QMainWindow):
             capitalisation_of_interest = 'No'
             payment_of_interest = 'After each cycle'
         elif self.comboBox.currentText() == 'EDO':
-            number_of_cycles = '4'
+            number_of_cycles = '10'
             cycle_duration = '1 year'
             rate_of_interest = '2.7% per year'
             rate_of_interest_2 = '1.25% + inflation per year'
@@ -97,8 +98,44 @@ class BondReturns(QMainWindow):
 
         return text
 
-    def fill_table(self, bond):
-        for i in range(3):
-            pass
+    def fill_table(self):
+
+        self.clear()
+
+        N = 4
+        n = self.spinBox.value()
+        r = 0.00125
+        f = 0.0
+        self.tableWidget.insertRow(0)
+        self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
+        self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100) + ' PLN'))
+        for i in range(1, N):
+            item = QTableWidgetItem(str(i))
+            item2 = QTableWidgetItem(str(n*100)+' PLN')
+            item3 = QTableWidgetItem(str(r*100)+'%')
+            item4 = QTableWidgetItem(str(r * n * 100)+' PLN')
+            item5 = QTableWidgetItem(str(i * r * n * 100)+' PLN')
+            item6 = QTableWidgetItem(str(f) + ' PLN')
+            item7 = QTableWidgetItem(str(r * n * 100 * 0.19) + ' PLN')
+            item8 = QTableWidgetItem(str((i * r * n * 100) - (i * r * n * 100 * 0.19)) + ' PLN')
+            item9 = QTableWidgetItem(str(self.wibor_spinbox.value())+ '%')
+            item10 = QTableWidgetItem(str(self.inflation_spinbox.value()) + '%')
+            self.tableWidget.insertRow(i)
+            self.tableWidget.setItem(i, 0, item)
+            self.tableWidget.setItem(i, 1, item2)
+            self.tableWidget.setItem(i, 2, item3)
+            self.tableWidget.setItem(i, 3, item4)
+            self.tableWidget.setItem(i, 4, item5)
+            self.tableWidget.setItem(i, 5, item6)
+            self.tableWidget.setItem(i, 6, item7)
+            self.tableWidget.setItem(i, 7, item8)
+            self.tableWidget.setItem(i, 8, item9)
+            self.tableWidget.setItem(i, 9, item10)
+
+    def clear(self):
+        for i in reversed(range(self.tableWidget.rowCount())):
+            self.tableWidget.removeRow(i)
+
+
         #TODO: Filling the table with data
 
