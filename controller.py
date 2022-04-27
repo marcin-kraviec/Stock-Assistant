@@ -99,63 +99,63 @@ class CreateGui:
             lambda: self.go_to_analyse_portfolio_2(self.sharpe_charts_window))
 
     def go_to_analyse_stocks(self):
-        self.home_window.close()
         self.analyse_stocks_window.show()
+        self.home_window.close()
 
     def go_to_analyse_crypto(self):
-        self.home_window.close()
         self.analyse_crypto_window.show()
+        self.home_window.close()
 
     def go_to_analyse_currencies(self):
-        self.home_window.close()
         self.analyse_currencies_window.show()
+        self.home_window.close()
 
     def go_to_create_portfolio(self):
-        self.home_window.close()
         self.portfolio_form_window.show()
+        self.home_window.close()
 
     def go_to_analyse_portfolio(self):
-        self.home_window.close()
         self.analyse_portfolio_window.show()
+        self.home_window.close()
 
     def go_to_edit_portfolio(self):
-        self.home_window.close()
         self.portfolio_edit_window.show()
+        self.home_window.close()
 
     def go_to_portfolio_edit_crypto(self):
-        self.home_window.close()
         self.portfolio_edit_crypto_window.show()
+        self.home_window.close()
 
     def go_to_portfolio_form_crypto(self):
-        self.home_window.close()
         self.portfolio_form_crypto_window.show()
+        self.home_window.close()
 
     def go_to_bond_returns(self):
-        self.home_window.close()
         self.bond_returns_window.show()
+        self.home_window.close()
 
     def go_to_home(self, window):
-        window.close()
         self.home_window.show()
+        window.close()
 
     def go_to_portfolio_chart(self, window):
-        window.close()
         self.portfolio_charts_window.show()
         self.portfolio_charts_window.show_plot()
+        window.close()
 
     def go_to_analyse_portfolio_2(self, window):
-        window.close()
         self.analyse_portfolio_window.show()
+        window.close()
 
     def go_to_sharpe_window(self, window):
-        window.close()
         self.sharpe_charts_window.show()
         self.sharpe_charts_window.show_optimase_plot()
+        window.close()
 
     def go_to_correlation_window(self, window):
-        window.close()
         self.correlation_charts_window.show()
         self.correlation_charts_window.show_correlation_plot()
+        window.close()
 
 
 # run GUI
