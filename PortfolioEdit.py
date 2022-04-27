@@ -51,32 +51,40 @@ class PortfolioEdit(PortfolioForm):
         self.save_button.clicked.connect(self.save_it)
 
     def add_it(self):
-        # spinBox value must be postive and multiple choice of the same company is not allowed
-        x = (self.my_table.findItems(str(self.comboBox_3.currentText()), Qt.MatchContains))
-        rows = []
-        b = True
+        if self.my_table.rowCount() == 0:
+            self.alert_window("Load your portfolio first!", "Alert window")
+        else:
+            # spinBox value must be postive and multiple choice of the same company is not allowed
+            x = (self.my_table.findItems(str(self.comboBox_3.currentText()), Qt.MatchContains))
+            rows = []
+            b = True
 
-        for i in range(len(x)):
-            rows.append(self.my_table.row(x[i]))
+            for i in range(len(x)):
+                rows.append(self.my_table.row(x[i]))
 
-        for j in range(len(rows)):
-            print(self.my_table.item(rows[j], 3).text())
-            if (str(date.today()) == self.my_table.item(rows[j], 3).text()):
-                b = False
+            for j in range(len(rows)):
+                print(self.my_table.item(rows[j], 3).text())
+                if (str(date.today()) == self.my_table.item(rows[j], 3).text()):
+                    b = False
 
-        # TODO: Additional check for date:
-        if (self.spinBox_4.value() > 0 and (len(x) == 0 or b)):
-            item = QTableWidgetItem(str(self.comboBox_3.currentText()))
-            item2 = QTableWidgetItem(str(self.spinBox_4.value()))
-            item3 = QTableWidgetItem(str(self.label_5.text()))
-            item4 = QTableWidgetItem(str(date.today()))
-            row_position = self.my_table.rowCount()
-            self.my_table.insertRow(row_position)
-            self.my_table.setItem(row_position, 0, item)
-            self.my_table.setItem(row_position, 1, item2)
-            self.my_table.setItem(row_position, 2, item3)
-            self.my_table.setItem(row_position, 3, item4)
-            self.spinBox_4.setValue(0)
+            if (self.spinBox_4.value() > 0 and (len(x) == 0 or b)):
+                item = QTableWidgetItem(str(self.comboBox_3.currentText()))
+                item2 = QTableWidgetItem(str(self.spinBox_4.value()))
+                item3 = QTableWidgetItem(str(self.label_5.text()))
+                item4 = QTableWidgetItem(str(date.today()))
+                row_position = self.my_table.rowCount()
+                self.my_table.insertRow(row_position)
+                self.my_table.setItem(row_position, 0, item)
+                self.my_table.setItem(row_position, 1, item2)
+                self.my_table.setItem(row_position, 2, item3)
+                self.my_table.setItem(row_position, 3, item4)
+                self.spinBox_4.setValue(0)
+
+            elif self.spinBox_4.value() == 0:
+                self.alert_window("Increase the number of the selected item.", "Alert window")
+
+            elif not b:
+                self.alert_window("You have bought this today.", "Alert window")
 
     # TODO: repair saving
     def save_it(self):
@@ -128,6 +136,8 @@ class PortfolioEdit(PortfolioForm):
             m.setText("Are you sure you want to delete this portfolio?")
             m.setWindowTitle("Confirmation window")
             m.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            m.setStyleSheet("QPushButton {min-width:70px;\
+                            min-height: 30px;}")
             btn = m.exec()
             if btn == QMessageBox.Yes:
                 portfolio_to_drop = self.portfolio_combobox.currentText()

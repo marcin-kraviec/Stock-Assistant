@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2068</width>
-    <height>1118</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>60</x>
       <y>160</y>
-      <width>751</width>
-      <height>681</height>
+      <width>791</width>
+      <height>831</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
@@ -29,9 +29,9 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>110</y>
-      <width>81</width>
-      <height>31</height>
+      <y>100</y>
+      <width>101</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -45,9 +45,9 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>110</y>
+      <y>100</y>
       <width>291</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -73,10 +73,10 @@
    <widget class="QLabel" name="value">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>100</y>
-      <width>151</width>
-      <height>51</height>
+      <x>940</x>
+      <y>60</y>
+      <width>311</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -86,10 +86,10 @@
    <widget class="QLabel" name="change">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>160</y>
-      <width>151</width>
-      <height>51</height>
+      <x>940</x>
+      <y>140</y>
+      <width>411</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -104,7 +104,7 @@
      <rect>
       <x>940</x>
       <y>230</y>
-      <width>851</width>
+      <width>931</width>
       <height>351</height>
      </rect>
     </property>
@@ -151,7 +151,7 @@
      <number>5</number>
     </property>
     <attribute name="horizontalHeaderDefaultSectionSize">
-     <number>155</number>
+     <number>178</number>
     </attribute>
     <column>
      <property name="text">
@@ -182,8 +182,8 @@
    <widget class="QPushButton" name="portfolio_returns_button">
     <property name="geometry">
      <rect>
-      <x>1640</x>
-      <y>600</y>
+      <x>1720</x>
+      <y>150</y>
       <width>151</width>
       <height>41</height>
      </rect>
@@ -198,9 +198,9 @@
    <widget class="QPushButton" name="analyse_sharpe_button">
     <property name="geometry">
      <rect>
-      <x>1640</x>
-      <y>720</y>
-      <width>151</width>
+      <x>1700</x>
+      <y>680</y>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -214,9 +214,9 @@
    <widget class="QPushButton" name="analyse_corr_button">
     <property name="geometry">
      <rect>
-      <x>1640</x>
-      <y>660</y>
-      <width>151</width>
+      <x>1700</x>
+      <y>620</y>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -230,10 +230,10 @@
    <widget class="QLabel" name="corr">
     <property name="geometry">
      <rect>
-      <x>940</x>
-      <y>600</y>
-      <width>681</width>
-      <height>81</height>
+      <x>1000</x>
+      <y>610</y>
+      <width>651</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -243,10 +243,10 @@
    <widget class="QLabel" name="risk">
     <property name="geometry">
      <rect>
-      <x>940</x>
-      <y>690</y>
-      <width>681</width>
-      <height>81</height>
+      <x>1000</x>
+      <y>760</y>
+      <width>621</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -256,9 +256,9 @@
    <widget class="QLabel" name="sharpe">
     <property name="geometry">
      <rect>
-      <x>940</x>
-      <y>780</y>
-      <width>681</width>
+      <x>1000</x>
+      <y>900</y>
+      <width>621</width>
       <height>71</height>
      </rect>
     </property>
@@ -266,30 +266,63 @@
      <string>sharpe</string>
     </property>
    </widget>
-   <widget class="QLabel" name="change_2">
+   <widget class="QPushButton" name="info_corr_button">
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>160</y>
-      <width>101</width>
-      <height>51</height>
+      <y>630</y>
+      <width>31</width>
+      <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:18px;
+height:21px;
+width: 21px;</string>
+    </property>
     <property name="text">
-     <string>Change:</string>
+     <string>i</string>
     </property>
    </widget>
-   <widget class="QLabel" name="value_2">
+   <widget class="QPushButton" name="info_risk_button">
     <property name="geometry">
      <rect>
       <x>940</x>
-      <y>100</y>
-      <width>101</width>
-      <height>51</height>
+      <y>780</y>
+      <width>31</width>
+      <height>31</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:18px;</string>
+    </property>
     <property name="text">
-     <string>Value: </string>
+     <string>i</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="info_sharpe_button">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>920</y>
+      <width>31</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font-size:18px;</string>
+    </property>
+    <property name="text">
+     <string>i</string>
     </property>
    </widget>
   </widget>
@@ -298,7 +331,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2068</width>
+     <width>1920</width>
      <height>22</height>
     </rect>
    </property>

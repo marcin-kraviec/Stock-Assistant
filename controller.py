@@ -73,12 +73,16 @@ class CreateGui:
 
         self.analyse_stocks_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_stocks_window))
         self.analyse_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_crypto_window))
-        self.analyse_currencies_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_currencies_window))
+        self.analyse_currencies_window.back_button.clicked.connect(
+            lambda: self.go_to_home(self.analyse_currencies_window))
         self.portfolio_form_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_form_window))
-        self.analyse_portfolio_window.back_button.clicked.connect(lambda: self.go_to_home(self.analyse_portfolio_window))
+        self.analyse_portfolio_window.back_button.clicked.connect(
+            lambda: self.go_to_home(self.analyse_portfolio_window))
         self.portfolio_edit_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_edit_window))
-        self.portfolio_form_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_form_crypto_window))
-        self.portfolio_edit_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(self.portfolio_edit_crypto_window))
+        self.portfolio_form_crypto_window.back_button.clicked.connect(
+            lambda: self.go_to_home(self.portfolio_form_crypto_window))
+        self.portfolio_edit_crypto_window.back_button.clicked.connect(
+            lambda: self.go_to_home(self.portfolio_edit_crypto_window))
         self.bond_returns_window.back_button.clicked.connect(lambda: self.go_to_home(self.bond_returns_window))
 
         self.analyse_portfolio_window.portfolio_returns_button.clicked.connect(
@@ -154,8 +158,6 @@ class CreateGui:
         self.correlation_charts_window.show_correlation_plot()
 
 
-
-
 # run GUI
 if __name__ == "__main__":
     # setup the app
@@ -186,6 +188,5 @@ if __name__ == "__main__":
     controller.home_window.show()
     loading_window.finish(controller.home_window)
     t.terminate()
-
 
     sys.exit(app.exec_())

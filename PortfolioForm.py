@@ -59,7 +59,7 @@ class PortfolioForm(QMainWindow):
         self.comboBox_3.activated[str].connect(lambda: self.label_5.setText(str(value)))
 
     def add_it(self):
-        # spinBox value must be postive and multiple choice of the same company is not allowed
+        # spinBox value must be positive and multiple choice of the same company is not allowed
         if (self.spinBox_4.value() > 0 and not self.my_table.findItems(str(self.comboBox_3.currentText()),
                                                                        Qt.MatchContains)):
             item = QTableWidgetItem(str(self.comboBox_3.currentText()))
@@ -74,6 +74,9 @@ class PortfolioForm(QMainWindow):
             # self.my_table.setItem(row_position, 3, item4)
             self.spinBox_4.setValue(0)
 
+        elif self.spinBox_4.value() == 0:
+            self.alert_window("Increase the number of the selected item.", "Alert window")
+
     def save_it(self):
         self.database_connector.create_table(self.textEdit.toPlainText())
 
@@ -83,7 +86,7 @@ class PortfolioForm(QMainWindow):
             print('Portfolio is empty!')
         else:
             for i in range(self.analyse_portfolio_window.combobox.count()):
-                if (self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText()):
+                if self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText():
                     self.alert_window("Portfolio with this name already exists!", "Alert window")
                     print('Portfolio exists')
                     break
@@ -106,7 +109,7 @@ class PortfolioForm(QMainWindow):
 
     def delete_it(self):
         clicked = self.my_table.currentRow()
-        if (clicked == -1):
+        if clicked == -1:
             clicked += 1
         self.my_table.removeRow(clicked)
 
@@ -134,8 +137,8 @@ class PortfolioForm(QMainWindow):
             stocks.append(self.my_table.item(row, 0).text())
             values.append(float(self.my_table.item(row, 2).text()))
 
-        #fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
-        fig = px.pie(values=values, names=stocks, hole=.4,color_discrete_sequence=px.colors.sequential.Viridis)
+        # fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
+        fig = px.pie(values=values, names=stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis)
 
         if self.my_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
@@ -149,5 +152,7 @@ class PortfolioForm(QMainWindow):
         m.setText(text)
         m.setWindowTitle(window_title)
         m.addButton(QMessageBox.Ok)
+        m.setStyleSheet("QPushButton {min-width:70px;\
+                        min-height: 30px;}")
         # m.setStandardButtons(QMessageBox.Ok | QMessageBox.Close)
         m.exec()

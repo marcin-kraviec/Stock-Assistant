@@ -7,8 +7,8 @@ QPushButton{
     font-size: 12px;
     font-weight: bold;
     font-family: 'Sora';
-    min-height: 30px;
-    min-width: 60px;
+    /*min-height: 30px;*/
+    /*min-width: 60px;*/
 }
 
 QPushButton:hover {
@@ -24,14 +24,14 @@ QPushButton#back_button {
     font-family: 'Sora';
 }
 
-QPushButton#analyse_portfolio_button, QPushButton#bond_returns_button, QPushButton#edit_portfolio_crypto_button, QPushButton#create_portfolio_crypto_button, QPushButton#analyse_crypto_button, QPushButton#create_portfolio_button, QPushButton#edit_portfolio_button, QPushButton#analyse_stocks_button, QPushButton#analyse_currencies_button, QPushButton#analyse_crypto_button {
+QPushButton#analyse_portfolio_button, QPushButton#bond_returns_button, QPushButton#edit_portfolio_crypto_button, QPushButton#create_portfolio_crypto_button, QPushButton#analyse_crypto_button, QPushButton#create_portfolio_button, QPushButton#edit_portfolio_button, QPushButton#analyse_stocks_button, QPushButton#analyse_currencies_button, QPushButton#analyse_crypto_button, QPushButton#exit_button {
     background-color: #0c705f;
     color: white;
     font-size: 12px;
     font-weight: bold;
     font-family: 'Sora';
 }
-QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hover, QPushButton#edit_portfolio_crypto_button:hover, QPushButton#create_portfolio_crypto_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#create_portfolio_button:hover, QPushButton#edit_portfolio_button:hover, QPushButton#analyse_stocks_button:hover, QPushButton#analyse_currencies_button:hover, QPushButton#analyse_crypto_button:hover {
+QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hover, QPushButton#edit_portfolio_crypto_button:hover, QPushButton#create_portfolio_crypto_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#create_portfolio_button:hover, QPushButton#edit_portfolio_button:hover, QPushButton#analyse_stocks_button:hover, QPushButton#analyse_currencies_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#exit_button:hover {
     background-color: white;
     color: #0c705f;
 }
@@ -43,22 +43,22 @@ QPushButton#back_button:hover{
 
 QPushButton#exit_button {
     background-color: white;
-    image: url(static/black_iks.png);
+    image: url(static/black_iks1.png);
 }
 
 QPushButton#exit_button:hover {
     background-color: white;
-    image: url(static/red_iks.png);
+    image: url(static/red_iks1.png);
 }
 
 QPushButton#minimize_button {
     background-color: white;
-    image: url(static/black_minus.png);
+    image: url(static/black_minus1.png);
 }
 
 QPushButton#minimize_button:hover {
     background-color: white;
-    image: url(static/gray_minus.png);
+    image: url(static/gray_minus1.png);
 }
 
 QLabel {
@@ -82,7 +82,7 @@ QLabel#intro_title1, QLabel#intro_title2, QLabel#intro_title3{
 }
 
 QLabel#value, QLabel#change {
-    font-size: 16px;
+    font-size: 30px;
     font-family: 'Sora';
     font-weight: bold;
 }
@@ -92,13 +92,6 @@ QLabel#navbar1, QLabel#navbar2, QLabel#navbar3, QLabel#navbar4, QLabel#navbar5 {
     font-family: 'Sora';
     color: white;
     font-weight: bold;
-}
-
-QLabel#value_2, QLabel#change_2 {
-    font-size: 20px;
-    font-family: 'Sora';
-    font-weight: bold;
-    color: #1f9e89;
 }
 
 QComboBox {

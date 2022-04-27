@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>2068</width>
-    <height>980</height>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -103,7 +103,7 @@
       <x>940</x>
       <y>100</y>
       <width>911</width>
-      <height>731</height>
+      <height>841</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
@@ -112,7 +112,7 @@
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>850</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -128,7 +128,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>850</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -149,7 +149,7 @@
       <x>120</x>
       <y>190</y>
       <width>691</width>
-      <height>641</height>
+      <height>751</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -213,8 +213,8 @@
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>1460</x>
-      <y>850</y>
+      <x>1440</x>
+      <y>960</y>
       <width>281</width>
       <height>31</height>
      </rect>
@@ -226,8 +226,8 @@
    <widget class="QPushButton" name="save_button">
     <property name="geometry">
      <rect>
-      <x>1760</x>
-      <y>850</y>
+      <x>1740</x>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>

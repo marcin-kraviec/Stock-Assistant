@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1099</height>
+    <height>1097</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -309,10 +309,10 @@
    <widget class="QPushButton" name="exit_button">
     <property name="geometry">
      <rect>
-      <x>1850</x>
-      <y>20</y>
-      <width>51</width>
-      <height>51</height>
+      <x>1891</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="cursor">
@@ -337,10 +337,10 @@
    <widget class="QPushButton" name="minimize_button">
     <property name="geometry">
      <rect>
-      <x>1780</x>
-      <y>20</y>
-      <width>51</width>
-      <height>51</height>
+      <x>1870</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="cursor">
