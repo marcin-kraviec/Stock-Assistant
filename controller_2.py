@@ -45,6 +45,8 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 class CreateGui:
     def __init__(self):
+        self.widget = QtWidgets.QStackedWidget()
+
         self.home_window = Home()
         self.analyse_stocks_window = AnalyseStocks()
         self.analyse_crypto_window = AnalyseCrypto()
@@ -70,6 +72,7 @@ class CreateGui:
         self.home_window.create_portfolio_crypto_button.clicked.connect(self.go_to_portfolio_form_crypto)
         self.home_window.edit_portfolio_crypto_button.clicked.connect(self.go_to_portfolio_edit_crypto)
         self.home_window.bond_returns_button.clicked.connect(self.go_to_bond_returns)
+        self.home_window.minimize_button.clicked.connect(lambda: self.widget.showMinimized())
 
         self.analyse_stocks_window.back_button.clicked.connect(lambda: self.go_to_home(1))
         self.analyse_crypto_window.back_button.clicked.connect(lambda: self.go_to_home(2))
@@ -98,7 +101,6 @@ class CreateGui:
         self.sharpe_charts_window.back_button.clicked.connect(
             lambda: self.go_to_analyse_portfolio_back(3))
 
-        self.widget = QtWidgets.QStackedWidget()
         self.widget.setWindowFlags(Qt.FramelessWindowHint)
         self.widget.addWidget(self.home_window)
         self.widget.addWidget(self.analyse_stocks_window)
@@ -186,7 +188,6 @@ if __name__ == "__main__":
     app_icon.show()
     icon = QtGui.QIcon("static/icon.png")
     app.setWindowIcon(icon)
-
     controller_2.widget.showMaximized()
     loading_window.finish(controller_2.widget)
     t.terminate()

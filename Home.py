@@ -13,8 +13,6 @@ class Home(QMainWindow):
         # read the window layout from file
         loadUi("static/home.ui", self)
         self.exit_button.clicked.connect(self.exit)
-        self.minimize_button.clicked.connect(lambda: self.showMinimized())
-        self.setWindowFlags(Qt.FramelessWindowHint)
 
     def exit(self):
         m = QMessageBox(self)
