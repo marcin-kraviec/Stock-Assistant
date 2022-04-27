@@ -139,23 +139,25 @@ class CreateGui:
         window.close()
 
     def go_to_portfolio_chart(self, window):
+        window.close()
         self.portfolio_charts_window.show()
         self.portfolio_charts_window.show_plot()
-        window.close()
+
 
     def go_to_analyse_portfolio_2(self, window):
         self.analyse_portfolio_window.show()
         window.close()
 
     def go_to_sharpe_window(self, window):
+        window.close()
         self.sharpe_charts_window.show()
         self.sharpe_charts_window.show_optimase_plot()
-        window.close()
 
     def go_to_correlation_window(self, window):
+        window.close()
         self.correlation_charts_window.show()
         self.correlation_charts_window.show_correlation_plot()
-        window.close()
+
 
 
 # run GUI
