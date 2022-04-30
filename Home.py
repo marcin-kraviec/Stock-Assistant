@@ -18,7 +18,7 @@ class Home(QMainWindow):
         m = QMessageBox(self)
         # m.setIcon(QMessageBox.Information)
         m.setWindowIcon(QtGui.QIcon("static/alert.png"))
-        m.setText("Are you sure you want to exit?")
+        m.setText("Are you sure you want to exit?\t")
         m.setWindowTitle("Confirmation window")
         m.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         m.setStyleSheet("QPushButton {min-width:70px;\

@@ -1,5 +1,6 @@
+USDPLN=X;United States dollar
 EURPLN=X;Euro
-USDPLN=X;Dolar
-GBPPLN=X;Funt
-CHFPLN=X;Frank
-JPYPLN=X;Jen
+GBPPLN=X;Pound sterling
+CHFPLN=X;Swiss franc
+JPYPLN=X;Japanese yen
+HUFPLN=X;Hungarian forint

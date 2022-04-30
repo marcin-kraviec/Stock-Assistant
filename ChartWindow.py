@@ -44,23 +44,22 @@ class ChartWindow(QMainWindow):
 
 
         # Plotting
-        trace2 = go.Scatter(x=lower_band.index, y=lower_band['lower'], name='Lower Band', line_color='rgba(173,204,255,0.2)')
-        trace3 = go.Scatter(x=upper_band.index, y=upper_band['upper'], name='Upper Band', fill='tonexty', fillcolor='rgba(173,204,255,0.2)', line_color='rgba(173,204,255,0.2)')
-        trace4 = go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High'])
-        trace5 = go.Scatter(x=sma.index, y=sma['Close'], name='SMA', line_color='#FECB52')
+        trace = go.Scatter(x=lower_band.index, y=lower_band['lower'], name='Lower Band', line_color='rgba(173,204,255,0.2)')
+        trace2 = go.Scatter(x=upper_band.index, y=upper_band['upper'], name='Upper Band', fill='tonexty', fillcolor='rgba(173,204,255,0.2)', line_color='rgba(173,204,255,0.2)')
+        trace3 = go.Candlestick(x=data['Date'], open=data['Open'], close=data['Close'], low=data['Low'], high=data['High'], name='Value')
+        trace4 = go.Scatter(x=sma.index, y=sma['Close'], name='SMA', line_color='#FECB52')
 
-        data = [ trace2, trace3, trace4, trace5]
+        data = [trace, trace2, trace3, trace4]
         layout = dict(
-            title='Time series with range slider and selectors',
             xaxis=dict(
                 rangeselector=dict(
                     buttons=list([
                         dict(count=1,
-                             label='1m',
+                             label='1M',
                              step='month',
                              stepmode='backward'),
                         dict(count=6,
-                             label='6m',
+                             label='6M',
                              step='month',
                              stepmode='backward'),
                         dict(count=1,
@@ -68,10 +67,12 @@ class ChartWindow(QMainWindow):
                              step='year',
                              stepmode='todate'),
                         dict(count=1,
-                             label='1y',
+                             label='1Y',
                              step='year',
                              stepmode='backward'),
-                        dict(step='all')
+                        dict(count=1,
+                             label='ALL',
+                             step='all')
                     ])
                 ),
                 rangeslider=dict(
@@ -130,16 +131,15 @@ class ChartWindow(QMainWindow):
 
         data = [trace2, trace3, trace4, trace5, trace6]
         layout = dict(
-            title='Time series with range slider and selectors',
             xaxis=dict(
                 rangeselector=dict(
                     buttons=list([
                         dict(count=1,
-                             label='1m',
+                             label='1M',
                              step='month',
                              stepmode='backward'),
                         dict(count=6,
-                             label='6m',
+                             label='6M',
                              step='month',
                              stepmode='backward'),
                         dict(count=1,
@@ -147,10 +147,12 @@ class ChartWindow(QMainWindow):
                              step='year',
                              stepmode='todate'),
                         dict(count=1,
-                             label='1y',
+                             label='1Y',
                              step='year',
                              stepmode='backward'),
-                        dict(step='all')
+                        dict(count=1,
+                             label='ALL',
+                             step='all')
                     ])
                 ),
                 rangeslider = dict(
@@ -192,16 +194,15 @@ class ChartWindow(QMainWindow):
         trace3 = go.Scatter(x=df['Date'], y=[30] * len(df['Date']),name='Oversold', marker_color='#109618',line=dict(dash='dot'))
         data = [trace1, trace2, trace3]
         layout = dict(
-            title='Time series with range slider and selectors',
             xaxis=dict(
                 rangeselector=dict(
                     buttons=list([
                         dict(count=1,
-                             label='1m',
+                             label='1M',
                              step='month',
                              stepmode='backward'),
                         dict(count=6,
-                             label='6m',
+                             label='6M',
                              step='month',
                              stepmode='backward'),
                         dict(count=1,
@@ -209,10 +210,12 @@ class ChartWindow(QMainWindow):
                              step='year',
                              stepmode='todate'),
                         dict(count=1,
-                             label='1y',
+                             label='1Y',
                              step='year',
                              stepmode='backward'),
-                        dict(step='all')
+                        dict(count=1,
+                             label='ALL',
+                             step='all')
                     ])
                 ),
                 rangeslider=dict(
@@ -238,14 +241,15 @@ class ChartWindow(QMainWindow):
 
         df = corr[stock].abs().sort_values()
 
-        def df_to_plotly(df):
-            return {'y': df.values.tolist(),
-                    'x': df.index.tolist()}
-
         #fig = go.Figure(data=go.Heatmap(df_to_plotly(df), colorscale='Viridis'))
         #fig = go.Figure(data=go.Bar(df_to_plotly(df), marker=dict(color = df.values.tolist(),colorscale='viridis')))
 
-        fig = px.bar(x=df.index.tolist(), y=df.values.tolist(), color=df.values.tolist(),  color_continuous_scale=px.colors.sequential.Viridis)
+        fig = px.bar(x=df.index.tolist(), y=df.values.tolist(), color=df.values.tolist(),  color_continuous_scale=px.colors.sequential.Viridis,
+                     labels={
+                     'x': "Stock",
+                     'y': "Correlation",
+                     'color': 'Color'
+                 },)
         fig.update_yaxes(range=[0, 1], tick0=0)
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
