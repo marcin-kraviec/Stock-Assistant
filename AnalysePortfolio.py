@@ -16,6 +16,7 @@ class AnalysePortfolio(QMainWindow):
     stocks = []
     values = []
     past_values = []
+    dates = []
 
     def __init__(self):
         super().__init__()
@@ -47,8 +48,10 @@ class AnalysePortfolio(QMainWindow):
         AnalysePortfolio.stocks = []
         AnalysePortfolio.values = []
         AnalysePortfolio.past_values = []
+        AnalysePortfolio.dates = []
 
         for i in range(len(data)):
+            AnalysePortfolio.dates.append(data[i][3])
             if data[i][0] in AnalysePortfolio.stocks:
                 stock_index = AnalysePortfolio.stocks.index(data[i][0])
                 AnalysePortfolio.values[stock_index] += float(data[i][1]) * round(

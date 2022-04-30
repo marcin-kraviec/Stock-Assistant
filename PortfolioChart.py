@@ -5,6 +5,7 @@ from PyQt5.uic import loadUi
 from AnalysePortfolio import AnalysePortfolio
 import data_analysis
 import plotly.graph_objs as go
+from datetime import date
 
 class PortfolioChart(QMainWindow):
 
@@ -25,45 +26,15 @@ class PortfolioChart(QMainWindow):
     def show_plot(self):
         # getting a current stock from combobox
         y = AnalysePortfolio.stocks
-        (data, dates) = self.data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values)
+        initial_date = min(AnalysePortfolio.dates)
+        data = self.data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values, str(initial_date))
 
-        # initialise line plot
+        fig = go.Figure(data= go.Scatter(x=data.index,y=data, marker_color='#1f9e89'))
 
-        trace = go.Scatter(x=dates, y=data, name='Cumulative return')
-        data = [trace]
-        layout = dict(
-            title='Time series with range slider and selectors',
-            xaxis=dict(
-                rangeselector=dict(
-                    buttons=list([
-                        dict(count=1,
-                             label='1m',
-                             step='month',
-                             stepmode='backward'),
-                        dict(count=6,
-                             label='6m',
-                             step='month',
-                             stepmode='backward'),
-                        dict(count=1,
-                             label='YTD',
-                             step='year',
-                             stepmode='todate'),
-                        dict(count=1,
-                             label='1y',
-                             step='year',
-                             stepmode='backward'),
-                        dict(step='all')
-                    ])
-                ),
-                rangeslider=dict(
-                    visible=True
-                ),
-                type='date'
-            )
-        )
-
-        fig = go.FigureWidget(data=data, layout=layout)
         fig.update_yaxes(fixedrange=False)
+        fig.update_layout( xaxis=dict(rangeslider=dict(visible=True)))
+        fig.add_hline(y=1, line_dash="dot")
+        #fig.update_xaxes(range=[dates[0], str(date.today())], tick0=0)
         fig.update_layout(hovermode="x unified")
 
         # changing plot into html file so that it can be displayed with webengine

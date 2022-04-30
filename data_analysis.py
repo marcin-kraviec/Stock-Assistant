@@ -52,12 +52,12 @@ class DataAnalysis:
         return annual_std, vol
 
     @staticmethod
-    def cumulative_returns(stocks, values):
+    def cumulative_returns(stocks, values, date):
         weights = []
         for value in values:
             weights.append(value / sum(values))
 
-        data = yf.download(stocks, start='2021-01-01', interval='1d')
+        data = yf.download(stocks, start=date, interval='1d')
         data.reset_index(inplace=True)
         x = data['Close'].pct_change()
         dates = data['Date']
@@ -65,7 +65,8 @@ class DataAnalysis:
         # portfolio return
         ret = (x * weights).sum(axis=1)
         cumulative = (ret + 1).cumprod()
-        return cumulative, dates
+        output = pd.Series(list(cumulative.values), index=dates)
+        return output
 
     @staticmethod
     def optimise(stocks, values):

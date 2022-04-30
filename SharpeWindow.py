@@ -38,9 +38,14 @@ class SharpeWindow(QMainWindow):
         #fig = go.Figure()
         #fig.add_trace(go.Scatter(x=dates, y=data, name='Cumulative return'))
         #fig.add_trace(go.Scatter(x=p_risk, y=p_returns, color=p_sharpe))
-        fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe, color_continuous_scale=px.colors.sequential.Viridis)
-        fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers',marker_symbol='star', marker_size=10, marker_color="green"))
-        fig.add_trace(go.Scatter(x=[p_risk[0]], y=[p_returns[0]], mode='markers', marker_symbol='star', marker_size=10, marker_color="blue"))
+        fig = px.scatter(x=p_risk, y=p_returns, color=p_sharpe, color_continuous_scale=px.colors.sequential.Viridis, labels={
+                     'x': "Risk",
+                     'y': "Returns",
+                     'color': 'Sharpe'
+                 },)
+        fig.add_trace(go.Scatter(x=[p_risk[max_ind]], y=[p_returns[max_ind]], mode='markers', marker_size=10, marker_color="#EF553B", name='Optimal'))
+        fig.add_trace(go.Scatter(x=[p_risk[0]], y=[p_returns[0]], mode='markers', marker_size=10, marker_color="grey", name='Current'))
+        fig.update_layout(showlegend=False)
         #plt.scatter(p_risk[max_ind], p_returns[max_ind], color='r', marker='*', s=500)
 
         # changing plot into html file so that it can be displayed with webengine
@@ -51,8 +56,8 @@ class SharpeWindow(QMainWindow):
         (p_risk, p_returns, p_sharpe, p_weights, max_ind) = data
 
         fig = go.Figure(data=[
-            go.Bar(name='Optimal: ' + str(round(p_sharpe[max_ind], 2)), x=AnalysePortfolio.stocks, y=p_weights[max_ind]),
-            go.Bar(name='Current: ' + str(round(p_sharpe[0], 2)), x=AnalysePortfolio.stocks, y=p_weights[0])
+            go.Bar(name='Optimal: ' + str(round(p_sharpe[max_ind], 2)), x=AnalysePortfolio.stocks, y=p_weights[max_ind], marker_color='#EF553B'),
+            go.Bar(name='Current: ' + str(round(p_sharpe[0], 2)), x=AnalysePortfolio.stocks, y=p_weights[0], marker_color='grey')
         ])
         # Change the bar mode
         fig.update_layout(barmode='group')
