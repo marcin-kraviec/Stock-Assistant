@@ -65,7 +65,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QDoubleSpinBox" name="wibor_spinbox">
+   <widget class="QDoubleSpinBox" name="wibor2_spinbox">
     <property name="geometry">
      <rect>
       <x>1760</x>
@@ -75,7 +75,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="inflation_spinbox">
+   <widget class="QDoubleSpinBox" name="inflation2_spinbox">
     <property name="geometry">
      <rect>
       <x>1760</x>
@@ -88,14 +88,14 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>1330</x>
+      <x>1390</x>
       <y>70</y>
-      <width>421</width>
+      <width>361</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Expected WIBOR 6M per cycle:</string>
+     <string>Expected WIBOR 6M for further cycles:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -104,14 +104,14 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>1350</x>
+      <x>1390</x>
       <y>30</y>
-      <width>401</width>
+      <width>361</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>Expected Inflation per cycle:</string>
+     <string>Expected Inflation for further cycles:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -159,9 +159,9 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>10</x>
       <y>560</y>
-      <width>1741</width>
+      <width>1831</width>
       <height>541</height>
      </rect>
     </property>
@@ -233,12 +233,12 @@
     </column>
     <column>
      <property name="text">
-      <string>WIBOR6M</string>
+      <string>WIBOR6M (%)</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>Inflation</string>
+      <string>Inflation (%)</string>
      </property>
     </column>
     <column>
@@ -251,16 +251,11 @@
       <string>Accumulated actual profit/loss</string>
      </property>
     </column>
-    <column>
-     <property name="text">
-      <string>Accumulated actual profit/loss (%)</string>
-     </property>
-    </column>
    </widget>
    <widget class="QSpinBox" name="spinBox">
     <property name="geometry">
      <rect>
-      <x>1220</x>
+      <x>770</x>
       <y>30</y>
       <width>81</width>
       <height>31</height>
@@ -273,7 +268,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>500</x>
       <y>70</y>
       <width>251</width>
       <height>31</height>
@@ -289,7 +284,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>940</x>
+      <x>490</x>
       <y>30</y>
       <width>261</width>
       <height>31</height>
@@ -302,17 +297,17 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="value_label">
     <property name="geometry">
      <rect>
-      <x>1220</x>
+      <x>770</x>
       <y>70</y>
       <width>91</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
-     <string>VALUE </string>
+     <string>0 PLN</string>
     </property>
    </widget>
    <widget class="QPushButton" name="info_button">
@@ -331,20 +326,82 @@
      <string>Info</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="refresh_button">
+   <widget class="QDoubleSpinBox" name="wibor1_spinbox">
     <property name="geometry">
      <rect>
-      <x>1750</x>
-      <y>530</y>
-      <width>91</width>
-      <height>21</height>
+      <x>1260</x>
+      <y>70</y>
+      <width>71</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>1340</x>
+      <y>30</y>
+      <width>16</width>
+      <height>31</height>
+     </rect>
     </property>
     <property name="text">
-     <string>Refresh</string>
+     <string>%</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="inflation1_spinbox">
+    <property name="geometry">
+     <rect>
+      <x>1260</x>
+      <y>30</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>70</y>
+      <width>361</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>WIBOR 6M in first cycle:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>30</y>
+      <width>361</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Inflation in first cycle:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>1340</x>
+      <y>70</y>
+      <width>16</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>%</string>
     </property>
    </widget>
   </widget>
