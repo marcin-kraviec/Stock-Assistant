@@ -4,13 +4,13 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsColorizeEffect
 from PyQt5.uic import loadUi
 import yfinance as yf
-import database
+import database_connector
 import data_analysis
 import plotly.graph_objs as go
 import plotly.express as px
 
 class AnalysePortfolio(QMainWindow):
-    database_connector = database.DatabaseConnector()
+    database_connector = database_connector.DatabaseConnector()
     data_analysis = data_analysis.DataAnalysis()
     current_portfolio = ''
     stocks = []

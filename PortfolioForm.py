@@ -3,7 +3,7 @@ from datetime import date
 
 from PyQt5.QtCore import Qt
 
-import database
+import database_connector
 from PyQt5 import QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow
 from PyQt5.uic import loadUi
@@ -15,7 +15,7 @@ import plotly.express as px
 
 class PortfolioForm(QMainWindow):
     stocks = {}
-    database_connector = database.DatabaseConnector()
+    database_connector = database_connector.DatabaseConnector()
 
     def __init__(self, analyse_portfolio_window, portfolio_edit_window):
         self.analyse_portfolio_window = analyse_portfolio_window
