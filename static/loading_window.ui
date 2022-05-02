@@ -107,10 +107,10 @@ background-color: None
   <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>140</y>
-     <width>601</width>
-     <height>21</height>
+     <x>650</x>
+     <y>300</y>
+     <width>71</width>
+     <height>181</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -121,10 +121,10 @@ background-color: None
   <widget class="QWidget" name="widget_3" native="true">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>170</y>
-     <width>731</width>
-     <height>21</height>
+     <x>570</x>
+     <y>260</y>
+     <width>71</width>
+     <height>221</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -135,10 +135,10 @@ background-color: None
   <widget class="QWidget" name="widget_4" native="true">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>200</y>
-     <width>431</width>
-     <height>20</height>
+     <x>490</x>
+     <y>340</y>
+     <width>71</width>
+     <height>141</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -146,6 +146,42 @@ background-color: None
 </string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget_5" native="true">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>200</y>
+     <width>71</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(39, 203, 176);
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_6" native="true">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>410</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(7, 66, 56);
+</string>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>label_3</zorder>
+  <zorder>widget_2</zorder>
+  <zorder>widget_3</zorder>
+  <zorder>widget_4</zorder>
+  <zorder>widget_5</zorder>
+  <zorder>widget_6</zorder>
+  <zorder>progressBar</zorder>
  </widget>
  <resources/>
  <connections/>

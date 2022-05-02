@@ -363,6 +363,19 @@
 </string>
     </property>
    </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>320</y>
+      <width>1461</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. &lt;/p&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>widget</zorder>
    <zorder>create_portfolio_button</zorder>
    <zorder>analyse_portfolio_button</zorder>
@@ -385,6 +398,7 @@
    <zorder>exit_button</zorder>
    <zorder>minimize_button</zorder>
    <zorder>widget_4</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
