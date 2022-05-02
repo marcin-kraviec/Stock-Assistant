@@ -203,7 +203,7 @@
     </column>
     <column>
      <property name="text">
-      <string>Rate of interest</string>
+      <string>Rate of interest (%)</string>
      </property>
     </column>
     <column>
@@ -409,12 +409,15 @@
      <rect>
       <x>1140</x>
       <y>109</y>
-      <width>701</width>
+      <width>711</width>
       <height>31</height>
      </rect>
     </property>
     <property name="text">
      <string>Inflation provided should be inflation per cycle, where cycle is defined by bond type</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

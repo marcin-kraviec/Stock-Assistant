@@ -21,7 +21,7 @@ class ChartWindow(QMainWindow):
 
         # downloading data of stock from yfinance
         data = yf.download(stock, start="2020-10-01", interval="1d")
-        df = data['Close']
+        df = data[['Close']]
         data.reset_index(inplace=True)
 
         # calculating sma and std with 20 days window
@@ -97,7 +97,7 @@ class ChartWindow(QMainWindow):
 
         # downloading data of stock from yfinance
         data = yf.download(stock,start="2020-10-01", interval="1d")
-        df = data['Close']
+        df = data[['Close']]
         data.reset_index(inplace=True)
 
         # calculating sma and std with 20 days window

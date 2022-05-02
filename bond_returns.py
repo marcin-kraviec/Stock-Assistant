@@ -138,49 +138,62 @@ class BondReturns(QMainWindow):
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
                 self.tableWidget.setItem(i, 1, QTableWidgetItem(str(n * 100)))
-                self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r1 * 100, 2))))
+                self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r1 * 100, 3))))
                 self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round(r1 * n * 100, 2))))
                 self.tableWidget.setItem(i, 4, QTableWidgetItem(str(round(i * r1 * n * 100, 2))))
-                self.tableWidget.setItem(i, 5, QTableWidgetItem(str(fee)))
-                self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round(r1 * n * 100 * 0.19, 2))))
+                self.tableWidget.setItem(i, 5, QTableWidgetItem(str(round(fee * n, 2))))
+                self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round((r1 * n * 100 - fee * n) * 0.19, 2))))
                 self.tableWidget.setItem(i, 7, QTableWidgetItem(
-                    str(round(((i * r1 * n * 100) - (i * r1 * n * 100 * 0.19)), 2))))
+                    str(round(((r1 * n * 100) - (fee * n) - ((r1 * n * 100 - fee * n) * 0.19)), 2))))
                 self.tableWidget.setItem(i, 8, QTableWidgetItem(str(wibor1)))
                 self.tableWidget.setItem(i, 9, QTableWidgetItem(str(inflation1)))
                 self.tableWidget.setItem(i, 10, QTableWidgetItem(str(i * inflation1)))
-                profit = (float(self.tableWidget.item(i, 1).text()) + float(self.tableWidget.item(i, 7).text())) - (
-                            float(self.tableWidget.item(i, 1).text()) + float(
-                        self.tableWidget.item(i, 1).text()) * float(self.tableWidget.item(i, 9).text()) / 100)
-                self.tableWidget.setItem(i, 11, QTableWidgetItem(str(round(profit, 2))))
+                profit = (float(self.tableWidget.item(i, 7).text())) - (
+                        float(self.tableWidget.item(i, 1).text()) * float(
+                    self.tableWidget.item(i, 10).text()) / 100)
+                font = QFont()
+                font.setBold(True)
+                if profit > 0.0:
+                    color = Qt.darkGreen
+                else:
+                    color = Qt.red
+                item11 = QTableWidgetItem(str(round(profit, 2)))
+                item11.setForeground(color)
+                item11.setFont(font)
+                self.tableWidget.setItem(i, 11, item11)
 
 
             else:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
                 self.tableWidget.setItem(i, 1, QTableWidgetItem(str(n * 100)))
-                self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r2 * 100, 2))))
+                self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r2 * 100, 3))))
                 self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round(r2 * n * 100, 2))))
-                self.tableWidget.setItem(i, 4, QTableWidgetItem(str(round(i * r2 * n * 100, 2))))
-                if i == N:
-                    self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
-                else:
-                    self.tableWidget.setItem(i, 5, QTableWidgetItem(str(fee * n)))
+                self.tableWidget.setItem(i, 4, QTableWidgetItem(
+                    str(round(r2 * n * 100 + float(self.tableWidget.item(i - 1, 4).text()), 2))))
+                self.tableWidget.setItem(i, 5, QTableWidgetItem(str(fee * n)))
                 self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round(r2 * n * 100 * 0.19, 2))))
                 self.tableWidget.setItem(i, 7, QTableWidgetItem(
-                    str(round(((i * r2 * n * 100) - (i * r2 * n * 100 * 0.19)), 2))))
+                    str(round(float(self.tableWidget.item(i, 4).text()) - float(self.tableWidget.item(i, 6).text()),
+                              2))))
                 self.tableWidget.setItem(i, 8, QTableWidgetItem(str(wibor2)))
                 self.tableWidget.setItem(i, 9, QTableWidgetItem(str(inflation2)))
-                accumulated_inflation = ((1 + float(self.tableWidget.item(i - 1, 9).text()) / 100) * (
-                            1 + float(self.tableWidget.item(i - 1, 10).text()) / 100) - 1) * 100
+                accumulated_inflation = ((1 + float(self.tableWidget.item(i, 9).text()) / 100) * (
+                        1 + float(self.tableWidget.item(i - 1, 10).text()) / 100) - 1) * 100
                 self.tableWidget.setItem(i, 10, QTableWidgetItem(str(round(accumulated_inflation, 2))))
-                profit = (float(self.tableWidget.item(i, 1).text()) + float(self.tableWidget.item(i, 7).text())) - (
-                            float(self.tableWidget.item(i, 1).text()) + float(
-                        self.tableWidget.item(i, 1).text()) * float(self.tableWidget.item(i, 9).text()) / 100)
-                if profit < 0:
-                    self.tableWidget.setItem(i, 11, QTableWidgetItem(
-                        str(round(profit + float(self.tableWidget.item(i - 1, 11).text()), 2))))
+                profit = (float(self.tableWidget.item(i, 7).text())) - (
+                        float(self.tableWidget.item(i, 1).text()) * float(
+                    self.tableWidget.item(i, 10).text()) / 100)
+                font = QFont()
+                font.setBold(True)
+                if profit > 0.0:
+                    color = Qt.darkGreen
                 else:
-                    self.tableWidget.setItem(i, 11, QTableWidgetItem(str(round(profit, 2))))
+                    color = Qt.red
+                item11 = QTableWidgetItem(str(round(profit, 2)))
+                item11.setForeground(color)
+                item11.setFont(font)
+                self.tableWidget.setItem(i, 11, item11)
 
         self.show_plot()
 
@@ -214,16 +227,16 @@ class BondReturns(QMainWindow):
                 self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r1 * 100, 2))))
                 self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round(interest, 2))))
                 self.tableWidget.setItem(i, 4, QTableWidgetItem(str(round(interest, 2))))
-                self.tableWidget.setItem(i, 5, QTableWidgetItem(str(round(fee*n))))
+                self.tableWidget.setItem(i, 5, QTableWidgetItem(str(round(fee*n, 2))))
                 self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round((interest - fee*n)  * 0.19, 2))))
                 self.tableWidget.setItem(i, 7, QTableWidgetItem(
                     str(round(((interest) - (fee*n) - ((interest - fee*n)* 0.19)), 2))))
                 self.tableWidget.setItem(i, 8, QTableWidgetItem(str(wibor1)))
                 self.tableWidget.setItem(i, 9, QTableWidgetItem(str(inflation1)))
                 self.tableWidget.setItem(i, 10, QTableWidgetItem(str(i * inflation1)))
-                profit = (float(self.tableWidget.item(i, 1).text()) + float(self.tableWidget.item(i, 7).text())) - (
-                            float(self.tableWidget.item(i, 1).text()) + float(
-                        self.tableWidget.item(i, 1).text()) * float(self.tableWidget.item(i, 9).text()) / 100)
+                profit = (float(self.tableWidget.item(i, 7).text())) - (
+                        float(self.tableWidget.item(i - 1, 1).text()) * float(
+                    self.tableWidget.item(i, 10).text()) / 100)
                 font = QFont()
                 font.setBold(True)
                 if profit > 0.0:
@@ -250,10 +263,12 @@ class BondReturns(QMainWindow):
                     str(round(float(self.tableWidget.item(i, 4).text()) - float(self.tableWidget.item(i, 4).text()) * 0.19 , 2))))
                 self.tableWidget.setItem(i, 8, QTableWidgetItem(str(wibor2)))
                 self.tableWidget.setItem(i, 9, QTableWidgetItem(str(inflation2)))
-                accumulated_inflation = ((1 + float(self.tableWidget.item(i - 1, 9).text()) / 100) * (
-                            1 + float(self.tableWidget.item(i - 1, 10).text()) / 100) - 1) * 100
+                accumulated_inflation = ((1 + float(self.tableWidget.item(i, 9).text()) / 100) * (
+                        1 + float(self.tableWidget.item(i - 1, 10).text()) / 100) - 1) * 100
                 self.tableWidget.setItem(i, 10, QTableWidgetItem(str(round(accumulated_inflation, 2))))
-                profit = (float(self.tableWidget.item(i, 7).text())) - (float(self.tableWidget.item(i, 1).text()) * float(self.tableWidget.item(i, 10).text()) / 100)
+                profit = (float(self.tableWidget.item(i, 7).text())) - (
+                            float(self.tableWidget.item(0, 1).text()) * float(
+                        self.tableWidget.item(i, 10).text()) / 100)
                 font = QFont()
                 font.setBold(True)
                 if profit > 0.0:
@@ -266,7 +281,6 @@ class BondReturns(QMainWindow):
                 self.tableWidget.setItem(i, 11, item11)
 
         self.show_plot()
-
 
     def toz(self):
         self.current_bond = self.comboBox.currentText()
