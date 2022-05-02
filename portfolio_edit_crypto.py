@@ -3,8 +3,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.uic import loadUi
 
-from PortfolioEdit import PortfolioEdit
-from PortfolioFormCrypto import PortfolioFormCrypto
+from portfolio_edit import PortfolioEdit
+from portfolio_form_crypto import PortfolioFormCrypto
 import yfinance as yf
 
 
@@ -34,7 +34,7 @@ class PortfolioEditCrypto(PortfolioEdit):
 
         # fill combobox with data from static csv file
         self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
-        self.fill_combo_box(PortfolioFormCrypto.cryptos, self.comboBox_3)
+        self.fill_combo_box(PortfolioFormCrypto.cryptos, self.stocks_combobox)
 
         self.fill_portfolio_combo_box()
 
@@ -42,10 +42,10 @@ class PortfolioEditCrypto(PortfolioEdit):
         self.vlayout.addWidget(self.browser)
 
         # update latest company price
-        self.spinBox_4.valueChanged.connect(self.label_update)
-        self.comboBox_3.activated.connect(self.label_update)
-        self.label_5.setText(str(round(
-            yf.Ticker(str(self.comboBox_3.currentText())).history(period='1d')['Close'][0] * (self.spinBox_4.value()),
+        self.amount_spinbox.valueChanged.connect(self.label_update)
+        self.stocks_combobox.activated.connect(self.label_update)
+        self.value_label.setText(str(round(
+            yf.Ticker(str(self.stocks_combobox.currentText())).history(period='1d')['Close'][0] * (self.amount_spinbox.value()),
             2)))
 
         self.save_button.clicked.connect(self.save_it)
@@ -68,13 +68,13 @@ class PortfolioEditCrypto(PortfolioEdit):
                 item2 = QTableWidgetItem(str(data[i][1]))
                 item3 = QTableWidgetItem(str(data[i][2]))
                 item4 = QTableWidgetItem(str(data[i][3]))
-                row_position = self.my_table.rowCount()
-                self.my_table.insertRow(row_position)
-                self.my_table.setItem(row_position, 0, item)
-                self.my_table.setItem(row_position, 1, item2)
-                self.my_table.setItem(row_position, 2, item3)
-                self.my_table.setItem(row_position, 3, item4)
+                row_position = self.portfolio_table.rowCount()
+                self.portfolio_table.insertRow(row_position)
+                self.portfolio_table.setItem(row_position, 0, item)
+                self.portfolio_table.setItem(row_position, 1, item2)
+                self.portfolio_table.setItem(row_position, 2, item3)
+                self.portfolio_table.setItem(row_position, 3, item4)
 
         PortfolioEditCrypto.current_portfolio = self.portfolio_combobox.currentText()
-        PortfolioEditCrypto.portfolio_length = self.my_table.rowCount()
+        PortfolioEditCrypto.portfolio_length = self.portfolio_table.rowCount()
         self.show_pie_plot()
