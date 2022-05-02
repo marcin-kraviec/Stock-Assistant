@@ -6,20 +6,19 @@ from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from PyQt5.QtCore import Qt
 import database_connector
 import data_analysis
-
 from analyse_currencies import AnalyseCurrencies
 from analyse_stocks import AnalyseStocks
 from analyse_crypto import AnalyseCrypto
 from home import Home
-from AnalysePortfolio import AnalysePortfolio
-from PortfolioEdit import PortfolioEdit
-from PortfolioForm import PortfolioForm
-from PortfolioEditCrypto import PortfolioEditCrypto
-from PortfolioFormCrypto import PortfolioFormCrypto
-from CorrelationWindow import CorrelationWindow
-from PortfolioChart import PortfolioChart
-from SharpeWindow import SharpeWindow
-from LoadingWindow import LoadingWindow, myThread
+from analyse_portfolio import AnalysePortfolio
+from portfolio_edit import PortfolioEdit
+from portfolio_form import PortfolioForm
+from portfolio_edit_crypto import PortfolioEditCrypto
+from portfolio_form_crypto import PortfolioFormCrypto
+from correlation_window import CorrelationWindow
+from portfolio_chart import PortfolioChart
+from sharpe_window import SharpeWindow
+from loading_window import LoadingWindow, myThread
 from bond_returns import BondReturns
 import ctypes
 # tell the window that this is my own registered application, so I will decide the icon of it
@@ -140,7 +139,7 @@ class Controller:
 
     def go_to_sharpe_window(self):
         self.widget.setCurrentIndex(self.widget.currentIndex() + 3)
-        self.sharpe_charts_window.show_optimase_plot()
+        self.sharpe_charts_window.show_optimise_plot()
 
     def go_to_correlation_window(self):
         self.widget.setCurrentIndex(self.widget.currentIndex() + 2)
@@ -181,6 +180,7 @@ if __name__ == "__main__":
     app.setWindowIcon(icon)
 
     # finish a thread when all the downloads are finished and windows are initialised
+    controller.home_window.minimize_button.clicked.connect(lambda: controller.widget.showMinimized())
     controller.widget.showMaximized()
     loading_window.finish(controller.widget)
     t.terminate()

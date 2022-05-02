@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1920</width>
-    <height>1097</height>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>20</x>
       <y>110</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -35,7 +35,7 @@
      <rect>
       <x>20</x>
       <y>540</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -51,7 +51,7 @@
      <rect>
       <x>20</x>
       <y>60</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -80,7 +80,7 @@
      <rect>
       <x>20</x>
       <y>300</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -96,7 +96,7 @@
      <rect>
       <x>20</x>
       <y>820</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -112,7 +112,7 @@
      <rect>
       <x>20</x>
       <y>680</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -126,7 +126,7 @@
    <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
-      <x>390</x>
+      <x>410</x>
       <y>10</y>
       <width>1251</width>
       <height>191</height>
@@ -145,7 +145,7 @@
      <rect>
       <x>20</x>
       <y>160</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -161,7 +161,7 @@
      <rect>
       <x>20</x>
       <y>350</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -177,7 +177,7 @@
      <rect>
       <x>20</x>
       <y>400</y>
-      <width>281</width>
+      <width>341</width>
       <height>41</height>
      </rect>
     </property>
@@ -245,7 +245,7 @@
      <rect>
       <x>-10</x>
       <y>0</y>
-      <width>331</width>
+      <width>391</width>
       <height>1091</height>
      </rect>
     </property>
@@ -253,25 +253,11 @@
      <string notr="true">background-color: #1f9e89;</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>189</y>
-      <width>1561</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: #1f9e89;
-</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="intro_title1">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>250</y>
+      <x>410</x>
+      <y>270</y>
       <width>261</width>
       <height>31</height>
      </rect>
@@ -283,8 +269,8 @@
    <widget class="QLabel" name="intro_title2">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>450</y>
+      <x>410</x>
+      <y>480</y>
       <width>261</width>
       <height>31</height>
      </rect>
@@ -296,8 +282,8 @@
    <widget class="QLabel" name="intro_title3">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>650</y>
+      <x>410</x>
+      <y>680</y>
       <width>261</width>
       <height>31</height>
      </rect>
@@ -362,6 +348,34 @@
      </size>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>190</y>
+      <width>1521</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0c705f;
+
+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>320</y>
+      <width>1461</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. &lt;/p&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
    <zorder>widget</zorder>
    <zorder>create_portfolio_button</zorder>
    <zorder>analyse_portfolio_button</zorder>
@@ -378,12 +392,13 @@
    <zorder>navbar3</zorder>
    <zorder>navbar4</zorder>
    <zorder>navbar5</zorder>
-   <zorder>widget_2</zorder>
    <zorder>intro_title1</zorder>
    <zorder>intro_title2</zorder>
    <zorder>intro_title3</zorder>
    <zorder>exit_button</zorder>
    <zorder>minimize_button</zorder>
+   <zorder>widget_4</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -391,7 +406,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

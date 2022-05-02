@@ -9,6 +9,7 @@ import data_analysis
 import plotly.graph_objs as go
 import plotly.express as px
 
+
 class AnalysePortfolio(QMainWindow):
     database_connector = database_connector.DatabaseConnector()
     data_analysis = data_analysis.DataAnalysis()
@@ -28,7 +29,10 @@ class AnalysePortfolio(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        self.fill_combo_box()
+        try:
+            self.fill_combo_box()
+        except TypeError as e:
+            print(e)
 
         try:
             self.load_portfolio()
@@ -43,7 +47,8 @@ class AnalysePortfolio(QMainWindow):
         # self.analyse_sharpe_button.clicked.connect(self.go_to_sharpe_charts)
 
     def load_portfolio(self):
-        data = self.database_connector.select_from(self.combobox.currentText())
+
+        data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 
         AnalysePortfolio.stocks = []
         AnalysePortfolio.values = []
@@ -59,11 +64,13 @@ class AnalysePortfolio(QMainWindow):
                 AnalysePortfolio.past_values[stock_index] += float(data[i][2])
             else:
                 AnalysePortfolio.stocks.append(data[i][0])
-                AnalysePortfolio.values.append(round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
+                AnalysePortfolio.values.append(
+                    round(float(data[i][1]) * (yf.Ticker(data[i][0]).history(period='1d')['Close'][0]), 2))
                 AnalysePortfolio.past_values.append(round(float(data[i][2]), 2))
 
-        #fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
-        fig = px.pie(values=AnalysePortfolio.values, names=AnalysePortfolio.stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis[::-1])
+        # fig = go.Figure(data=[go.Pie(values=AnalysePortfolio.values, labels=AnalysePortfolio.stocks, hole=.4)])
+        fig = px.pie(values=AnalysePortfolio.values, names=AnalysePortfolio.stocks, hole=.4,
+                     color_discrete_sequence=px.colors.sequential.Viridis[::-1])
         # fig.layout.template = 'plotly_dark'
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
 
@@ -130,17 +137,17 @@ class AnalysePortfolio(QMainWindow):
             # item5.setBackground(color)
             item5.setForeground(color)
             item5.setFont(font)
-            row_position = self.my_table.rowCount()
-            self.my_table.insertRow(row_position)
-            self.my_table.setItem(row_position, 0, item)
-            self.my_table.setItem(row_position, 1, item2)
-            self.my_table.setItem(row_position, 2, item3)
-            self.my_table.setItem(row_position, 3, item4)
-            self.my_table.setItem(row_position, 4, item5)
+            row_position = self.portfolio_table.rowCount()
+            self.portfolio_table.insertRow(row_position)
+            self.portfolio_table.setItem(row_position, 0, item)
+            self.portfolio_table.setItem(row_position, 1, item2)
+            self.portfolio_table.setItem(row_position, 2, item3)
+            self.portfolio_table.setItem(row_position, 3, item4)
+            self.portfolio_table.setItem(row_position, 4, item5)
 
         try:
             sharpe_ratio = self.data_analysis.sharpe_ratio(AnalysePortfolio.stocks, AnalysePortfolio.values)
-            self.sharpe.setText('Sharpe ratio: ' + str(round(sharpe_ratio, 2)))
+            self.sharpe_label.setText('Sharpe ratio: ' + str(round(sharpe_ratio, 2)))
         except Exception as e:
             print('DUPA: ')
             print(e)
@@ -150,26 +157,27 @@ class AnalysePortfolio(QMainWindow):
         keys = list(extremes)
         if len(keys) == 1:
             (a, b) = keys[0]
-            self.corr.setText('Correletion between ' + a + ' and ' + b + ': ' + str(round(extremes[keys[0]], 2)))
+            self.corr_label.setText('Correletion between ' + a + ' and ' + b + ': ' + str(round(extremes[keys[0]], 2)))
         else:
             (a, b) = keys[0]
             (c, d) = keys[1]
-            self.corr.setText('Highest correletion between ' + a + ' and ' + b + ': ' + str(
+            self.corr_label.setText('Highest correletion between ' + a + ' and ' + b + ': ' + str(
                 round(extremes[keys[0]], 2)) + '\n' + 'Lowest correletion between ' + c + ' and ' + d + ': ' + str(
                 round(extremes[keys[1]], 2)))
 
         vol_data = self.data_analysis.volatility(AnalysePortfolio.stocks, AnalysePortfolio.values)
         (annual, daily) = vol_data
-        self.risk.setText('Daily volatility: ' + str(round(daily * 100, 2)) + ' %\n' + 'Annual volatility: ' + str(
-            round(annual * 100, 2)) + ' %')
+        self.risk_label.setText(
+            'Daily volatility: ' + str(round(daily * 100, 2)) + ' %\n' + 'Annual volatility: ' + str(
+                round(annual * 100, 2)) + ' %')
 
-    # fill combobox with stock names
+    # fill portfolio_combobox with stock names
     def fill_combo_box(self):
         for name in self.database_connector.show_tables():
             if name == 'portfolio_names':
                 continue
-            self.combobox.addItem(name)
+            self.portfolio_combobox.addItem(name)
 
     def clear(self):
-        for i in reversed(range(self.my_table.rowCount())):
-            self.my_table.removeRow(i)
+        for i in reversed(range(self.portfolio_table.rowCount())):
+            self.portfolio_table.removeRow(i)

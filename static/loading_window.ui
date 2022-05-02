@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>801</width>
-    <height>500</height>
+    <height>499</height>
    </rect>
   </property>
   <property name="cursor">
@@ -23,9 +23,10 @@
    <enum>Qt::LeftToRight</enum>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(&quot;static/loading_image.png&quot;)</string>
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0.283737, y1:0.164, x2:0, y2:1, stop:0 rgba(0, 0, 0, 255), stop:0.378947 rgba(32, 100, 84, 255), stop:0.615789 rgba(52, 163, 137, 255), stop:0.805263 rgba(38, 118, 99, 255))
+</string>
   </property>
-  <widget class="QProgressBar" name="progressBar">
+  <widget class="QProgressBar" name="loading_progressbar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -57,7 +58,7 @@ QProgressBar::chunk{
     <enum>QProgressBar::BottomToTop</enum>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="name_label">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -69,6 +70,8 @@ QProgressBar::chunk{
    <property name="styleSheet">
     <string notr="true">color: white;
 font-size: 65px;
+background-color: None
+
 </string>
    </property>
    <property name="text">
@@ -78,23 +81,7 @@ font-size: 65px;
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>801</width>
-     <height>501</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>fiufiu2.jpg</pixmap>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_3">
+  <widget class="QLabel" name="version_label">
    <property name="geometry">
     <rect>
      <x>590</x>
@@ -106,6 +93,8 @@ font-size: 65px;
    <property name="styleSheet">
     <string notr="true">font-size: 35px;
 color: white;
+background-color: None
+
 </string>
    </property>
    <property name="text">
@@ -115,10 +104,84 @@ color: white;
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <zorder>label_2</zorder>
-  <zorder>progressBar</zorder>
-  <zorder>label</zorder>
-  <zorder>label_3</zorder>
+  <widget class="QWidget" name="widget_2" native="true">
+   <property name="geometry">
+    <rect>
+     <x>650</x>
+     <y>300</y>
+     <width>71</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #1f9e89;
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>260</y>
+     <width>71</width>
+     <height>221</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #0c705f;
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_4" native="true">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>340</y>
+     <width>71</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: #0a584b;
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_5" native="true">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>200</y>
+     <width>71</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(39, 203, 176);
+</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_6" native="true">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>410</y>
+     <width>71</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(7, 66, 56);
+</string>
+   </property>
+  </widget>
+  <zorder>name_label</zorder>
+  <zorder>version_label</zorder>
+  <zorder>widget_2</zorder>
+  <zorder>widget_3</zorder>
+  <zorder>widget_4</zorder>
+  <zorder>widget_5</zorder>
+  <zorder>widget_6</zorder>
+  <zorder>loading_progressbar</zorder>
  </widget>
  <resources/>
  <connections/>

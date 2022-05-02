@@ -2,7 +2,7 @@ from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
-from AnalysePortfolio import AnalysePortfolio
+from analyse_portfolio import AnalysePortfolio
 import data_analysis
 import plotly.graph_objs as go
 import plotly.express as px
@@ -24,9 +24,12 @@ class SharpeWindow(QMainWindow):
         self.a_button.toggled.connect(lambda: self.set_plot_type(self.a_button))
         self.b_button.toggled.connect(lambda: self.set_plot_type(self.b_button))
 
-        self.show_optimase_plot()
+        try:
+            self.show_optimise_plot()
+        except ValueError as e:
+            print(e)
 
-    def show_optimase_plot(self):
+    def show_optimise_plot(self):
         # getting a current stock from combobox
         data = self.data_analysis.optimise(AnalysePortfolio.stocks, AnalysePortfolio.values)
         (p_risk, p_returns, p_sharpe, p_weights, max_ind) = data
@@ -67,7 +70,7 @@ class SharpeWindow(QMainWindow):
     def set_plot_type(self, button):
         if button.isChecked():
             if button.text() == 'A':
-                self.show_optimase_plot()
+                self.show_optimise_plot()
             elif button.text() == 'B':
                 self.show_weights_plot()
 

@@ -2,13 +2,13 @@ from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.uic import loadUi
-from AnalysePortfolio import AnalysePortfolio
+from analyse_portfolio import AnalysePortfolio
 import data_analysis
 import plotly.graph_objs as go
 from datetime import date
 
-class PortfolioChart(QMainWindow):
 
+class PortfolioChart(QMainWindow):
     data_analysis = data_analysis.DataAnalysis()
 
     def __init__(self):
@@ -27,14 +27,15 @@ class PortfolioChart(QMainWindow):
         # getting a current stock from combobox
         y = AnalysePortfolio.stocks
         initial_date = min(AnalysePortfolio.dates)
-        data = self.data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values, str(initial_date))
+        data = self.data_analysis.cumulative_returns(AnalysePortfolio.stocks, AnalysePortfolio.values,
+                                                     str(initial_date))
 
-        fig = go.Figure(data= go.Scatter(x=data.index,y=data, marker_color='#1f9e89'))
+        fig = go.Figure(data=go.Scatter(x=data.index, y=data, marker_color='#1f9e89'))
 
         fig.update_yaxes(fixedrange=False)
-        fig.update_layout( xaxis=dict(rangeslider=dict(visible=True)))
+        fig.update_layout(xaxis=dict(rangeslider=dict(visible=True)))
         fig.add_hline(y=1, line_dash="dot")
-        #fig.update_xaxes(range=[dates[0], str(date.today())], tick0=0)
+        # fig.update_axes(range=[dates[0], str(date.today())], tick0=0)
         fig.update_layout(hovermode="x unified")
 
         # changing plot into html file so that it can be displayed with webengine

@@ -31,6 +31,7 @@ QPushButton#analyse_portfolio_button, QPushButton#bond_returns_button, QPushButt
     font-weight: bold;
     font-family: 'Sora';
 }
+
 QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hover, QPushButton#edit_portfolio_crypto_button:hover, QPushButton#create_portfolio_crypto_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#create_portfolio_button:hover, QPushButton#edit_portfolio_button:hover, QPushButton#analyse_stocks_button:hover, QPushButton#analyse_currencies_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#exit_button:hover {
     background-color: white;
     color: #0c705f;

@@ -49,7 +49,7 @@
      <string>Back</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="value_label">
     <property name="geometry">
      <rect>
       <x>500</x>
@@ -68,7 +68,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -124,7 +124,7 @@
      <string>Clear</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="my_table">
+   <widget class="QTableWidget" name="portfolio_table">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -260,7 +260,7 @@
      <string>Delete portfolio</string>
     </property>
    </widget>
-   <widget class="QDoubleSpinBox" name="spinBox_4">
+   <widget class="QDoubleSpinBox" name="amount_spinbox">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -299,7 +299,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

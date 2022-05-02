@@ -19,6 +19,7 @@ class Home(QMainWindow):
 
         self.setWindowFlags(Qt.FramelessWindowHint)
 
+
     def app_exit(self):
 
         # initialise confirmation window
