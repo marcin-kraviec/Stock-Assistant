@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
-import database
+import database_connector
 from PyQt5 import QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow, QHeaderView
 from PyQt5.uic import loadUi
@@ -264,18 +264,7 @@ class BondReturns(QMainWindow):
                 item11.setForeground(color)
                 item11.setFont(font)
                 self.tableWidget.setItem(i, 11, item11)
-                '''
-                if profit < 0:
-                    self.tableWidget.setItem(i, 11, QTableWidgetItem(
-                        str(round(profit + float(self.tableWidget.item(i - 1, 11).text()), 2))))
-                    percentage = profit * 100 / float(self.tableWidget.item(i, 1).text())
-                    self.tableWidget.setItem(i, 12, QTableWidgetItem(
-                        str(round(percentage + float(self.tableWidget.item(i - 1, 12).text()), 2))))
-                else:
-                    self.tableWidget.setItem(i, 11, QTableWidgetItem(str(round(profit, 2))))
-                    percentage = profit * 100 / float(self.tableWidget.item(i, 1).text())
-                    self.tableWidget.setItem(i, 12, QTableWidgetItem(str(round(percentage, 2))))
-                '''
+
         self.show_plot()
 
 

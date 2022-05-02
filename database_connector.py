@@ -2,6 +2,8 @@ import mysql.connector
 
 class DatabaseConnector():
 
+    # connect to database
+    # TODO: try except
     #database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', auth_plugin='mysql_native_password')
     database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', database='stock_assistant', auth_plugin='mysql_native_password')
     #database = mysql.connector.connect(host='127.0.0.1', user='root', password='root', database='stock_assistant')
@@ -13,7 +15,6 @@ class DatabaseConnector():
         print(query)
 
         #TODO: exception needs to be specified
-
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
@@ -27,6 +28,7 @@ class DatabaseConnector():
         query = 'INSERT INTO %s (stock, amount, value, date) VALUES (%s, %s, %s, %s)' % (name, stock, amount, value, date)
         print(query)
 
+        # TODO: exception needs to be specified
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
@@ -37,11 +39,13 @@ class DatabaseConnector():
 
     @staticmethod
     def select_from(name):
+
         query = 'SELECT stock, amount, value, date FROM %s' % name
         print(query)
 
         data = []
 
+        # TODO: exception needs to be specified
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
@@ -56,9 +60,11 @@ class DatabaseConnector():
 
     @staticmethod
     def delete_from(name, stock, date):
+
         query = 'DELETE FROM %s WHERE stock=%s and date=%s' % (name, stock, date)
         print(query)
 
+        # TODO: exception needs to be specified
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
@@ -68,9 +74,11 @@ class DatabaseConnector():
 
     @staticmethod
     def drop_table(name):
+
         query = 'DROP TABLE %s' % name
         print(query)
 
+        # TODO: exception needs to be specified
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
@@ -81,8 +89,11 @@ class DatabaseConnector():
 
     @staticmethod
     def show_tables():
+
         query = 'SHOW TABLES'
         print(query)
+
+        # TODO: exception needs to be specified
         try:
             cursor = DatabaseConnector.database.cursor()
             cursor.execute(query)
