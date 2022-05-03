@@ -276,7 +276,7 @@
      <string>Delete portfolio</string>
     </property>
    </widget>
-   <widget class="QLabel" name="title">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -284,9 +284,6 @@
       <width>361</width>
       <height>71</height>
      </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">font-size: 30px;</string>
     </property>
     <property name="text">
      <string>Edit your Portfolio!</string>
@@ -299,7 +296,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -279,9 +279,7 @@
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:18px;
-height:21px;
-width: 21px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>i</string>
@@ -300,7 +298,7 @@ width: 21px;</string>
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:18px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>i</string>
@@ -319,7 +317,7 @@ width: 21px;</string>
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
     <property name="styleSheet">
-     <string notr="true">font-size:18px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>i</string>
@@ -332,7 +330,7 @@ width: 21px;</string>
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

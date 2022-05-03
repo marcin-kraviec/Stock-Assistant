@@ -7,8 +7,6 @@ QPushButton{
     font-size: 12px;
     font-weight: bold;
     font-family: 'Sora';
-    /*min-height: 30px;*/
-    /*min-width: 60px;*/
 }
 
 QPushButton:hover {
@@ -18,28 +16,24 @@ QPushButton:hover {
 
 QPushButton#back_button {
     background-color: white;
-    color: #1f9e89;
+    color: #1f9e89;;
     font-size: 14px;
-    font-weight: bold;
-    font-family: 'Sora';
+}
+
+QPushButton#back_button:hover{
+    background-color: white;
+    color: #0c705f;
+    font-size: 16px;
 }
 
 QPushButton#analyse_portfolio_button, QPushButton#bond_returns_button, QPushButton#edit_portfolio_crypto_button, QPushButton#create_portfolio_crypto_button, QPushButton#analyse_crypto_button, QPushButton#create_portfolio_button, QPushButton#edit_portfolio_button, QPushButton#analyse_stocks_button, QPushButton#analyse_currencies_button, QPushButton#analyse_crypto_button, QPushButton#exit_button {
     background-color: #0c705f;
-    color: white;
     font-size: 12px;
-    font-weight: bold;
-    font-family: 'Sora';
 }
 
 QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hover, QPushButton#edit_portfolio_crypto_button:hover, QPushButton#create_portfolio_crypto_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#create_portfolio_button:hover, QPushButton#edit_portfolio_button:hover, QPushButton#analyse_stocks_button:hover, QPushButton#analyse_currencies_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#exit_button:hover {
     background-color: white;
     color: #0c705f;
-}
-
-QPushButton#back_button:hover{
-    color: #0c705f;
-    font-size: 16px;
 }
 
 QPushButton#exit_button {
@@ -62,37 +56,48 @@ QPushButton#minimize_button:hover {
     image: url(static/gray_minus1.png);
 }
 
+QPushButton#info_corr_button, QPushButton#info_risk_button, QPushButton#info_sharpe_button{
+    font-size:18px;
+}
+
 QLabel {
     font-size: 14px;
     font-family: 'Sora';
     font-weight: bold;
 }
 
-QLabel#corr, QLabel#risk, QLabel#sharpe {
-    font-size: 20px;
-    font-family: 'Sora';
-    color: #1f9e89;
-    font-weight: bold;
+QLabel#title_label {
+    font-size: 30px;
+    color: black;
+}
+
+QLabel#corr_label, QLabel#risk_label, QLabel#sharpe_label {
+    font-size: 18px;
+    color: #0c705f;
+}
+
+QLabel#stock_info_label{
+    color: #0c705f;
+    font-size: 35px;
 }
 
 QLabel#intro_title1, QLabel#intro_title2, QLabel#intro_title3{
     font-size: 20px;
-    font-family: 'Sora';
     color: #0c705f;
-    font-weight: bold;
 }
 
 QLabel#value, QLabel#change {
     font-size: 30px;
-    font-family: 'Sora';
-    font-weight: bold;
 }
 
 QLabel#navbar1, QLabel#navbar2, QLabel#navbar3, QLabel#navbar4, QLabel#navbar5 {
     font-size: 25px;
-    font-family: 'Sora';
     color: white;
-    font-weight: bold;
+}
+
+QLabel#inflation_info_label{
+    font-size: 11px;
+    color: #1f9e89;
 }
 
 QComboBox {
@@ -179,15 +184,6 @@ QSpinBox::down-arrow, QDoubleSpinBox::down-arrow{
 
 QSpinBox::up-arrow, QDoubleSpinBox::up-arrow{
     image: url(static/arrow_up.png);
-}
-
-QTextBrowser {
-    background-color: white;
-    color: black;
-    font-size: 10px;
-    font-family: 'Sora';
-    font-weight: bold;
-    border: 0;
 }
 
 QMainWindow {

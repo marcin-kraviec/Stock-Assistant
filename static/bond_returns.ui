@@ -168,8 +168,8 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>480</y>
+      <x>20</x>
+      <y>490</y>
       <width>1831</width>
       <height>621</height>
      </rect>
@@ -180,9 +180,9 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>150</y>
+      <y>160</y>
       <width>1801</width>
-      <height>381</height>
+      <height>371</height>
      </rect>
     </property>
     <property name="sizeAdjustPolicy">
@@ -422,11 +422,11 @@
      <string>%</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="inflation_info_label">
     <property name="geometry">
      <rect>
       <x>1140</x>
-      <y>109</y>
+      <y>120</y>
       <width>711</width>
       <height>31</height>
      </rect>
@@ -445,7 +445,7 @@
      <x>0</x>
      <y>0</y>
      <width>2053</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

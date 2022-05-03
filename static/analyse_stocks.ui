@@ -37,8 +37,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: #0c705f;
-font-size: 35px;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>TextLabel</string>
