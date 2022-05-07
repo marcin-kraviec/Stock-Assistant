@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>2068</width>
-    <height>985</height>
+    <width>1920</width>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,8 @@
    <widget class="QPushButton" name="add_button">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>120</y>
+      <x>720</x>
+      <y>150</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -49,11 +49,11 @@
      <string>Back</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_4">
+   <widget class="QSpinBox" name="amount_spinbox">
     <property name="geometry">
      <rect>
-      <x>400</x>
-      <y>120</y>
+      <x>380</x>
+      <y>150</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -65,12 +65,12 @@
      <number>9999</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="value_label">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>120</y>
-      <width>171</width>
+      <x>490</x>
+      <y>150</y>
+      <width>211</width>
       <height>31</height>
      </rect>
     </property>
@@ -84,11 +84,11 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>120</y>
+      <x>120</x>
+      <y>150</y>
       <width>241</width>
       <height>31</height>
      </rect>
@@ -102,8 +102,8 @@
      <rect>
       <x>840</x>
       <y>110</y>
-      <width>1031</width>
-      <height>801</height>
+      <width>991</width>
+      <height>831</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
@@ -112,7 +112,7 @@
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>840</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -128,7 +128,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>840</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -140,16 +140,16 @@
      <string>Clear</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="my_table">
+   <widget class="QTableWidget" name="portfolio_table">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>190</y>
+      <y>200</y>
       <width>691</width>
-      <height>631</height>
+      <height>741</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -218,8 +218,8 @@
    <widget class="QPushButton" name="save_button">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>880</y>
+      <x>320</x>
+      <y>960</y>
       <width>191</width>
       <height>31</height>
      </rect>
@@ -234,8 +234,8 @@
    <widget class="QComboBox" name="portfolio_combobox">
     <property name="geometry">
      <rect>
-      <x>490</x>
-      <y>20</y>
+      <x>510</x>
+      <y>30</y>
       <width>191</width>
       <height>31</height>
      </rect>
@@ -247,8 +247,8 @@
    <widget class="QPushButton" name="load_button">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>20</y>
+      <x>720</x>
+      <y>30</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -264,7 +264,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>840</y>
+      <y>960</y>
       <width>191</width>
       <height>31</height>
      </rect>
@@ -276,54 +276,26 @@
      <string>Delete portfolio</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>9</y>
-      <width>691</width>
-      <height>161</height>
+      <y>30</y>
+      <width>361</width>
+      <height>71</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(213, 213, 213);
-border-radius: 10px;</string>
+    <property name="text">
+     <string>Edit your Portfolio!</string>
     </property>
-    <widget class="QLabel" name="title">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>231</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Edit your Portfolio!</string>
-     </property>
-    </widget>
    </widget>
-   <zorder>widget</zorder>
-   <zorder>add_button</zorder>
-   <zorder>back_button</zorder>
-   <zorder>spinBox_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>comboBox_3</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>delete_it_button</zorder>
-   <zorder>clear_button</zorder>
-   <zorder>my_table</zorder>
-   <zorder>save_button</zorder>
-   <zorder>portfolio_combobox</zorder>
-   <zorder>load_button</zorder>
-   <zorder>delete_portfolio_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>2068</width>
+     <width>1920</width>
      <height>22</height>
     </rect>
    </property>

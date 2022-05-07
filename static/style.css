@@ -1,98 +1,202 @@
-/* TODO: setup a nice google font and rounded buttons */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@1&family=Roboto:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap');
 
-QPushButton {
-    background-color: #a8a8a8;
-    border-radius: 10px;
+QPushButton{
+    background-color: #1f9e89;
+    border-radius: 5px;
     color: white;
     font-size: 12px;
     font-weight: bold;
-    font-family: "Sora";
+    font-family: 'Sora';
 }
 
 QPushButton:hover {
-    background-color: #969696;
+    background-color: #0c705f;
+    cursor: pointer;
+}
+
+QPushButton#back_button {
+    background-color: white;
+    color: #1f9e89;;
+    font-size: 14px;
+}
+
+QPushButton#back_button:hover{
+    background-color: white;
+    color: #0c705f;
+    font-size: 16px;
+}
+
+QPushButton#analyse_portfolio_button, QPushButton#bond_returns_button, QPushButton#edit_portfolio_crypto_button, QPushButton#create_portfolio_crypto_button, QPushButton#analyse_crypto_button, QPushButton#create_portfolio_button, QPushButton#edit_portfolio_button, QPushButton#analyse_stocks_button, QPushButton#analyse_currencies_button, QPushButton#analyse_crypto_button, QPushButton#exit_button {
+    background-color: #0c705f;
+    font-size: 12px;
+}
+
+QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hover, QPushButton#edit_portfolio_crypto_button:hover, QPushButton#create_portfolio_crypto_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#create_portfolio_button:hover, QPushButton#edit_portfolio_button:hover, QPushButton#analyse_stocks_button:hover, QPushButton#analyse_currencies_button:hover, QPushButton#analyse_crypto_button:hover, QPushButton#exit_button:hover {
+    background-color: white;
+    color: #0c705f;
+}
+
+QPushButton#exit_button {
+    background-color: white;
+    image: url(static/black_iks1.png);
+}
+
+QPushButton#exit_button:hover {
+    background-color: white;
+    image: url(static/red_iks1.png);
+}
+
+QPushButton#minimize_button {
+    background-color: white;
+    image: url(static/black_minus1.png);
+}
+
+QPushButton#minimize_button:hover {
+    background-color: white;
+    image: url(static/gray_minus1.png);
+}
+
+QPushButton#info_corr_button, QPushButton#info_risk_button, QPushButton#info_sharpe_button{
+    font-size:18px;
 }
 
 QLabel {
-    font-size: 20px;
+    font-size: 14px;
     font-family: 'Sora';
+    font-weight: bold;
+}
+
+QLabel#title_label {
+    font-size: 30px;
+    color: black;
+}
+
+QLabel#corr_label, QLabel#risk_label {
+    font-size: 18px;
+    color: #0c705f;
+}
+
+QLabel#sharpe_label, QLabel#sharpe_value_label {
+    font-size: 28px;
+    color: #0c705f;
+}
+
+QLabel#stock_info_label, QLabel#title_label{
+    color: #0c705f;
+    font-size: 35px;
+}
+
+QLabel#intro_title1, QLabel#intro_title2, QLabel#intro_title3{
+    font-size: 20px;
+    color: #0c705f;
+}
+
+QLabel#value, QLabel#change {
+    font-size: 30px;
+}
+
+QLabel#navbar1, QLabel#navbar2, QLabel#navbar3, QLabel#navbar4, QLabel#navbar5 {
+    font-size: 25px;
+    color: white;
+}
+
+QLabel#inflation_info_label{
+    font-size: 11px;
+    color: #1f9e89;
+}
+
+QLabel#info_label{
+    color: #1f9e89;
 }
 
 QComboBox {
-    background-color: #a8a8a8;
-    border-radius: 10px;
+    background-color: #1f9e89;
+    border-radius: 5px;
     color: white;
     font-size: 12px;
     font-weight: bold;
     font-family: 'Sora';
 }
 
-QComboBox:hover, QComboBox::drop-down:hover {
-    background-color: #969696;
+QComboBox:hover {
+    background-color: #0c705f;
+}
+
+QComboBox::down-arrow{
+    image: url(static/arrow_down.png);
 }
 
 QComboBox::drop-down{
-    background-color: #a8a8a8;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
+    background-color: #1f9e89;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-QComboBox QAbstractItemView {
-    border-radius: 2px;
+QComboBox QAbstractItemView {;
     color: white;
-    background-color: #C1C1C1;
-    selection-background-color: lightgray;
+    background-color: #1f9e89;
+    selection-background-color: #0f7967;
     font-family: 'Sora';
 }
-
-/*QComboBox::down-arrow {*/
-/*    image: url(arrow_down.png);*/
-/*    width: 7px;*/
-/*    height: 7px;*/
-/*}*/
 
 QTableWidget {
     font-family: 'Sora';
     background-color: #eeeeee;
-    border-radius: 10px;
-    selection-background-color: #b7b7b7;
+    border-radius: 5px;
+    selection-background-color: #0c705f;
 }
 
 QHeaderView::section {
     background-color: white;
     border: 0px;
-    /*font-family: 'Sora';*/
+    font-family: 'Sora';
 }
 
 QRadioButton {
+    font-family: 'Sora';
+    color: #1f9e89;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QTextEdit{
+    background-color: #eeeeee;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
     font-family: 'Sora';
 }
 
 QSpinBox, QDoubleSpinBox{
     font-family: 'Sora';
-    background-color: #a8a8a8;
+    font-weight: bold;
+    font-size: 12px;
+    background-color: #1f9e89;
     color: white;
     border-radius: 5px;
 }
 
 QSpinBox::down-button, QSpinBox::up-button, QDoubleSpinBox::down-button, QDoubleSpinBox::up-button{
-    background-color: #a8a8a8;
+    background-color: #1f9e89;
     border-radius: 5px;
 }
 
 
 QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
-    background-color: #969696;
+    background-color: #0c705f;
     border-radius: 5px;
 }
 
-QSpinBox::up-arrow {
-    image: url(arrow_down.png);
+QSpinBox::down-arrow, QDoubleSpinBox::down-arrow{
+    image: url(static/arrow_down.png);
+}
+
+QSpinBox::up-arrow, QDoubleSpinBox::up-arrow{
+    image: url(static/arrow_up.png);
 }
 
 QMainWindow {
     background-color: white;
+    min-width: 1920px;
+    min-height: 1080px;
 }
-

@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="create_portfolio_button">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>550</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>130</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -33,10 +33,10 @@
    <widget class="QPushButton" name="analyse_portfolio_button">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>670</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>620</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -49,10 +49,10 @@
    <widget class="QPushButton" name="analyse_stocks_button">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>550</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>80</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -62,26 +62,26 @@
      <string>Analyse Stocks</string>
     </property>
    </widget>
-   <widget class="QLabel" name="title_label">
+   <widget class="QLabel" name="navbar1">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>60</y>
-      <width>901</width>
-      <height>61</height>
+      <x>20</x>
+      <y>30</y>
+      <width>281</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Stocks</string>
     </property>
    </widget>
    <widget class="QPushButton" name="analyse_crypto_button">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>670</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>350</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -91,13 +91,13 @@
      <string>Analyse Crypto</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="simulate_bond_returns_button">
+   <widget class="QPushButton" name="bond_returns_button">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>790</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>960</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -110,10 +110,10 @@
    <widget class="QPushButton" name="analyse_currencies_button">
     <property name="geometry">
      <rect>
-      <x>960</x>
+      <x>20</x>
       <y>790</y>
-      <width>801</width>
-      <height>101</height>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -123,26 +123,30 @@
      <string>Analyse Currencies</string>
     </property>
    </widget>
-   <widget class="QLabel" name="introduction_label">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>180</y>
-      <width>901</width>
-      <height>221</height>
+      <x>410</x>
+      <y>10</y>
+      <width>1251</width>
+      <height>191</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">font-size: 100px;
+</string>
+    </property>
     <property name="text">
-     <string>Tutaj info o apce</string>
+     <string>Stock Assistant</string>
     </property>
    </widget>
    <widget class="QPushButton" name="edit_portfolio_button">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>430</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>180</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -155,10 +159,10 @@
    <widget class="QPushButton" name="create_portfolio_crypto_button">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>430</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>400</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -171,10 +175,10 @@
    <widget class="QPushButton" name="edit_portfolio_crypto_button">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>310</y>
-      <width>801</width>
-      <height>101</height>
+      <x>20</x>
+      <y>450</y>
+      <width>341</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="cursor">
@@ -184,6 +188,217 @@
      <string>Edit Portfolio Crypto</string>
     </property>
    </widget>
+   <widget class="QLabel" name="navbar2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Crypto</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="navbar3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>570</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Your portfolio</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="navbar4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>740</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Currencies</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="navbar5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>910</y>
+      <width>201</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bonds</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>391</width>
+      <height>1091</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #1f9e89;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="intro_title1">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>270</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>About App</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="intro_title2">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>480</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lorem Ipsum</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="intro_title3">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>680</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lorem Ipsum</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exit_button">
+    <property name="geometry">
+     <rect>
+      <x>1891</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="minimize_button">
+    <property name="geometry">
+     <rect>
+      <x>1870</x>
+      <y>10</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>40</width>
+      <height>40</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget_4" native="true">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>190</y>
+      <width>1521</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: #0c705f;
+
+</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>320</y>
+      <width>1461</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. &lt;/p&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <zorder>widget</zorder>
+   <zorder>create_portfolio_button</zorder>
+   <zorder>analyse_portfolio_button</zorder>
+   <zorder>analyse_stocks_button</zorder>
+   <zorder>navbar1</zorder>
+   <zorder>analyse_crypto_button</zorder>
+   <zorder>bond_returns_button</zorder>
+   <zorder>analyse_currencies_button</zorder>
+   <zorder>title_label</zorder>
+   <zorder>edit_portfolio_button</zorder>
+   <zorder>create_portfolio_crypto_button</zorder>
+   <zorder>edit_portfolio_crypto_button</zorder>
+   <zorder>navbar2</zorder>
+   <zorder>navbar3</zorder>
+   <zorder>navbar4</zorder>
+   <zorder>navbar5</zorder>
+   <zorder>intro_title1</zorder>
+   <zorder>intro_title2</zorder>
+   <zorder>intro_title3</zorder>
+   <zorder>exit_button</zorder>
+   <zorder>minimize_button</zorder>
+   <zorder>widget_4</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

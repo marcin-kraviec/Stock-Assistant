@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>2068</width>
-    <height>980</height>
+    <height>1080</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,8 @@
    <widget class="QPushButton" name="add_button">
     <property name="geometry">
      <rect>
-      <x>690</x>
-      <y>110</y>
+      <x>720</x>
+      <y>150</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -33,13 +33,13 @@
      <string>Add</string>
     </property>
    </widget>
-   <widget class="QLabel" name="title">
+   <widget class="QLabel" name="title_label">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>120</x>
       <y>40</y>
-      <width>231</width>
-      <height>41</height>
+      <width>341</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -62,11 +62,11 @@
      <string>Back</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="spinBox_4">
+   <widget class="QSpinBox" name="amount_spinbox">
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>110</y>
+      <y>150</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -74,35 +74,19 @@
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::PlusMinus</enum>
+    </property>
     <property name="maximum">
      <number>9999</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QComboBox" name="stocks_combobox">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>110</y>
-      <width>191</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="layoutDirection">
-     <enum>Qt::LeftToRight</enum>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_3">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>110</y>
-      <width>211</width>
+      <x>120</x>
+      <y>150</y>
+      <width>241</width>
       <height>31</height>
      </rect>
     </property>
@@ -115,8 +99,8 @@
      <rect>
       <x>940</x>
       <y>120</y>
-      <width>951</width>
-      <height>781</height>
+      <width>881</width>
+      <height>821</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
@@ -125,7 +109,7 @@
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>850</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -141,7 +125,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>850</y>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -153,16 +137,16 @@
      <string>Clear</string>
     </property>
    </widget>
-   <widget class="QTableWidget" name="my_table">
+   <widget class="QTableWidget" name="portfolio_table">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>190</y>
+      <y>200</y>
       <width>691</width>
-      <height>641</height>
+      <height>741</height>
      </rect>
     </property>
     <property name="mouseTracking">
@@ -226,22 +210,21 @@
    <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>870</y>
+      <x>1420</x>
+      <y>960</y>
       <width>271</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border: Opx;
-border-radius: 10px;</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QPushButton" name="save_button">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>870</y>
+      <x>1710</x>
+      <y>960</y>
       <width>91</width>
       <height>31</height>
      </rect>
@@ -253,48 +236,25 @@ border-radius: 10px;</string>
      <string>Save</string>
     </property>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QLabel" name="value_label">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>10</y>
-      <width>691</width>
-      <height>161</height>
+      <x>490</x>
+      <y>150</y>
+      <width>211</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(213, 213, 213);
-border-radius: 10px;</string>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="widget_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>850</y>
-      <width>421</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(213, 213, 213);
-border-radius: 10px;</string>
-    </property>
-   </widget>
-   <zorder>widget_2</zorder>
-   <zorder>widget</zorder>
-   <zorder>add_button</zorder>
-   <zorder>title</zorder>
-   <zorder>back_button</zorder>
-   <zorder>spinBox_4</zorder>
-   <zorder>label_5</zorder>
-   <zorder>comboBox_3</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>delete_it_button</zorder>
-   <zorder>clear_button</zorder>
-   <zorder>my_table</zorder>
-   <zorder>textEdit</zorder>
-   <zorder>save_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
