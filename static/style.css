@@ -81,7 +81,7 @@ QLabel#sharpe_label, QLabel#sharpe_value_label {
     color: #0c705f;
 }
 
-QLabel#stock_info_label{
+QLabel#stock_info_label, QLabel#title_label{
     color: #0c705f;
     font-size: 35px;
 }
@@ -102,6 +102,10 @@ QLabel#navbar1, QLabel#navbar2, QLabel#navbar3, QLabel#navbar4, QLabel#navbar5 {
 
 QLabel#inflation_info_label{
     font-size: 11px;
+    color: #1f9e89;
+}
+
+QLabel#info_label{
     color: #1f9e89;
 }
 
