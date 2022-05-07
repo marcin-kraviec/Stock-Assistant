@@ -3,16 +3,12 @@ from PyQt5.QtGui import QFont
 from PyQt5 import QtGui, QtWebEngineWidgets
 from PyQt5.QtWidgets import QMessageBox, QTableWidgetItem, QMainWindow, QHeaderView
 from PyQt5.uic import loadUi
-from numpy import double
-import yfinance as yf
 import plotly.graph_objs as go
-import plotly.express as px
-import database_connector
-import data_analysis
 
 
 class BondReturns(QMainWindow):
 
+    # dict store info about bond types
     ots_data = {'cycles': 3, 'rate': 0.00125, 'fee': 0.0}
     dos_data = {'cycles': 2, 'rate': 0.02, 'fee': 0.7}
     toz_data = {'cycles': 6, 'rate': 0.0105, 'fee': 0.7}
@@ -26,12 +22,17 @@ class BondReturns(QMainWindow):
         loadUi("static/bond_returns.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
+        # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
+        # setup a table header to resize to contents
         header = self.tableWidget.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeToContents)
+
         self.info_button.clicked.connect(lambda: self.alert_window(self.info_text(), self.comboBox.currentText()))
+
+        # make elements of layout dependent from combobox and spinbox values
         self.spinBox.valueChanged.connect(self.set_bond_type)
         self.inflation1_spinbox.valueChanged.connect(self.set_bond_type)
         self.inflation2_spinbox.valueChanged.connect(self.set_bond_type)
@@ -57,6 +58,7 @@ class BondReturns(QMainWindow):
 
     def info_text(self):
 
+        # store info about chosen bond type
         number_of_cycles = ''
         cycle_duration = ''
         rate_of_interest = ''
@@ -64,6 +66,7 @@ class BondReturns(QMainWindow):
         capitalisation_of_interest = ''
         payment_of_interest = ''
 
+        # set a values to the variables that would be passed to the text
         if self.comboBox.currentText() == 'OTS':
             number_of_cycles = '3'
             cycle_duration = '1 month'
@@ -100,6 +103,7 @@ class BondReturns(QMainWindow):
             capitalisation_of_interest = 'Yes'
             payment_of_interest = 'Upon redemption'
 
+        # format the info text so that it shows info about chosen bond type
         text = """
             Nominal bond value: 100 PLN\t\t\n
             Number of cycles: {a}\t\t\n
@@ -119,8 +123,10 @@ class BondReturns(QMainWindow):
 
         return text
 
+    # calculate ots bond returns
     def ots(self):
 
+        # provide info about bond type
         N = self.ots_data['cycles']
         n = self.spinBox.value()
         r1 = self.ots_data['rate']
@@ -131,14 +137,17 @@ class BondReturns(QMainWindow):
         wibor2 = self.wibor2_spinbox.value()
         fee = self.ots_data['fee']
 
+        # clear the table before adding new bond cycles data
         self.clear()
 
+        # add initial data to table
         self.tableWidget.insertRow(0)
         self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
         self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100)))
 
         for i in range(1, N + 1):
 
+            # first cycle - static interest rate
             if i == 1:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -166,7 +175,7 @@ class BondReturns(QMainWindow):
                 item11.setForeground(color)
                 item11.setFont(font)
                 self.tableWidget.setItem(i, 11, item11)
-
+            # further cycles - static interest rate, acumulated inflation calculated from further inflation rates
             else:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -201,8 +210,10 @@ class BondReturns(QMainWindow):
 
         self.show_plot()
 
+    # calculate dos bond returns
     def dos(self):
 
+        # provide info about bond type
         N = self.dos_data['cycles']
         n = self.spinBox.value()
         r1 = self.dos_data['rate']
@@ -213,15 +224,17 @@ class BondReturns(QMainWindow):
         wibor2 = self.wibor2_spinbox.value()
         fee = self.dos_data['fee']
 
-
+        # clear the table before adding new bond cycles data
         self.clear()
 
+        # add initial data to table
         self.tableWidget.insertRow(0)
         self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
         self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100)))
 
         for i in range(1, N + 1):
 
+            # first cycle - static interest rate
             if i == 1:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -250,8 +263,7 @@ class BondReturns(QMainWindow):
                 item11.setForeground(color)
                 item11.setFont(font)
                 self.tableWidget.setItem(i, 11, item11)
-
-
+            # last cycle - static interes rate, capitalisation, no fee
             else:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -291,8 +303,10 @@ class BondReturns(QMainWindow):
 
         self.show_plot()
 
+    # calculate toz bond returns
     def toz(self):
 
+        # provide info about bond type
         N = self.toz_data['cycles']
         n = self.spinBox.value()
         r1 = self.toz_data['rate']
@@ -302,15 +316,17 @@ class BondReturns(QMainWindow):
         wibor2 = self.wibor2_spinbox.value()
         fee = self.toz_data['fee']
 
-
+        # clear the table before adding new bond cycles data
         self.clear()
 
+        # add initial data to table
         self.tableWidget.insertRow(0)
         self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
         self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100)))
 
         for i in range(1, N + 1):
 
+            # first cycle - static interest rate
             if i == 1:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -339,7 +355,7 @@ class BondReturns(QMainWindow):
                 item11.setFont(font)
                 self.tableWidget.setItem(i, 11, item11)
 
-
+            # further cycles - wibor indexed, acumulated inflation calculated from further inflation rates
             else:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -348,6 +364,7 @@ class BondReturns(QMainWindow):
                 self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round(wibor2 * n, 2))))
                 self.tableWidget.setItem(i, 4, QTableWidgetItem(
                     str(round(wibor2 * n + float(self.tableWidget.item(i - 1, 4).text()), 2))))
+                # last cycle - wibor indexed, no fee
                 if i == N:
                     self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
                     self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round(float(wibor2 * n * 0.19), 2))))
@@ -381,9 +398,10 @@ class BondReturns(QMainWindow):
 
         self.show_plot()
 
-    # OK
+    # calculate coi bond returns
     def coi(self):
 
+        # provide info about bond type
         N = self.coi_data['cycles']
         n = self.spinBox.value()
         r1 = self.coi_data['rate']
@@ -394,14 +412,16 @@ class BondReturns(QMainWindow):
         wibor2 = self.wibor2_spinbox.value()
         fee = self.coi_data['fee']
 
+        # clear the table before adding new bond cycles data
         self.clear()
 
+        # add initial data to table
         self.tableWidget.insertRow(0)
         self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
         self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100)))
 
         for i in range(1, N + 1):
-
+            # first cycle - static interest rate
             if i == 1:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -436,6 +456,7 @@ class BondReturns(QMainWindow):
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
                 self.tableWidget.setItem(i, 1, QTableWidgetItem(str(n * 100)))
                 self.tableWidget.setItem(i, 2, QTableWidgetItem(str(r2 + inflation2)))
+                # second cycle - inflation indexed, acumulated inflation calculated from first and further inflation rates
                 if i == 2:
                     self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r2 + inflation1, 2))))
                     self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round((r2 + inflation1) * n, 2))))
@@ -443,6 +464,7 @@ class BondReturns(QMainWindow):
                         str(round((r2 + inflation1) * n + float(self.tableWidget.item(i - 1, 4).text()), 2))))
                     self.tableWidget.setItem(i, 6, QTableWidgetItem(
                         str(round(float(((r2 + inflation1) * n - fee * n) * 0.19), 2))))
+                # further cycles - inflation indexed, acumulated inflation calculated from further inflation rates
                 else:
                     self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r2 + inflation2, 2))))
                     self.tableWidget.setItem(i, 3, QTableWidgetItem(str(round((r2 + inflation2) * n, 2))))
@@ -450,6 +472,7 @@ class BondReturns(QMainWindow):
                         str(round((r2 + inflation2) * n + float(self.tableWidget.item(i - 1, 4).text()), 2))))
                     self.tableWidget.setItem(i, 6, QTableWidgetItem(
                         str(round(float(((r2 + inflation2) * n - fee * n) * 0.19), 2))))
+                # last cycle - inflation indexed, no fee
                 if i == N:
                     self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
                     self.tableWidget.setItem(i, 6,
@@ -457,6 +480,7 @@ class BondReturns(QMainWindow):
                     self.tableWidget.setItem(i, 7, QTableWidgetItem(
                         str(round((float(self.tableWidget.item(i, 4).text()) - float(
                             self.tableWidget.item(i, 5).text())) * 0.81, 2))))
+                # further cycles - continuation
                 else:
                     self.tableWidget.setItem(i, 5, QTableWidgetItem(str(round(fee * n, 2))))
                     self.tableWidget.setItem(i, 7, QTableWidgetItem(
@@ -483,8 +507,10 @@ class BondReturns(QMainWindow):
 
         self.show_plot()
 
+    # calculate edo bond returns
     def edo(self):
 
+        # provide info about bond type
         N = self.edo_data['cycles']
         n = self.spinBox.value()
         r1 = self.edo_data['rate']
@@ -495,15 +521,18 @@ class BondReturns(QMainWindow):
         wibor2 = self.wibor2_spinbox.value()
         fee = self.edo_data['fee']
 
-
+        # clear the table before adding new bond cycles data
         self.clear()
 
+        # add initial data to table
         self.tableWidget.insertRow(0)
         self.tableWidget.setItem(0, 0, QTableWidgetItem(str(0)))
         self.tableWidget.setItem(0, 1, QTableWidgetItem(str(n * 100)))
 
+
         for i in range(1, N + 1):
 
+            # first cycle - static interest rate
             if i == 1:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
@@ -536,6 +565,8 @@ class BondReturns(QMainWindow):
             else:
                 self.tableWidget.insertRow(i)
                 self.tableWidget.setItem(i, 0, QTableWidgetItem(str(i)))
+
+                # second cycle - inflation indexed, capitalisation, acumulated inflation calculated from first and further inflation rates
                 if i == 2:
                     interest = float(((r2 + inflation1) / 100) * float(self.tableWidget.item(i - 1, 1).text()))
                     self.tableWidget.setItem(i, 1, QTableWidgetItem(
@@ -543,6 +574,8 @@ class BondReturns(QMainWindow):
                     self.tableWidget.setItem(i, 2, QTableWidgetItem(str(round(r2 + inflation1, 2))))
                     self.tableWidget.setItem(i, 3, QTableWidgetItem(
                         str(round(((r2 + inflation1) / 100) * (float(self.tableWidget.item(i - 1, 1).text())), 2))))
+
+                # further cycles - inflation indexed, capitalisation, acumulated inflation calculated from further inflation rates
                 else:
                     interest = float(((r2 + inflation2) / 100) * float(self.tableWidget.item(i - 1, 1).text()))
                     self.tableWidget.setItem(i, 1, QTableWidgetItem(
@@ -552,8 +585,7 @@ class BondReturns(QMainWindow):
                         str(round(((r2 + inflation2) / 100) * (float(self.tableWidget.item(i - 1, 1).text())), 2))))
                 self.tableWidget.setItem(i, 4, QTableWidgetItem(
                     str(round(interest + float(self.tableWidget.item(i - 1, 1).text()) - n * 100, 2))))
-                # self.tableWidget.setItem(i, 4, QTableWidgetItem(
-                #    str(round((r2 + inflation) * n + float(self.tableWidget.item(i - 1, 4).text()), 2))))
+                # last cycle - inflation indexed, capitalisation, no fee, acumulated inflation calculated from further inflation rates
                 if i == N:
                     self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
                     self.tableWidget.setItem(i, 6,
@@ -590,6 +622,7 @@ class BondReturns(QMainWindow):
 
         self.show_plot()
 
+    # switching between bond types
     def set_bond_type(self):
         self.value_label.setText(str(self.spinBox.value() * 100) + ' PLN')
         if self.comboBox.currentText() == 'OTS':
@@ -603,12 +636,14 @@ class BondReturns(QMainWindow):
         elif self.comboBox.currentText() == 'EDO':
             self.edo()
 
+    # clear the table
     def clear(self):
         for i in reversed(range(self.tableWidget.rowCount())):
             self.tableWidget.removeRow(i)
 
     def show_plot(self):
 
+        # dict stores profit/loss and real profit/loss for each cycle
         profit = {}
         real_profit = {}
         for i in range(self.tableWidget.rowCount()):
@@ -617,9 +652,11 @@ class BondReturns(QMainWindow):
                 profit[key] = 0.0
                 real_profit[key] = 0.0
             else:
+                # get profit/loss and real profit/loss from cells in table
                 profit[key] = float(self.tableWidget.item(i, 7).text())
                 real_profit[key] = float(self.tableWidget.item(i, 11).text())
 
+        # initialise figure (plot with 2 lines - profit and real profit)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=list(profit.keys()), y=list(profit.values()),
                                  mode='lines',
@@ -631,7 +668,10 @@ class BondReturns(QMainWindow):
         fig.update_layout(hovermode="x unified")
         fig.update_xaxes(range=[1, len(list(profit.keys())) - 1], tick0=0)
 
+        # check if table is empty
         if self.tableWidget.rowCount() >= 1:
+
+            # change figure type to html so that it can be displayed in QWebEngineView
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
         else:
             self.browser.setHtml(None)

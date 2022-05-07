@@ -26,6 +26,8 @@ class PortfolioChart(QMainWindow):
 
         # default state
         self.show_plot()
+        self.title_label.setText('Cumulative returns')
+        self.info_label.setText('This window provides a cumulative returns plot. It shows the growth of each 1$ invested into portfolio.')
 
     def show_plot(self):
 

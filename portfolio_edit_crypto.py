@@ -9,6 +9,8 @@ import yfinance as yf
 
 
 class PortfolioEditCrypto(PortfolioEdit):
+
+    # store info about portfolio
     current_portfolio = ''
     portfolio_length = 0
 
@@ -19,6 +21,7 @@ class PortfolioEditCrypto(PortfolioEdit):
         loadUi("static/portfolio_edit_crypto.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
+        # load/delete when right button is clicked
         self.load_button.clicked.connect(self.load_portfolio)
         self.delete_portfolio_button.clicked.connect(self.delete_portfolio)
 
@@ -36,12 +39,16 @@ class PortfolioEditCrypto(PortfolioEdit):
         self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
         self.fill_combo_box(PortfolioFormCrypto.cryptos, self.stocks_combobox)
 
-        self.fill_portfolio_combo_box()
+        try:
+            self.fill_portfolio_combo_box()
+        except (TypeError, IndexError) as e:
+            print(e)
 
+        # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        # update latest company price
+        # update portfolio component value
         self.amount_spinbox.valueChanged.connect(self.label_update)
         self.stocks_combobox.activated.connect(self.label_update)
         self.value_label.setText(str(round(
@@ -50,11 +57,11 @@ class PortfolioEditCrypto(PortfolioEdit):
 
         self.save_button.clicked.connect(self.save_it)
 
+    # fill combobox with portfolio names
     def fill_portfolio_combo_box(self):
         names = self.database_connector.show_tables()
         for name in names:
             x = self.database_connector.select_from(name)[0][0]
-            cryptos = PortfolioFormCrypto.cryptos
             if x in PortfolioFormCrypto.cryptos:
                 self.portfolio_combobox.addItem(name)
 
