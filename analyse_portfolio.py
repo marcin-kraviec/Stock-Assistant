@@ -29,7 +29,7 @@ class AnalysePortfolio(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/analyse_portfolio.ui", self)
+        loadUi("static/ui_files/analyse_portfolio.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -248,7 +248,7 @@ class AnalysePortfolio(QMainWindow):
         m = QMessageBox(self)
 
         # customise info window
-        m.setWindowIcon(QIcon("static/info_icon.png"))
+        m.setWindowIcon(QIcon("static/images/info_icon.png"))
         # m.setText(header)
         m.setText(text)
         m.setWindowTitle(title)

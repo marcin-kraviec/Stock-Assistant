@@ -22,7 +22,7 @@ class PortfolioEditCrypto(PortfolioEdit):
         super().__init__(analyse_portfolio_window, portfolio_edit_window)
 
         # read the window layout from file
-        loadUi("static/portfolio_edit_crypto.ui", self)
+        loadUi("static/ui_files/portfolio_edit_crypto.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # load/delete when right button is clicked
@@ -40,7 +40,7 @@ class PortfolioEditCrypto(PortfolioEdit):
         self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
+        self.read_csv_file('static/csv_files/cryptos.csv', PortfolioFormCrypto.cryptos)
         self.fill_combo_box(PortfolioFormCrypto.cryptos, self.stocks_combobox)
 
         try:

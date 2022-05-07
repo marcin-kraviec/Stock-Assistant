@@ -17,7 +17,7 @@ class PortfolioFormCrypto(PortfolioForm):
         self.portfolio_edit_crypto_window = portfolio_edit_crypto_window
 
         # read the window layout from file
-        loadUi("static/portfolio_form_crypto.ui", self)
+        loadUi("static/ui_files/portfolio_form_crypto.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # add, delete, clear elements in portfolio form
@@ -31,7 +31,7 @@ class PortfolioFormCrypto(PortfolioForm):
         self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
+        self.read_csv_file('static/csv_files/cryptos.csv', PortfolioFormCrypto.cryptos)
         self.fill_combo_box(PortfolioFormCrypto.cryptos, self.stocks_combobox)
 
         # setup a webengine for plots

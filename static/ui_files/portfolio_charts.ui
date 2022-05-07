@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="title_label">
+   <widget class="QLabel" name="portfolio_charts_title_label">
     <property name="geometry">
      <rect>
       <x>160</x>

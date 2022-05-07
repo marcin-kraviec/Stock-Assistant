@@ -13,7 +13,7 @@ class AnalyseStocks(ChartWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/analyse_stocks.ui", self)
+        loadUi("static/ui_files/analyse_stocks.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -21,7 +21,7 @@ class AnalyseStocks(ChartWindow):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', AnalyseStocks.stocks)
+        self.read_csv_file('static/csv_files/stocks.csv', AnalyseStocks.stocks)
         self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
 
         # default state

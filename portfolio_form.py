@@ -26,7 +26,7 @@ class PortfolioForm(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/portfolio_form.ui", self)
+        loadUi("static/ui_files/portfolio_form.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # add, delete, clear elements in portfolio form
@@ -40,7 +40,7 @@ class PortfolioForm(QMainWindow):
         self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+        self.read_csv_file('static/csv_files/stocks.csv', PortfolioForm.stocks)
         self.fill_combo_box(PortfolioForm.stocks, self.stocks_combobox)
 
         # setup a webengine for plots
@@ -79,6 +79,9 @@ class PortfolioForm(QMainWindow):
             self.portfolio_table.setItem(row_position, 1, item2)
             self.portfolio_table.setItem(row_position, 2, item3)
             self.amount_spinbox.setValue(0)
+
+        elif self.portfolio_table.findItems(str(self.stocks_combobox.currentText()), Qt.MatchContains):
+            self.alert_window("You have already bought this!", "Alert window")
 
         elif self.amount_spinbox.value() == 0:
             self.alert_window("Increase the number of the selected stock.", "Alert window")
@@ -174,8 +177,8 @@ class PortfolioForm(QMainWindow):
         m = QMessageBox(self)
 
         # customise confirmation window
-        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
-        m.setText(text)
+        m.setWindowIcon(QtGui.QIcon("static/images/alert.png"))
+        m.setText(text+'\t')
         m.setWindowTitle(window_title)
 
         # provide options for user

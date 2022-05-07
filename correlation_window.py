@@ -17,7 +17,7 @@ class CorrelationWindow(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/portfolio_charts.ui", self)
+        loadUi("static/ui_files/portfolio_charts.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -30,7 +30,7 @@ class CorrelationWindow(QMainWindow):
         except ValueError as e:
             logging.error(str(e))
 
-        self.title_label.setText('Correlation matrix')
+        self.portfolio_charts_title_label.setText('Correlation matrix')
         self.info_label.setText('This window provides a matrix of correlation between portfolio components. The lighter the color the higher correlation.')
 
     def show_correlation_plot(self):

@@ -17,7 +17,7 @@ class PortfolioChart(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/portfolio_charts.ui", self)
+        loadUi("static/ui_files/portfolio_charts.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -26,7 +26,7 @@ class PortfolioChart(QMainWindow):
 
         # default state
         self.show_plot()
-        self.title_label.setText('Cumulative returns')
+        self.portfolio_charts_title_label.setText('Cumulative returns')
         self.info_label.setText('This window provides a cumulative returns plot. It shows the growth of each 1$ invested into portfolio.')
 
     def show_plot(self):

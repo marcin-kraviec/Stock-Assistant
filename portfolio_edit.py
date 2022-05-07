@@ -22,7 +22,7 @@ class PortfolioEdit(PortfolioForm):
         super().__init__(analyse_portfolio_window, portfolio_edit_window)
 
         # read the window layout from file
-        loadUi("static/portfolio_edit.ui", self)
+        loadUi("static/ui_files/portfolio_edit.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         try:
@@ -45,7 +45,7 @@ class PortfolioEdit(PortfolioForm):
         self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
+        self.read_csv_file('static/csv_files/stocks.csv', PortfolioForm.stocks)
         self.fill_combo_box(PortfolioForm.stocks, self.stocks_combobox)
 
         # setup a webengine for plots
@@ -125,7 +125,7 @@ class PortfolioEdit(PortfolioForm):
         self.components_to_drop = []
         self.components_to_add = []
         self.show_pie_plot()
-        self.alert_window("Portfolio saved succesfully!\t", "Alert window")
+        self.alert_window("Portfolio saved succesfully!", "Alert window")
 
     # fill combobox with portfolio names
     def fill_portfolio_combo_box(self):
@@ -136,6 +136,10 @@ class PortfolioEdit(PortfolioForm):
                 self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
+        # clear list of components to drop and components to add while load portfolio
+        self.components_to_drop = []
+        self.components_to_add = []
+
         # load portfolio data from database
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 
@@ -166,7 +170,7 @@ class PortfolioEdit(PortfolioForm):
             m = QMessageBox(self)
 
             # customise confirmation window
-            m.setWindowIcon(QtGui.QIcon("static/alert.png"))
+            m.setWindowIcon(QtGui.QIcon("static/images/alert.png"))
             m.setText("Are you sure you want to delete this portfolio?\t")
             m.setWindowTitle("Confirmation window")
 

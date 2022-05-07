@@ -363,17 +363,17 @@
 </string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="about_app_label">
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>320</y>
-      <width>1461</width>
-      <height>141</height>
+      <y>310</y>
+      <width>1451</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. &lt;/p&gt;&lt;p&gt;Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe. Siema siema to nasza apka. Paczcie jako fajno. hehe hehe hehe&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stock Assistant is an application that allows you to create, simulate a portfolio and its analysis in terms of optimality. &lt;/p&gt;&lt;p&gt;In times of high inflation, it makes sense to look for various alternatives investment possibilities. And this is where our application comes in handy!&lt;/p&gt;&lt;p&gt;Addictionaly it allows the users to deepen knowledge about the basis of the mechanisms stock exchanges.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <zorder>widget</zorder>
@@ -398,7 +398,7 @@
    <zorder>exit_button</zorder>
    <zorder>minimize_button</zorder>
    <zorder>widget_4</zorder>
-   <zorder>label</zorder>
+   <zorder>about_app_label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -18,7 +18,7 @@ class SharpeWindow(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/optimalization_charts.ui", self)
+        loadUi("static/ui_files/optimalization_charts.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
