@@ -11,7 +11,6 @@ import logging
 
 
 class AnalysePortfolio(QMainWindow):
-
     # initialise  database_connector and establish connection with database
     database_connector = database_connector.DatabaseConnector()
 
@@ -51,15 +50,14 @@ class AnalysePortfolio(QMainWindow):
         # load window features for chosen portfolio
         self.load_button.clicked.connect(self.load_portfolio)
         self.info_corr_button.clicked.connect(lambda: self.info_window("Correlation",
-                                                                       "In finance, correlation is a statistic that measures the degree to which two securities move in relation to each other.\n"
-                                                                       "The values are in the range of 0 to 1. Higher correlation means that the stocks have returns that are more correlated."))
+                                                                       "In finance, correlation measures the degree to which two securities move in relation to each other.\n"
+                                                                       "The values are in the range of 0 to 1.\nHigher correlation means that the stocks have returns that are more correlated."))
         self.info_risk_button.clicked.connect(lambda: self.info_window("Volatility",
                                                                        "In finance, volatility is a statistic that is used to measure risk and the instability of stock prices.\nIf a stock is very volatile, you can expect large changes in its price and therefore a higher risk.\n"
                                                                        "The annual volatility is calculated on the basis of all trading days in the year. (252 days)"))
         self.info_sharpe_button.clicked.connect(lambda: self.info_window("Sharpe ratio",
-                                                                         "In finance, Sharpe ratio is the measure of the risk-adjusted return of a portfolio.\nA portfolio with a higher Sharpe ratio is considered better.\n"
+                                                                         "In finance, Sharpe ratio is the measure of the risk-adjusted return of a portfolio.\nA portfolio with a higher Sharpe ratio is considered as a better one.\n"
                                                                          "Sharpe ratios greater than 1 are considered optimal."))
-
 
     def load_portfolio(self):
 
