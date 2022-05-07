@@ -5,13 +5,17 @@ from PyQt5.uic import loadUi
 import data_analysis
 import plotly.graph_objs as go
 from analyse_portfolio import AnalysePortfolio
+import logging
 
 
 class CorrelationWindow(QMainWindow):
+
+    # initialise data_analysis to provide methods for calculations
     data_analysis = data_analysis.DataAnalysis()
 
     def __init__(self):
         super().__init__()
+
         # read the window layout from file
         loadUi("static/portfolio_charts.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -20,13 +24,15 @@ class CorrelationWindow(QMainWindow):
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
+        # default state
         try:
             self.show_correlation_plot()
         except ValueError as e:
-            print(e)
+            logging.error(str(e))
 
     def show_correlation_plot(self):
-        # getting a current stock from combobox
+
+        # culculating correlation
         data = self.data_analysis.correlation(AnalysePortfolio.stocks)
         (corr, extremes) = data
 
@@ -36,9 +42,8 @@ class CorrelationWindow(QMainWindow):
                     'y': df.index.tolist(),
                     'zmin': 0, 'zmax': 1}
 
+        # initialise figure (heatmap plot)
         fig = go.Figure(data=go.Heatmap(df_to_plotly(corr), colorscale='Viridis'))
-        # fig = go.Figure(data=ff.create_annotated_heatmap(corr))
-        # initialise line plot
 
         # changing plot into html file so that it can be displayed with webengine
         self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))

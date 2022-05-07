@@ -146,7 +146,7 @@ class PortfolioForm(QMainWindow):
             values.append(float(self.portfolio_table.item(row, 2).text()))
 
         # fig = go.Figure(data=[go.Pie(values=values, labels=stocks, hole=.4)])
-        fig = px.pie(values=values, names=stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis)
+        fig = px.pie(values=values, names=stocks, hole=.4, color_discrete_sequence=px.colors.sequential.Viridis[::-1])
 
         if self.portfolio_table.rowCount() >= 1:
             self.browser.setHtml(fig.to_html(include_plotlyjs='cdn'))
