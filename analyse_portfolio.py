@@ -189,7 +189,23 @@ class AnalysePortfolio(QMainWindow):
 
         # calculate and show sharpe_ratio
         sharpe_ratio = self.data_analysis.sharpe_ratio(AnalysePortfolio.stocks, AnalysePortfolio.values)
-        self.sharpe_label.setText('Sharpe ratio: ' + str(round(sharpe_ratio, 2)))
+        self.sharpe_label.setText('Sharpe ratio: ')
+
+        sharpe_color = QGraphicsColorizeEffect()
+
+        if round(sharpe_ratio, 2) < 0.8:
+            sharpe_color.setColor(Qt.red)
+        elif 0.8 <= round(sharpe_ratio, 2) < 1:
+            sharpe_color.setColor(Qt.yellow)
+        elif 1 <= round(sharpe_ratio, 2) < 1.2:
+            sharpe_color.setColor(Qt.green)
+        elif round(sharpe_ratio, 2) >= 1.2:
+            sharpe_color.setColor(Qt.darkGreen)
+        else:
+            sharpe_color.setColor(Qt.gray)
+
+        self.sharpe_value_label.setText(str(round(sharpe_ratio, 2)))
+        self.sharpe_value_label.setGraphicsEffect(sharpe_color)
 
         # calculate correlation
         corr_data = self.data_analysis.correlation(AnalysePortfolio.stocks)

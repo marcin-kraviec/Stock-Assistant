@@ -71,8 +71,13 @@ QLabel#title_label {
     color: black;
 }
 
-QLabel#corr_label, QLabel#risk_label, QLabel#sharpe_label {
+QLabel#corr_label, QLabel#risk_label {
     font-size: 18px;
+    color: #0c705f;
+}
+
+QLabel#sharpe_label, QLabel#sharpe_value_label {
+    font-size: 28px;
     color: #0c705f;
 }
 
