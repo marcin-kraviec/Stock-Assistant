@@ -95,9 +95,9 @@ class PortfolioForm(QMainWindow):
             self.alert_window("Portfolio is empty!", "Alert window")
             print('Portfolio is empty!')
         else:
-            for i in range(self.analyse_portfolio_window.combobox.count()):
+            for i in range(self.analyse_portfolio_window.portfolio_combobox.count()):
                 # check if portfolio already exists
-                if self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText():
+                if self.analyse_portfolio_window.portfolio_combobox.itemText(i) == self.textEdit.toPlainText():
                     self.alert_window("Portfolio with this name already exists!", "Alert window")
                     break
             else:
@@ -113,7 +113,7 @@ class PortfolioForm(QMainWindow):
                             yf.Ticker(self.portfolio_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
 
                 # add portfolio name to comoboxes from different windows
-                self.analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+                self.analyse_portfolio_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
                 self.portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
 
                 # clear the layout elements

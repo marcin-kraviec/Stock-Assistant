@@ -14,6 +14,10 @@ class PortfolioEditCrypto(PortfolioEdit):
     current_portfolio = ''
     portfolio_length = 0
 
+    # list that store components that would be given to database queries
+    components_to_drop = []
+    components_to_add = []
+
     def __init__(self, analyse_portfolio_window, portfolio_edit_window):
         super().__init__(analyse_portfolio_window, portfolio_edit_window)
 
@@ -66,8 +70,10 @@ class PortfolioEditCrypto(PortfolioEdit):
                 self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
+        # load portfolio data from database
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 
+        # fill the table with portfolio data
         if PortfolioEditCrypto.current_portfolio != self.portfolio_combobox.currentText():
             self.clear()
             for i in range(len(data)):

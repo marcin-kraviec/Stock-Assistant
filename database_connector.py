@@ -28,7 +28,7 @@ class DatabaseConnector:
     def insert_into(name, stock, amount, value, date):
 
         query = 'INSERT INTO %s (stock, amount, value, date) VALUES (%s, %s, %s, %s)' % (name, stock, amount, value, date)
-
+        print(query)
 
         try:
             cursor = DatabaseConnector.database.cursor()
@@ -59,6 +59,7 @@ class DatabaseConnector:
     def delete_from(name, stock, date):
 
         query = 'DELETE FROM %s WHERE stock=%s and date=%s' % (name, stock, date)
+        print(query)
 
         try:
             cursor = DatabaseConnector.database.cursor()

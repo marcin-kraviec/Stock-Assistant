@@ -14,6 +14,10 @@ class PortfolioEdit(PortfolioForm):
     current_portfolio = ''
     portfolio_length = 0
 
+    # list that store components that would be given to database queries
+    components_to_drop = []
+    components_to_add = []
+
     def __init__(self, analyse_portfolio_window, portfolio_edit_window):
         super().__init__(analyse_portfolio_window, portfolio_edit_window)
 
@@ -61,7 +65,7 @@ class PortfolioEdit(PortfolioForm):
     def add_it(self):
         # check if table is empty
         if self.portfolio_table.rowCount() == 0:
-            self.alert_window("Load your portfolio first!", "Alert window")
+            self.alert_window("Load your portfolio first!\t", "Alert window")
         else:
             # spinBox value must be positive and multiple choice of the same company is not allowed
             x = (self.portfolio_table.findItems(str(self.stocks_combobox.currentText()), Qt.MatchContains))
@@ -88,23 +92,40 @@ class PortfolioEdit(PortfolioForm):
                 self.portfolio_table.setItem(row_position, 2, item3)
                 self.portfolio_table.setItem(row_position, 3, item4)
                 self.amount_spinbox.setValue(0)
+                stock = self.portfolio_table.item(row_position, 0).text()
+                amount = self.portfolio_table.item(row_position, 1).text()
+                value = self.portfolio_table.item(row_position, 2).text()
+                edit_date = self.portfolio_table.item(row_position, 3).text()
+                component = (stock, amount, value, edit_date)
+                self.components_to_add.append(component)
+
 
             elif self.amount_spinbox.value() == 0:
-                self.alert_window("Increase the number of the selected item.", "Alert window")
+                self.alert_window("Increase the number of the selected item.\t", "Alert window")
 
             elif not b:
-                self.alert_window("You have bought this today.", "Alert window")
+                self.alert_window("You have bought this today.\t", "Alert window")
 
-    # TODO: repair saving
     def save_it(self):
-        for row in range(PortfolioEdit.portfolio_length, self.portfolio_table.rowCount()):
-            stock = '\'' + self.portfolio_table.item(row, 0).text() + '\''
-            amount = self.portfolio_table.item(row, 1).text()
-            value = self.portfolio_table.item(row, 2).text()
-            self.database_connector.insert_into(PortfolioEdit.current_portfolio, stock, amount, value,
-                                                '\'' + str(date.today()) + '\'')
+
+        # delete components from database that had been dropped from table
+        for i in range(len(self.components_to_drop)):
+            # tuple unpacking
+            (stock, edit_date) = self.components_to_drop[i]
+            self.database_connector.delete_from(self.portfolio_combobox.currentText(), '\'' + stock + '\'', '\'' + edit_date + '\'')
+
+        # insert components into database that had been added to the table
+        for i in range(len(self.components_to_add)):
+            # tuple unpacking
+            (stock, amount, value, edit_date) = self.components_to_add[i]
+            self.database_connector.insert_into(self.portfolio_combobox.currentText(), '\'' + stock + '\'', amount, value, '\'' + edit_date + '\'')
+
         self.clear()
-        self.alert_window("Portfolio saved succesfully!", "Alert window")
+        # clear list of components to drop and components to add after saving portfolio
+        self.components_to_drop = []
+        self.components_to_add = []
+        self.show_pie_plot()
+        self.alert_window("Portfolio saved succesfully!\t", "Alert window")
 
     # fill combobox with portfolio names
     def fill_portfolio_combo_box(self):
@@ -115,9 +136,10 @@ class PortfolioEdit(PortfolioForm):
                 self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
-
+        # load portfolio data from database
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 
+        # fill the table with portfolio data
         if PortfolioEdit.current_portfolio != self.portfolio_combobox.currentText():
             self.clear()
             for i in range(len(data)):
@@ -138,14 +160,14 @@ class PortfolioEdit(PortfolioForm):
 
     def delete_portfolio(self):
         if self.portfolio_table.rowCount() == 0:
-            self.alert_window("Please, load Your portfolio!", "Alert window")
+            self.alert_window("Please, load Your portfolio!\t", "Alert window")
         else:
             # initialise confirmation window
             m = QMessageBox(self)
 
             # customise confirmation window
             m.setWindowIcon(QtGui.QIcon("static/alert.png"))
-            m.setText("Are you sure you want to delete this portfolio?")
+            m.setText("Are you sure you want to delete this portfolio?\t")
             m.setWindowTitle("Confirmation window")
 
             # provide options for user
@@ -164,23 +186,24 @@ class PortfolioEdit(PortfolioForm):
                 self.portfolio_combobox.removeItem(index)
                 self.analyse_portfolio_window.combobox.removeItem(index2)
 
-                # Error when combobox is clear
-                # TODO: Specify an exception
+                # When combobox is empty clear the table
                 try:
                     self.load_portfolio()
                 except:
                     self.clear()
 
                 # show alert window when portfolio has been deleted
-                self.alert_window("Portfolio has been deleted successfully.", "Alert window")
+                self.alert_window("Portfolio has been deleted successfully.\t", "Alert window")
 
     # delete chosen row from the table
     def delete_it(self):
         clicked = self.portfolio_table.currentRow()
         if clicked == -1:
             clicked += 1
+        stock = self.portfolio_table.item(clicked, 0).text()
+        edit_date = self.portfolio_table.item(clicked, 3).text()
         self.portfolio_table.removeRow(clicked)
-        # stock = self.portfolio_table.item(clicked, 0).text()
-        # date = self.portfolio_table.item(clicked, 3)
-        # TODO: deleting from database when save button clicked !!!
-        # self.database_connector.delete_from(self.portfolio_combobox.currentText(), stock, date)
+        component = (stock, edit_date)
+        # add components data to components_to_drop list
+        self.components_to_drop.append(component)
+
