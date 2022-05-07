@@ -14,17 +14,17 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="title_label">
+   <widget class="QLabel" name="stock_info_label">
     <property name="geometry">
      <rect>
       <x>160</x>
       <y>30</y>
-      <width>391</width>
+      <width>441</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>-</string>
+     <string>Portfolio optimization</string>
     </property>
    </widget>
    <widget class="QPushButton" name="back_button">
@@ -54,17 +54,39 @@
     </property>
     <layout class="QVBoxLayout" name="vlayout"/>
    </widget>
-   <widget class="QLabel" name="info_label">
+   <widget class="QRadioButton" name="a_button">
     <property name="geometry">
      <rect>
-      <x>980</x>
-      <y>10</y>
-      <width>821</width>
-      <height>61</height>
+      <x>730</x>
+      <y>20</y>
+      <width>221</width>
+      <height>21</height>
      </rect>
     </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
     <property name="text">
-     <string>-</string>
+     <string>Efficient Frontier</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="b_button">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>40</y>
+      <width>161</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Weights</string>
     </property>
    </widget>
   </widget>

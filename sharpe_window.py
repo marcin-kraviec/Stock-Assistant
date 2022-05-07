@@ -18,7 +18,7 @@ class SharpeWindow(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/portfolio_charts.ui", self)
+        loadUi("static/optimalization_charts.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -75,8 +75,8 @@ class SharpeWindow(QMainWindow):
     # switching between plot types
     def set_plot_type(self, button):
         if button.isChecked():
-            if button.text() == 'A':
+            if button.text() == 'Efficient Frontier':
                 self.show_optimise_plot()
-            elif button.text() == 'B':
+            elif button.text() == 'Weights':
                 self.show_weights_plot()
 

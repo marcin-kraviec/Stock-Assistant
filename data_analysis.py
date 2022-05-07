@@ -121,6 +121,7 @@ class DataAnalysis:
         p_risk = []
         p_sharpe = []
 
+        # current portfolio would be stored on index 0
         p_weights.append(current_weights)
 
         # downloading data of stock from yfinance
@@ -156,27 +157,27 @@ class DataAnalysis:
 
         return p_risk, p_returns, p_sharpe, p_weights, max_ind
 
-    '''
-    We found the best portfolio weights!
-    As a last step, let's plot all the 500 portfolios.
-    The chart is called Efficient Frontier and shows the returns on the Y-axis and volatility on the X-axis.
-    '''
-
     @staticmethod
     def rsi(df, period=13):
 
         # calculate net change
         net_change = df['Close'].diff()
 
-        #TODO: Finish comments explanation
+        # increase and decrease of value
         increase = net_change.clip(lower=0)
         decrease = -1 * net_change.clip(upper=0)
+
+        # mean increase of value from 13 days
         ema_up = increase.ewm(com=period, adjust=False).mean()
+
+        # mean decrease of value from 13 days
         ema_down = decrease.ewm(com=period, adjust=False).mean()
-        RS = ema_up / ema_down
+
+        # relative strength
+        rs = ema_up / ema_down
 
         # calculate RSI and add a new column to df
-        df['RSI'] = 100 - (100 / (1 + RS))
+        df['RSI'] = 100 - (100 / (1 + rs))
 
         return df
 

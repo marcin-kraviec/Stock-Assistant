@@ -11,7 +11,8 @@ import logging
 
 
 class AnalysePortfolio(QMainWindow):
-    # initialise  database_connector and establish connection with database
+
+    # initialise database_connector and establish connection with database
     database_connector = database_connector.DatabaseConnector()
 
     # initialise data_analysis to provide methods for calculations

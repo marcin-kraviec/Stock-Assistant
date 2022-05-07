@@ -5,9 +5,12 @@ from PyQt5 import QtWebEngineWidgets, QtGui
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from PyQt5.uic import loadUi
 import yfinance as yf
+import logging
 
-
+# inheritance from Portfolio Form
 class PortfolioEdit(PortfolioForm):
+
+    # store info about portfolio
     current_portfolio = ''
     portfolio_length = 0
 
@@ -20,9 +23,10 @@ class PortfolioEdit(PortfolioForm):
 
         try:
             self.fill_portfolio_combo_box()
-        except TypeError as e:
-            print(e)
+        except (TypeError, IndexError) as e:
+            logging.error(str(e))
 
+        # load/delete when right button is clicked
         self.load_button.clicked.connect(self.load_portfolio)
         self.delete_portfolio_button.clicked.connect(self.delete_portfolio)
 
@@ -40,10 +44,11 @@ class PortfolioEdit(PortfolioForm):
         self.read_csv_file('static/stocks.csv', PortfolioForm.stocks)
         self.fill_combo_box(PortfolioForm.stocks, self.stocks_combobox)
 
+        # setup a webengine for plots
         self.browser = QtWebEngineWidgets.QWebEngineView(self)
         self.vlayout.addWidget(self.browser)
 
-        # update latest company price
+        # update portfolio component value
         self.amount_spinbox.valueChanged.connect(self.label_update)
         self.stocks_combobox.activated.connect(self.label_update)
         self.value_label.setText(str(round(
@@ -54,6 +59,7 @@ class PortfolioEdit(PortfolioForm):
         self.save_button.clicked.connect(self.save_it)
 
     def add_it(self):
+        # check if table is empty
         if self.portfolio_table.rowCount() == 0:
             self.alert_window("Load your portfolio first!", "Alert window")
         else:
@@ -100,6 +106,7 @@ class PortfolioEdit(PortfolioForm):
         self.clear()
         self.alert_window("Portfolio saved succesfully!", "Alert window")
 
+    # fill combobox with portfolio names
     def fill_portfolio_combo_box(self):
         names = self.database_connector.show_tables()
         for name in names:
