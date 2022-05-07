@@ -1,7 +1,7 @@
 from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsColorizeEffect
+from PyQt5.QtGui import QFont, QIcon
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QGraphicsColorizeEffect, QMessageBox
 from PyQt5.uic import loadUi
 import yfinance as yf
 import database_connector
@@ -41,6 +41,15 @@ class AnalysePortfolio(QMainWindow):
             print(e)
 
         self.load_button.clicked.connect(self.load_portfolio)
+        self.info_corr_button.clicked.connect(lambda: self.info_window("Correlation",
+                                                                       "In finance, correlation is a statistic that measures the degree to which two securities move in relation to each other.\n"
+                                                                       "The values are in the range of 0 to 1. Higher correlation means that the stocks have returns that are more correlated."))
+        self.info_risk_button.clicked.connect(lambda: self.info_window("Volatility",
+                                                                       "In finance, volatility is a statistic that is used to measure risk and the instability of stock prices.\nIf a stock is very volatile, you can expect large changes in its price and therefore a higher risk.\n"
+                                                                       "The annual volatility is calculated on the basis of all trading days in the year. (252 days)"))
+        self.info_sharpe_button.clicked.connect(lambda: self.info_window("Sharpe ratio",
+                                                                         "In finance, Sharpe ratio is the measure of the risk-adjusted return of a portfolio.\nA portfolio with a higher Sharpe ratio is considered better.\n"
+                                                                         "Sharpe ratios greater than 1 are considered optimal."))
 
         # self.portfolio_returns_button.clicked.connect(self.go_to_portfolio_charts)
         # self.analyse_corr_button.clicked.connect(self.go_to_correlation_charts)
@@ -181,3 +190,20 @@ class AnalysePortfolio(QMainWindow):
     def clear(self):
         for i in reversed(range(self.portfolio_table.rowCount())):
             self.portfolio_table.removeRow(i)
+
+    def info_window(self, title, text):
+
+        # initialise info window
+        m = QMessageBox(self)
+
+        # customise info window
+        m.setWindowIcon(QIcon("static/info_icon.png"))
+        # m.setText(header)
+        m.setText(text)
+        m.setWindowTitle(title)
+
+        # provide options for user
+        m.addButton(QMessageBox.Close)
+        m.setStyleSheet("QPushButton {min-width:70px;\
+                        min-height: 30px;}")
+        m.exec()
