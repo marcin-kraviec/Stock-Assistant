@@ -4,8 +4,6 @@ import sys
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from PyQt5.QtCore import Qt
-import database_connector
-import data_analysis
 from analyse_currencies import AnalyseCurrencies
 from analyse_stocks import AnalyseStocks
 from analyse_crypto import AnalyseCrypto
@@ -16,7 +14,7 @@ from portfolio_form import PortfolioForm
 from portfolio_edit_crypto import PortfolioEditCrypto
 from portfolio_form_crypto import PortfolioFormCrypto
 from correlation_window import CorrelationWindow
-from portfolio_chart import PortfolioChart
+from cumulative_returns_window import PortfolioChart
 from sharpe_window import SharpeWindow
 from loading_window import LoadingWindow, myThread
 from bond_returns import BondReturns

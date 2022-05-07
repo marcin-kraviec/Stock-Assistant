@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from chart_window import ChartWindow
 
-# Inheritance form ChartWindow
+# inheritance form ChartWindow
 class AnalyseStocks(ChartWindow):
 
     # dict stores data from static csv file

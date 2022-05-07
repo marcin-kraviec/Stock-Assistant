@@ -172,11 +172,14 @@ class ChartWindow(QMainWindow):
         stock = self.stocks_combobox.currentText()
 
         # downloading data of stock from yfinance
-        data = yf.download(stock, start='2021-01-01', interval="1d")
+        data = yf.download(stock, start='2020-10-01', interval="1d")
         data.reset_index(inplace=True)
 
         # calculate rsi
         df = self.data_analysis.rsi(data, period=13)
+
+        # dropping all the data that is before 2021-01-01
+        df.drop(df.loc[df['Date'] < '2021-01-01 00:00:00'].index, inplace=True)
 
         # initialising traces that would be displayed on one plot
         trace1 = go.Scatter(x=df['Date'], y=[70] * len(df['Date']), name='Overbought', marker_color='#109618',line=dict(dash='dot'))
