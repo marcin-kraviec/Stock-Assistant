@@ -12,11 +12,12 @@ import data_analysis
 
 
 class BondReturns(QMainWindow):
-    ots_data = {'cycles': 3, 'rate': 0.00125, 'fee': 0.0, 'capitalisation': False}
-    dos_data = {'cycles': 2, 'rate': 0.02, 'fee': 0.7, 'capitalisation': True}
-    toz_data = {'cycles': 6, 'rate': 0.0105, 'fee': 0.7, 'capitalisation': False}
-    coi_data = {'cycles': 4, 'rate': 0.023, 'fee': 0.7, 'capitalisation': False}
-    edo_data = {'cycles': 10, 'rate': 0.027, 'fee': 2.0, 'capitalisation': False}
+
+    ots_data = {'cycles': 3, 'rate': 0.00125, 'fee': 0.0}
+    dos_data = {'cycles': 2, 'rate': 0.02, 'fee': 0.7}
+    toz_data = {'cycles': 6, 'rate': 0.0105, 'fee': 0.7}
+    coi_data = {'cycles': 4, 'rate': 0.023, 'rate2': 1.0, 'fee': 0.7}
+    edo_data = {'cycles': 10, 'rate': 0.027,'rate2': 1.25, 'fee': 2.0}
 
     def __init__(self):
         super().__init__()
@@ -104,7 +105,7 @@ class BondReturns(QMainWindow):
             Number of cycles: {a}\t\t\n
             Cycle duration: {b}\t\t\n
             Rate of interest (first cycle): {c}\t\t\n
-            Rate of interest (further cycles): {d}\t\n
+            Rate of interest (further cycles): {d}\n
             Capitalisation of interest: {e}\t\t\n
             Payment of interest: {f}\t\t\n
             Capital Gains Tax: 19%
@@ -119,7 +120,7 @@ class BondReturns(QMainWindow):
         return text
 
     def ots(self):
-        self.current_bond = self.comboBox.currentText()
+
         N = self.ots_data['cycles']
         n = self.spinBox.value()
         r1 = self.ots_data['rate']
@@ -129,7 +130,6 @@ class BondReturns(QMainWindow):
         wibor1 = self.wibor1_spinbox.value()
         wibor2 = self.wibor2_spinbox.value()
         fee = self.ots_data['fee']
-        capitalisation = self.ots_data['capitalisation']
 
         self.clear()
 
@@ -202,7 +202,7 @@ class BondReturns(QMainWindow):
         self.show_plot()
 
     def dos(self):
-        self.current_bond = self.comboBox.currentText()
+
         N = self.dos_data['cycles']
         n = self.spinBox.value()
         r1 = self.dos_data['rate']
@@ -212,7 +212,7 @@ class BondReturns(QMainWindow):
         wibor1 = self.wibor1_spinbox.value()
         wibor2 = self.wibor2_spinbox.value()
         fee = self.dos_data['fee']
-        capitalisation = self.dos_data['capitalisation']
+
 
         self.clear()
 
@@ -292,17 +292,16 @@ class BondReturns(QMainWindow):
         self.show_plot()
 
     def toz(self):
-        self.current_bond = self.comboBox.currentText()
+
         N = self.toz_data['cycles']
         n = self.spinBox.value()
         r1 = self.toz_data['rate']
-        r2 = 1
         inflation1 = self.inflation1_spinbox.value()
         inflation2 = self.inflation2_spinbox.value()
         wibor1 = self.wibor1_spinbox.value()
         wibor2 = self.wibor2_spinbox.value()
         fee = self.toz_data['fee']
-        capitalisation = self.toz_data['capitalisation']
+
 
         self.clear()
 
@@ -384,17 +383,16 @@ class BondReturns(QMainWindow):
 
     # OK
     def coi(self):
-        self.current_bond = self.comboBox.currentText()
+
         N = self.coi_data['cycles']
         n = self.spinBox.value()
         r1 = self.coi_data['rate']
-        r2 = 1
+        r2 = self.coi_data['rate2']
         inflation1 = self.inflation1_spinbox.value()
         inflation2 = self.inflation2_spinbox.value()
         wibor1 = self.wibor1_spinbox.value()
         wibor2 = self.wibor2_spinbox.value()
         fee = self.coi_data['fee']
-        capitalisation = self.coi_data['capitalisation']
 
         self.clear()
 
@@ -486,17 +484,17 @@ class BondReturns(QMainWindow):
         self.show_plot()
 
     def edo(self):
-        self.current_bond = self.comboBox.currentText()
+
         N = self.edo_data['cycles']
         n = self.spinBox.value()
         r1 = self.edo_data['rate']
-        r2 = 1.25
+        r2 = self.edo_data['rate2']
         inflation1 = self.inflation1_spinbox.value()
         inflation2 = self.inflation2_spinbox.value()
         wibor1 = self.wibor1_spinbox.value()
         wibor2 = self.wibor2_spinbox.value()
         fee = self.edo_data['fee']
-        capitalisation = self.edo_data['capitalisation']
+
 
         self.clear()
 
@@ -557,12 +555,6 @@ class BondReturns(QMainWindow):
                 # self.tableWidget.setItem(i, 4, QTableWidgetItem(
                 #    str(round((r2 + inflation) * n + float(self.tableWidget.item(i - 1, 4).text()), 2))))
                 if i == N:
-                    '''
-                    self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
-                    self.tableWidget.setItem(i, 6, QTableWidgetItem(str(round(float(self.tableWidget.item(i, 4).text()) * 0.19, 2))))
-                    self.tableWidget.setItem(i, 7, QTableWidgetItem(
-                        str(round(float(self.tableWidget.item(i, 4).text()) - float(self.tableWidget.item(i, 4).text()) * 0.19 , 2))))
-                    '''
                     self.tableWidget.setItem(i, 5, QTableWidgetItem(str(0.0)))
                     self.tableWidget.setItem(i, 6,
                                              QTableWidgetItem(
