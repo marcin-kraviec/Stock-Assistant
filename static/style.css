@@ -87,7 +87,7 @@ QLabel#stock_info_label, QLabel#portfolio_charts_title_label{
 }
 
 QLabel#intro_title1, QLabel#intro_title2, QLabel#intro_title3{
-    font-size: 20px;
+    font-size: 22px;
     color: #0c705f;
 }
 
@@ -109,9 +109,8 @@ QLabel#info_label{
     color: #1f9e89;
 }
 
-QLabel#about_app_label {
-    font-size: 18px;
-    color: gray;
+QLabel#about_app_label, QLabel#features_label, QLabel#authors_label {
+    font-size: 14px;
 }
 
 QComboBox {

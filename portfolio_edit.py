@@ -107,25 +107,27 @@ class PortfolioEdit(PortfolioForm):
                 self.alert_window("You have bought this today.\t", "Alert window")
 
     def save_it(self):
+        if self.portfolio_table.rowCount() >= 2:
+            # delete components from database that had been dropped from table
+            for i in range(len(self.components_to_drop)):
+                # tuple unpacking
+                (stock, edit_date) = self.components_to_drop[i]
+                self.database_connector.delete_from(self.portfolio_combobox.currentText(), '\'' + stock + '\'', '\'' + edit_date + '\'')
 
-        # delete components from database that had been dropped from table
-        for i in range(len(self.components_to_drop)):
-            # tuple unpacking
-            (stock, edit_date) = self.components_to_drop[i]
-            self.database_connector.delete_from(self.portfolio_combobox.currentText(), '\'' + stock + '\'', '\'' + edit_date + '\'')
+            # insert components into database that had been added to the table
+            for i in range(len(self.components_to_add)):
+                # tuple unpacking
+                (stock, amount, value, edit_date) = self.components_to_add[i]
+                self.database_connector.insert_into(self.portfolio_combobox.currentText(), '\'' + stock + '\'', amount, value, '\'' + edit_date + '\'')
 
-        # insert components into database that had been added to the table
-        for i in range(len(self.components_to_add)):
-            # tuple unpacking
-            (stock, amount, value, edit_date) = self.components_to_add[i]
-            self.database_connector.insert_into(self.portfolio_combobox.currentText(), '\'' + stock + '\'', amount, value, '\'' + edit_date + '\'')
-
-        self.clear()
-        # clear list of components to drop and components to add after saving portfolio
-        self.components_to_drop = []
-        self.components_to_add = []
-        self.show_pie_plot()
-        self.alert_window("Portfolio saved succesfully!", "Alert window")
+            self.clear()
+            # clear list of components to drop and components to add after saving portfolio
+            self.components_to_drop = []
+            self.components_to_add = []
+            self.show_pie_plot()
+            self.alert_window("Portfolio saved successfully!", "Alert window")
+        else:
+            self.alert_window("There are too few items in your portfolio!", "Alert window")
 
     # fill combobox with portfolio names
     def fill_portfolio_combo_box(self):

@@ -250,7 +250,7 @@ class AnalysePortfolio(QMainWindow):
         # customise info window
         m.setWindowIcon(QIcon("static/images/info_icon.png"))
         # m.setText(header)
-        m.setText(text)
+        m.setText(text+'\t')
         m.setWindowTitle(title)
 
         # provide options for user

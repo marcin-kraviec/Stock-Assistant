@@ -127,9 +127,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>10</y>
+      <y>0</y>
       <width>1251</width>
-      <height>191</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -257,9 +257,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>270</y>
+      <y>190</y>
       <width>261</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -270,9 +270,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>480</y>
+      <y>390</y>
       <width>261</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -283,9 +283,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>900</y>
+      <y>910</y>
       <width>261</width>
-      <height>31</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="text">
@@ -352,7 +352,7 @@
     <property name="geometry">
      <rect>
       <x>400</x>
-      <y>190</y>
+      <y>150</y>
       <width>1521</width>
       <height>31</height>
      </rect>
@@ -367,9 +367,9 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>320</y>
-      <width>1501</width>
-      <height>161</height>
+      <y>240</y>
+      <width>1461</width>
+      <height>151</height>
      </rect>
     </property>
     <property name="text">
@@ -379,29 +379,29 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
-   <widget class="QLabel" name="about_app_label_2">
+   <widget class="QLabel" name="features_label">
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>530</y>
-      <width>1501</width>
-      <height>341</height>
+      <y>440</y>
+      <width>1461</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stock Assistant provides various features.&lt;/p&gt;&lt;p&gt;User can access historical data of multiple stock tickers and cryptos and see various plot types:&lt;/p&gt;&lt;p&gt;- Line plots that show open and close prices, but also bollinger bands which are a profesional indicator wheter to sell or buy an asset. &lt;/p&gt;&lt;p&gt;- Candlestick plots that not only show open and close prices but also low and high prices. Bollinger bands are also provided. Candlestick plots are commonly known and fully proffesional.&lt;/p&gt;&lt;p&gt;- RSI (Relative Strength Index) plots, which are another indicator wheter to sell or buy an asset.&lt;/p&gt;&lt;p&gt;- Correlation bar plots that show the degree to which two stock tickers or cryptos move in relation to each other&lt;/p&gt;&lt;p&gt;User can also create a financial portfolio with multiple components and edit it if the solution for increase of portfolio returns is found. &lt;/p&gt;&lt;p&gt;Portfolio can also be analysed. The user is provided with:&lt;/p&gt;&lt;p&gt;- Table in which all the components and profit/loss are listed.&lt;/p&gt;&lt;p&gt;- Cumulative returns line plot that shows the growth of each 1$ invested into portfolio.&lt;/p&gt;&lt;p&gt;- Correlation values and matrix for all the components.&lt;/p&gt;&lt;p&gt;- Volatility values that are used to masure the risk.&lt;/p&gt;&lt;p&gt;- Share ratio value and optimization with efficient frontier plot and weights plot.&lt;/p&gt;&lt;p&gt;Finally user is also provided with currencies plots and bond returns analysis in which different bond investments options can be checked&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stock Assistant provides various features.&lt;/p&gt;&lt;p&gt;User can access historical data of multiple stock tickers and cryptos and see various plot types:&lt;/p&gt;&lt;p&gt;- Line plots that show open and close prices, but also bollinger bands which are a profesional indicator wheter to sell or buy an asset. &lt;/p&gt;&lt;p&gt;- Candlestick plots that not only show open and close prices but also low and high prices. Bollinger bands are also provided. Candlestick plots are commonly known and fully proffesional.&lt;/p&gt;&lt;p&gt;- RSI (Relative Strength Index) plots, which are another indicator wheter to sell or buy an asset.&lt;/p&gt;&lt;p&gt;- Correlation bar plots that show the degree to which two stock tickers or cryptos move in relation to each other&lt;/p&gt;&lt;p&gt;User can also create a financial portfolio with multiple components and edit it if the solution for increase of portfolio returns is found. &lt;/p&gt;&lt;p&gt;Portfolio can also be analysed. The user is provided with:&lt;/p&gt;&lt;p&gt;- Table in which all the components and profit/loss are listed.&lt;/p&gt;&lt;p&gt;- Cumulative returns line plot that shows the growth of each 1$ invested into portfolio.&lt;/p&gt;&lt;p&gt;- Correlation values and matrix for all the components.&lt;/p&gt;&lt;p&gt;- Volatility values that are used to masure the risk.&lt;/p&gt;&lt;p&gt;- Share ratio value and optimization with efficient frontier plot and weights plot.&lt;/p&gt;&lt;p&gt;Finally user is also provided with currencies plots and bond returns analysis in which different bond investments options can be checked.&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
     </property>
    </widget>
-   <widget class="QLabel" name="about_app_label_3">
+   <widget class="QLabel" name="authors_label">
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>940</y>
-      <width>1501</width>
-      <height>161</height>
+      <y>960</y>
+      <width>1461</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -434,8 +434,8 @@
    <zorder>minimize_button</zorder>
    <zorder>widget_4</zorder>
    <zorder>about_app_label</zorder>
-   <zorder>about_app_label_2</zorder>
-   <zorder>about_app_label_3</zorder>
+   <zorder>features_label</zorder>
+   <zorder>authors_label</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -443,7 +443,7 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

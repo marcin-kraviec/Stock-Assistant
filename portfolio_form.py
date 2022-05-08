@@ -88,44 +88,51 @@ class PortfolioForm(QMainWindow):
 
     def save_it(self):
 
-        # create a table for portfolio in database
-        self.database_connector.create_table(self.textEdit.toPlainText())
-
         past_values = []
 
         # check if table is empty
         if self.portfolio_table.rowCount() == 0:
             self.alert_window("Portfolio is empty!", "Alert window")
             print('Portfolio is empty!')
+
+        elif self.portfolio_table.rowCount() < 2 and self.portfolio_table.rowCount() != 0:
+            self.alert_window("Portfolio must contain at least two different elements!", "Alert window")
+
         else:
-            for i in range(self.analyse_portfolio_window.portfolio_combobox.count()):
-                # check if portfolio already exists
-                if self.analyse_portfolio_window.portfolio_combobox.itemText(i) == self.textEdit.toPlainText():
-                    self.alert_window("Portfolio with this name already exists!", "Alert window")
-                    break
+            if self.textEdit.toPlainText() == '':
+                self.alert_window("Please enter a name for your portfolio.", "Alert window")
             else:
-                # insert components to database table row by row
-                for row in range(self.portfolio_table.rowCount()):
-                    stock = '\'' + self.portfolio_table.item(row, 0).text() + '\''
-                    amount = self.portfolio_table.item(row, 1).text()
-                    value = self.portfolio_table.item(row, 2).text()
-                    self.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value,
-                                                        '\'' + str(date.today()) + '\'')
-                    past_values.append(
-                        int(amount) * round(
-                            yf.Ticker(self.portfolio_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
+                # create a table for portfolio in database
+                self.database_connector.create_table(self.textEdit.toPlainText())
 
-                # add portfolio name to comoboxes from different windows
-                self.analyse_portfolio_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
-                self.portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+                for i in range(self.analyse_portfolio_window.portfolio_combobox.count()):
+                    # check if portfolio already exists
+                    if self.analyse_portfolio_window.portfolio_combobox.itemText(i) == self.textEdit.toPlainText():
+                        self.alert_window("Portfolio with this name already exists!", "Alert window")
+                        break
+                else:
+                    # insert components to database table row by row
+                    for row in range(self.portfolio_table.rowCount()):
+                        stock = '\'' + self.portfolio_table.item(row, 0).text() + '\''
+                        amount = self.portfolio_table.item(row, 1).text()
+                        value = self.portfolio_table.item(row, 2).text()
+                        self.database_connector.insert_into(self.textEdit.toPlainText(), stock, amount, value,
+                                                            '\'' + str(date.today()) + '\'')
+                        past_values.append(
+                            int(amount) * round(
+                                yf.Ticker(self.portfolio_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
 
-                # clear the layout elements
-                self.textEdit.clear()
-                self.clear()
-                self.show_pie_plot()
+                    # add portfolio name to comoboxes from different windows
+                    self.analyse_portfolio_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
+                    self.portfolio_edit_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
 
-                # show alert window if portfolio saved successfully
-                self.alert_window("Portfolio has been saved successfully.", "Alert window")
+                    # clear the layout elements
+                    self.textEdit.clear()
+                    self.clear()
+                    self.show_pie_plot()
+
+                    # show alert window if portfolio saved successfully
+                    self.alert_window("Portfolio has been saved successfully.", "Alert window")
 
     # remove chosen row from the table
     def delete_it(self):
