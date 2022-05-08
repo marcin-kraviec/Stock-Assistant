@@ -19,7 +19,7 @@ class BondReturns(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/bond_returns.ui", self)
+        loadUi("static/ui_files/bond_returns.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -46,7 +46,7 @@ class BondReturns(QMainWindow):
         m = QMessageBox(self)
 
         # customise confirmation window
-        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
+        m.setWindowIcon(QtGui.QIcon("static/images/alert.png"))
         m.setText(text)
         m.setWindowTitle(window_title)
 

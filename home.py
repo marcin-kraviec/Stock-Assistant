@@ -9,7 +9,7 @@ class Home(QMainWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/home.ui", self)
+        loadUi("static/ui_files/home.ui", self)
 
         # show confirmation window when exit button is clicked
         self.exit_button.clicked.connect(self.app_exit)
@@ -26,7 +26,7 @@ class Home(QMainWindow):
         m = QMessageBox(self)
 
         # customise confirmation window
-        m.setWindowIcon(QtGui.QIcon("static/alert.png"))
+        m.setWindowIcon(QtGui.QIcon("static/images/alert.png"))
         m.setText("Are you sure you want to exit?\t")
         m.setWindowTitle("Confirmation window")
 

@@ -13,7 +13,7 @@ class AnalyseCrypto(ChartWindow):
         super().__init__()
 
         # read the window layout from file
-        loadUi("static/analyse_stocks.ui", self)
+        loadUi("static/ui_files/analyse_stocks.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -21,7 +21,7 @@ class AnalyseCrypto(ChartWindow):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/cryptos.csv', AnalyseCrypto.cryptos)
+        self.read_csv_file('static/csv_files/cryptos.csv', AnalyseCrypto.cryptos)
         self.fill_combo_box(AnalyseCrypto.cryptos, self.stocks_combobox)
 
         # default state

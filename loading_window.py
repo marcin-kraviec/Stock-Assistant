@@ -14,7 +14,7 @@ class LoadingWindow(QSplashScreen):
         _id = QtGui.QFontDatabase.addApplicationFont("static/Sora/Sora-Bold.ttf")
 
         # read the window layout from file
-        loadUi("static/loading_window.ui", self)
+        loadUi("static/ui_files/loading_window.ui", self)
 
         # customise font style for labels in this window
         font = QtGui.QFont("Sora")

@@ -172,9 +172,9 @@ if __name__ == "__main__":
     QtGui.QFontDatabase.addApplicationFont("static/Sora/Sora-Regular.ttf")
 
     # customise the app with icon
-    app_icon = QSystemTrayIcon(QtGui.QIcon('static/icon.png'), parent=app)
+    app_icon = QSystemTrayIcon(QtGui.QIcon('static/images/icon.png'), parent=app)
     app_icon.show()
-    icon = QtGui.QIcon("static/icon.png")
+    icon = QtGui.QIcon("static/images/icon.png")
     app.setWindowIcon(icon)
 
     # finish a thread when all the downloads are finished and windows are initialised

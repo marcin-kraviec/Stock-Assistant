@@ -38,25 +38,25 @@ QPushButton#analyse_portfolio_button:hover, QPushButton#bond_returns_button:hove
 
 QPushButton#exit_button {
     background-color: white;
-    image: url(static/black_iks1.png);
+    image: url(static/images/black_iks1.png);
 }
 
 QPushButton#exit_button:hover {
     background-color: white;
-    image: url(static/red_iks1.png);
+    image: url(static/images/red_iks1.png);
 }
 
 QPushButton#minimize_button {
     background-color: white;
-    image: url(static/black_minus1.png);
+    image: url(static/images/black_minus1.png);
 }
 
 QPushButton#minimize_button:hover {
     background-color: white;
-    image: url(static/gray_minus1.png);
+    image: url(static/images/gray_minus1.png);
 }
 
-QPushButton#info_corr_button, QPushButton#info_risk_button, QPushButton#info_sharpe_button{
+QPushButton#info_corr_button, QPushButton#info_risk_button, QPushButton#info_sharpe_button, QPushButton#info_button{
     font-size:18px;
 }
 
@@ -81,13 +81,13 @@ QLabel#sharpe_label, QLabel#sharpe_value_label {
     color: #0c705f;
 }
 
-QLabel#stock_info_label, QLabel#title_label{
+QLabel#stock_info_label, QLabel#portfolio_charts_title_label{
     color: #0c705f;
     font-size: 35px;
 }
 
 QLabel#intro_title1, QLabel#intro_title2, QLabel#intro_title3{
-    font-size: 20px;
+    font-size: 22px;
     color: #0c705f;
 }
 
@@ -109,6 +109,10 @@ QLabel#info_label{
     color: #1f9e89;
 }
 
+QLabel#about_app_label, QLabel#features_label, QLabel#authors_label {
+    font-size: 14px;
+}
+
 QComboBox {
     background-color: #1f9e89;
     border-radius: 5px;
@@ -123,7 +127,7 @@ QComboBox:hover {
 }
 
 QComboBox::down-arrow{
-    image: url(static/arrow_down.png);
+    image: url(static/images/arrow_down.png);
 }
 
 QComboBox::drop-down{
@@ -188,11 +192,11 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover, QDoubleSpinBox::up-butto
 }
 
 QSpinBox::down-arrow, QDoubleSpinBox::down-arrow{
-    image: url(static/arrow_down.png);
+    image: url(static/images/arrow_down.png);
 }
 
 QSpinBox::up-arrow, QDoubleSpinBox::up-arrow{
-    image: url(static/arrow_up.png);
+    image: url(static/images/arrow_up.png);
 }
 
 QMainWindow {

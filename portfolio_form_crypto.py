@@ -17,7 +17,7 @@ class PortfolioFormCrypto(PortfolioForm):
         self.portfolio_edit_crypto_window = portfolio_edit_crypto_window
 
         # read the window layout from file
-        loadUi("static/portfolio_form_crypto.ui", self)
+        loadUi("static/ui_files/portfolio_form_crypto.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # add, delete, clear elements in portfolio form
@@ -31,7 +31,7 @@ class PortfolioFormCrypto(PortfolioForm):
         self.clear_button.clicked.connect(self.show_pie_plot)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('static/cryptos.csv', PortfolioFormCrypto.cryptos)
+        self.read_csv_file('static/csv_files/cryptos.csv', PortfolioFormCrypto.cryptos)
         self.fill_combo_box(PortfolioFormCrypto.cryptos, self.stocks_combobox)
 
         # setup a webengine for plots
@@ -61,9 +61,9 @@ class PortfolioFormCrypto(PortfolioForm):
             print('Portfolio is empty!')
         else:
 
-            for i in range(self.analyse_portfolio_window.combobox.count()):
+            for i in range(self.analyse_portfolio_window.portfolio_combobox.count()):
                 # check if portfolio already exists
-                if self.analyse_portfolio_window.combobox.itemText(i) == self.textEdit.toPlainText():
+                if self.analyse_portfolio_window.portfolio_combobox.itemText(i) == self.textEdit.toPlainText():
                     self.alert_window("Portfolio with this name already exists!", "Alert window")
                     break
             else:
@@ -79,7 +79,7 @@ class PortfolioFormCrypto(PortfolioForm):
                             yf.Ticker(self.portfolio_table.item(row, 0).text()).history(period='1d')['Close'][0], 2))
 
                 # add portfolio name to comoboxes from different windows
-                self.analyse_portfolio_window.combobox.addItem(self.textEdit.toPlainText())
+                self.analyse_portfolio_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
                 self.portfolio_edit_crypto_window.portfolio_combobox.addItem(self.textEdit.toPlainText())
 
                 # clear the layout elements
