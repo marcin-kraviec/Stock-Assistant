@@ -70,6 +70,12 @@ class PortfolioEditCrypto(PortfolioEdit):
                 self.portfolio_combobox.addItem(name)
 
     def load_portfolio(self):
+        # clear list of components to drop and components to add while load portfolio
+        self.components_to_drop = []
+        self.components_to_add = []
+
+        PortfolioEditCrypto.current_portfolio = ''
+
         # load portfolio data from database
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 

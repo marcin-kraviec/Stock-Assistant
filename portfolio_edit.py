@@ -142,6 +142,8 @@ class PortfolioEdit(PortfolioForm):
         self.components_to_drop = []
         self.components_to_add = []
 
+        PortfolioEdit.current_portfolio = ''
+
         # load portfolio data from database
         data = self.database_connector.select_from(self.portfolio_combobox.currentText())
 
