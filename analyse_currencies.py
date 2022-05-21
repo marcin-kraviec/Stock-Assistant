@@ -3,7 +3,6 @@ from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from chart_window import ChartWindow
 
-
 # inheritance form ChartWindow
 class AnalyseCurrencies(ChartWindow):
 
