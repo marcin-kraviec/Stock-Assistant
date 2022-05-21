@@ -71,7 +71,7 @@ class PortfolioForm(QMainWindow):
         if (self.amount_spinbox.value() > 0 and not self.portfolio_table.findItems(str(self.stocks_combobox.currentText()),
                                                                             Qt.MatchContains)):
             item = QTableWidgetItem(str(self.stocks_combobox.currentText()))
-            item2 = QTableWidgetItem(str(self.amount_spinbox.value()))
+            item2 = QTableWidgetItem(str(round(self.amount_spinbox.value(), 2)))
             item3 = QTableWidgetItem(str(self.value_label.text()))
             row_position = self.portfolio_table.rowCount()
             self.portfolio_table.insertRow(row_position)

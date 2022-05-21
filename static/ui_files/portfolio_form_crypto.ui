@@ -248,6 +248,9 @@
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
+    <property name="maximum">
+     <double>9999.989999999999782</double>
+    </property>
     <property name="singleStep">
      <double>0.050000000000000</double>
     </property>
@@ -259,7 +262,7 @@
      <x>0</x>
      <y>0</y>
      <width>2068</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

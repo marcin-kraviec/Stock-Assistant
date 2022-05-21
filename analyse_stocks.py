@@ -1,10 +1,7 @@
 from PyQt5 import QtWebEngineWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
-from chart_windowss.chart_window import ChartWindow
-import os
-from config.definitions import ROOT_DIR
-
+from chart_window import ChartWindow
 
 # inheritance form ChartWindow
 class AnalyseStocks(ChartWindow):
@@ -16,8 +13,7 @@ class AnalyseStocks(ChartWindow):
         super().__init__()
 
         # read the window layout from file
-        ui_path = os.path.join(ROOT_DIR, 'static', 'ui_files', 'analyse_stocks.ui')
-        loadUi(ui_path, self)
+        loadUi("static/ui_files/analyse_stocks.ui", self)
         self.setWindowFlags(Qt.FramelessWindowHint)
 
         # setup a webengine for plots
@@ -25,7 +21,7 @@ class AnalyseStocks(ChartWindow):
         self.vlayout.addWidget(self.browser)
 
         # fill combobox with data from static csv file
-        self.read_csv_file('../static/csv_files/stocks.csv', AnalyseStocks.stocks)
+        self.read_csv_file('static/csv_files/stocks.csv', AnalyseStocks.stocks)
         self.fill_combo_box(AnalyseStocks.stocks, self.stocks_combobox)
 
         # default state
